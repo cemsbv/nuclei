@@ -1,4 +1,4 @@
-pytest>=6.2.2
+pytest>=6.2.5
 setuptools>=52.0.0
 requests>=2.21.0
 numpy>=1.16.1
@@ -7,3 +7,8 @@ geopandas>=0.8.0
 ipython>=7.3.0
 pyarrow>=0.16.0
 polars>=0.7.0
+Sphinx>=3.3.1
+sphinx-autodoc-typehints>=1.11.1
+ipython>=7.30.1
+asteroid-sphinx-theme>=0.0.3
+sphinx_rtd_theme>=1.0.0
