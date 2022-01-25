@@ -7,6 +7,7 @@
 This repository is created by [CEMS BV](https://cemsbv.nl/) and helps the user to access and process API calls to the [NUCLEI](https://crux-nuclei.com/) environment.
 
 ## Installation
+
 To install a package in this repository run:
 
 `$ pip install cems-nuclei`
@@ -14,9 +15,12 @@ To install a package in this repository run:
 Please note that to use `GeoDataFrames` from the `geopandas` library `nuclei[geo]` should be installed.
 
 ## ENV VARS
+
 To use `nuclei` add the follow ENV vars to your environment. Or provide them when asked.
 
-    * NUCLEI_USER
-        - Your NUCLEI user name
-    * NUCLEI_PASSWORD
-        - Your NUCLEI user password
+```
+* NUCLEI_USER
+    - Your NUCLEI user name
+* NUCLEI_PASSWORD
+    - Your NUCLEI user password
+```
