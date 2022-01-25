@@ -1,4 +1,5 @@
 import pytest
+
 from nuclei.api_zoo import ROUTING, validate_or_refresh_token
 
 
