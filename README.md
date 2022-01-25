@@ -13,8 +13,6 @@ To install a package in this repository run:
 
 Please note that to use `GeoDataFrames` from the `geopandas` library `nuclei[geo]` should be installed.
 
-Or to install `nuclei` from scratch:
-
 ## ENV VARS
 To use `nuclei` add the follow ENV vars to your environment. Or provide them when asked.
 
