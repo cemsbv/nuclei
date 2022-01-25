@@ -128,6 +128,10 @@ def test_numpy_all_types():
     rsp = python_types_to_message(a)
     assert rsp == [[1.0, 2.0], [None, 4.0]]
 
+    a = np.array([[np.int16(1), 2.0, np.inf], [np.nan, np.float32(4), "abc"]])
+    rsp = python_types_to_message(a)
+    assert rsp == [["1", "2.0", "inf"], ["nan", "4.0", "abc"]]
+
 
 @pytest.mark.parametrize("force_serialization", ["", "1"])
 def test_list_str(force_serialization):
