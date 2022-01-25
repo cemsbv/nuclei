@@ -1,0 +1,9 @@
+pytest>=6.2.2
+setuptools>=52.0.0
+requests>=2.21.0
+numpy>=1.16.1
+pandas>=0.24.1
+geopandas>=0.8.0
+ipython>=7.3.0
+pyarrow>=0.16.0
+polars>=0.7.0
