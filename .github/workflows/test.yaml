@@ -55,7 +55,7 @@ jobs:
           VALIDATE_PYTHON_ISORT: false
           VALIDATE_MARKDOWN: false
           VALIDATE_JSCPD: false
-          DEFAULT_BRANCH: master
+          DEFAULT_BRANCH: main
           VALIDATE_CSS: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
