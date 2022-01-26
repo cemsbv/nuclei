@@ -184,10 +184,10 @@ def python_types_to_message(
     if isinstance(schema, np.ndarray):
         if use_json:
             # no NaN in array
-            if not np.isnan(schema).any():
-                return schema.tolist()
-            else:
+            if all(isinstance(x, (float, int)) for x in schema.flatten()):
                 return json.loads(json.dumps(schema.tolist()).replace("NaN", "null"))
+            else:
+                return schema.tolist()
         return serialize_numpy(schema)
     # recurse and convert to jsonifyable types
     if isinstance(schema, Mapping):
