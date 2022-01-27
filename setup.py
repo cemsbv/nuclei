@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 exec(open("nuclei/_version.py").read())
 
@@ -12,13 +12,12 @@ setup(
     license="mit",
     packages=find_packages(),
     install_requires=[
-        "requests>=2.21.0",
-        "numpy>=1.16.1",
-        "pandas>=0.24.1",
+        "requests>=2.25.1,<2.28.0",
+        "numpy>=1.19.4,<1.22.0",
+        "pandas>=1.2,<1.4",
         "ipython>=7.3.0",
-        "pyarrow>=0.16.0",
-        "polars>=0.7.0",
+        "polars>=0.9.12,<0.13.0",
     ],
-    extras_require={"geo": ["geopandas>=0.8.0"]},
+    extras_require={"geo": ["geopandas>=0.8.1,<0.11.0"]},
     python_requires=">=3.7",
 )
