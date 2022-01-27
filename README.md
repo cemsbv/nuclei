@@ -1,4 +1,4 @@
-# nuclei
+# NUCLEI
 
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -12,7 +12,7 @@ To install a package in this repository run:
 
 `$ pip install cems-nuclei`
 
-Please note that to use `GeoDataFrames` from the `geopandas` library `nuclei[geo]` should be installed.
+Please note that to use `GeoDataFrames` from the `geopandas` library `cems-nuclei[geo]` should be installed.
 
 ## ENV VARS
 
@@ -24,3 +24,25 @@ To use `nuclei` add the follow ENV vars to your environment. Or provide them whe
 * NUCLEI_PASSWORD
     - Your NUCLEI user password
 ```
+
+
+## Code quality tools
+
+To maintain code quality we use `super-linter`.
+
+```commandline
+
+docker pull github/super-linter:latest
+docker run -e RUN_LOCAL=true $PWD:/tmp/lint github/super-linter
+
+```
+
+## Documentation
+
+Install the requirements:
+
+`pip install -r docs.requirements.txt`
+
+Build the docs:
+
+`sphinx-build -b html docs public`
