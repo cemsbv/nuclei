@@ -15,13 +15,3 @@ Indices and tables
    tree/reference.rst
 
 * :ref:`genindex`
-
-.. toctree::
-   :maxdepth: 2
-
-   tree/changelog.rst
-
-.. toctree::
-   :maxdepth: 1
-
-   tree/readme.rst
