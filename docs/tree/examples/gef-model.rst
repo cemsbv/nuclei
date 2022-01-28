@@ -9,10 +9,14 @@ The complete API documentation can be accesses `here <https://crux-nuclei.com/ap
 
 Please note that you need a NUCLEI account to call one of our endpoints.
 You can sign up `here <https://crux-nuclei.com/sign-up>`__ to get your free access to `gef-model`!
+For this example we set the account information in our environment. If you are not
+confident to reproduce that `nuclei` will ask you to provide the credentials when calling the
+endpoint.
 
 
 Lets show you how to use `nuclei` and access the `gef-model` API.
-We use the :func:`nuclei.api_zoo.get_endpoints` function to get an overview of the different endpoints that are available of single API.
+We use the :func:`nuclei.api_zoo.get_endpoints` function to get an overview of the different endpoints
+that are available within `gef-model`.
 
 
 .. ipython:: python
@@ -66,6 +70,9 @@ This body is used to call the `"/plot"` endpoint of the `gef-model` with :func:`
 
 
 The `"/classify"` endpoint allows you the access the data of the graph above.
+Please note that the :func:`nuclei.api_zoo.call_endpoint()` will transform the responds
+to python types by default. This means that for example a `polars <https://www.pola.rs/>`__ DataFrames are transformed
+from `json` back to the DataFrame.
 
 .. ipython:: python
 
