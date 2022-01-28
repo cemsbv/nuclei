@@ -41,9 +41,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tree/getting_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tree/reference.html">Reference</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tree/readme.html">nuclei</a></li>
-</ul>
 
         </div>
       </div>
@@ -321,7 +318,8 @@
                 <span class="k">return</span> <span class="n">deserialize_pandas_parquet</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="n">DF</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">==</span> <span class="n">PDS</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">&quot;`DataFrame` and `Series` is deprecated and will soon be replaced by `PANDAS_DataFrame` or `PANDAS_Series`.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;`DataFrame` and `Series` is deprecated and will soon be replaced by `PANDAS_DataFrame` or &quot;</span>
+                    <span class="s2">&quot;`PANDAS_Series`.&quot;</span><span class="p">,</span>
                     <span class="ne">DeprecationWarning</span><span class="p">,</span>
                     <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">)</span>

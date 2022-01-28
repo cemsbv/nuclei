@@ -7,15 +7,14 @@ New to `nuclei`? Don’t worry, you’ve found the perfect place to get started!
 
 Installation
 -------------
-`nuclei` can be installed by running `pip install nuclei`.
-
-If you can’t wait for the latest `PyPI` release and want to install from GitLab, use:
+`nuclei` can be installed by running
 
 .. code-block::
 
-    pip install git+https://gitlab.com/cemsbv/nuclei/py-nuclei.git
+    pip install cems-nuclei
 
-Please note that to use `GeoDataFrames` from the `geopandas` library `nuclei[geo]` should be installed.
+
+Please note that to use `GeoDataFrames` from the `geopandas` library `cems-nuclei[geo]` should be installed.
 
 Basic usage
 -----------
@@ -64,3 +63,10 @@ This means that the individual object will be transformed.
 
     message = nuclei.utils.python_types_to_message(schema)
     print(nuclei.utils.message_to_python_types([{"a": 12}, message]))
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: User Guide:
+
+   examples/gef-model.rst
