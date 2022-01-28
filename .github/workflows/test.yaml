@@ -59,7 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
           LINTER_RULES_PATH: /
-          PYTHON_MYPY_CONFIG_FILE: pyproject.toml
+          PYTHON_MYPY_CONFIG_FILE: .mypy.ini
   test_docs:
     name: Test docs
     runs-on: ubuntu-latest
