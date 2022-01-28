@@ -4,7 +4,7 @@ exec(open("nuclei/_version.py").read())
 
 setup(
     name="cems-nuclei",
-    version=__version__,
+    version=__version__,  # type: ignore
     description="Python wrapper around NUCLEI's functionality.",
     author="Ritchie Vink",
     author_email="info@cemsbv.nl",

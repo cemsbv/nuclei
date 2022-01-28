@@ -7,7 +7,6 @@ from typing import Any, List, Optional, Union
 
 import requests
 from IPython.display import Image
-
 from nuclei import utils
 
 ROUTING = {

@@ -249,7 +249,8 @@ def message_to_python_types(
                 return deserialize_pandas_parquet(message)
             elif t == DF or t == PDS:
                 warnings.warn(
-                    "`DataFrame` and `Series` is deprecated and will soon be replaced by `PANDAS_DataFrame` or `PANDAS_Series`.",
+                    "`DataFrame` and `Series` is deprecated and will soon be replaced by `PANDAS_DataFrame` or "
+                    "`PANDAS_Series`.",
                     DeprecationWarning,
                     stacklevel=2,
                 )

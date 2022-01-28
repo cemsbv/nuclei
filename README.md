@@ -33,7 +33,14 @@ To maintain code quality we use `super-linter`.
 ```commandline
 
 docker pull github/super-linter:latest
-docker run -e RUN_LOCAL=true $PWD:/tmp/lint github/super-linter
+docker run -e RUN_LOCAL=true \
+-e VALIDATE_PYTHON_PYLINT=false \
+-e VALIDATE_MARKDOWN=false \
+-e VALIDATE_JSCPD=false \
+-e VALIDATE_CSS=false \
+-e VALIDATE_YAML=false \
+-e VALIDATE_PYTHON_FLAKE8=false \
+-v $PWD:/tmp/lint github/super-linter
 
 ```
 
