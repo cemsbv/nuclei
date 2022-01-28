@@ -34,6 +34,7 @@ Next we use the cpt parser of `pygef <https://cemsbv.github.io/pygef/>`__ to par
 This body is used to call the `"/plot"` endpoint of the `gef-model` with :func:`nuclei.api_zoo.call_endpoint()`.
 
 .. ipython:: python
+    :okexcept:
 
     # Parse a CPT file with pygef.
     path_cpt = os.path.join(
@@ -75,6 +76,7 @@ to python types by default. This means that for example a `polars <https://www.p
 from `json` back to the DataFrame.
 
 .. ipython:: python
+    :okexcept:
 
     # call the gef-model endpoint with nuclei
     responds = nuclei.call_endpoint(APP, "/classify", schema)
