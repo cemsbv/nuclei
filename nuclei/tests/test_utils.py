@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import polars as pl
 import pytest
-
 from nuclei.utils import (
     deserialize_pandas_parquet,
     message_to_python_types,
@@ -16,7 +15,10 @@ from nuclei.utils import (
 
 try:
     import geopandas as gpd
-    from geopandas.testing import assert_geodataframe_equal, assert_geoseries_equal
+    from geopandas.testing import (
+        assert_geodataframe_equal,
+        assert_geoseries_equal,
+    )
 except ImportError:
     gpd = None
 
