@@ -78,3 +78,6 @@ jobs:
           python setup.py install
       - name: Build docs
         run: sphinx-build -b html docs public
+        env:
+          NUCLEI_USER: ${{ secrets.NUCLEI_USER }}
+          NUCLEI_PASSWORD: ${{ secrets.NUCLEI_PASSWORD }}
