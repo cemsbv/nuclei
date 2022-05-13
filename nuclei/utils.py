@@ -48,15 +48,15 @@ def base64_to_buffer(blob: bytes) -> io.BytesIO:
     return buf
 
 
-def deserialize_polars_json(message: dict) -> Union[pd.DataFrame, pd.Series]:
+def deserialize_polars_json(message: dict) -> pl.DataFrame:
     """
     Only needed for backwards compatibility.
     """
-    return pl.read_json(message["body"])
+    return pl.read_json(io.BytesIO(message["body"].encode("utf8")))
 
 
 def serialize_polars_json(obj: pl.DataFrame) -> dict:
-    return {"nuclei": {"type": POLARS_DF}, "body": obj.to_json()}
+    return {"nuclei": {"type": POLARS_DF}, "body": obj.write_json()}
 
 
 def deserialize_pandas_json(message: dict) -> Union[pd.DataFrame, pd.Series]:
