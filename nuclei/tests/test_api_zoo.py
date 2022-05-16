@@ -2,6 +2,14 @@ import pytest
 from nuclei.api_zoo import ROUTING, validate_or_refresh_token
 
 
+@pytest.fixture()
+def mock_authenticate(monkeypatch):
+    # mock the authenticate call
+    def mock_call(*args, **kwargs) -> None:
+        return None
+    monkeypatch.setattr("nuclei.api_zoo.authenticate", mock_call)
+
+
 def test_routing_table():
     # integration test. Get routes from internet services.
     assert "gef-map" in ROUTING
@@ -51,7 +59,7 @@ def test_routing_table():
         ),
     ],
 )
-def test_validate_or_refresh_token(token):
+def test_validate_or_refresh_token(token, mock_authenticate):
     """
     Tests the multiple invalid JWT tokens, which should lead to a refresh of the token (returns 1)
     """
