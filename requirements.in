@@ -1,5 +1,4 @@
 # docs
-Sphinx>=3.3.1
 sphinx-autodoc-typehints>=1.11.1
 asteroid-sphinx-theme>=0.0.3
 sphinx_rtd_theme>=1.0.0
