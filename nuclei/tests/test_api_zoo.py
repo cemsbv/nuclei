@@ -7,6 +7,7 @@ def mock_authenticate(monkeypatch):
     # mock the authenticate call
     def mock_call(*args, **kwargs) -> None:
         return None
+
     monkeypatch.setattr("nuclei.api_zoo.authenticate", mock_call)
 
 
