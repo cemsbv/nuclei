@@ -56,7 +56,7 @@ def deserialize_polars_json(message: dict) -> pl.DataFrame:
 
 
 def serialize_polars_json(obj: pl.DataFrame) -> dict:
-    return {"nuclei": {"type": POLARS_DF}, "body": obj.write_json()}
+    return {"nuclei": {"type": POLARS_DF}, "body": obj.to_json()}
 
 
 def deserialize_pandas_json(message: dict) -> Union[pd.DataFrame, pd.Series]:
