@@ -125,7 +125,7 @@
 
 
 <span class="k">def</span> <span class="nf">serialize_polars_json</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">POLARS_DF</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">write_json</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">POLARS_DF</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
 
 
 <span class="k">def</span> <span class="nf">deserialize_pandas_json</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
