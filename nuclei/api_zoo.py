@@ -241,7 +241,7 @@ def call_endpoint(
         ):
             recursion_count = kwargs.get("recursion_count", 0)
             get_result_schema = {"id": result["id"]}
-            timeout = min(10, 2 ** recursion_count)
+            timeout = min(10, 2**recursion_count)
             if "timeout" in get_endpoint_parameters(app, "/get-result/"):
                 time.sleep(0.5)
                 get_result_schema["timeout"] = timeout - 0.5
