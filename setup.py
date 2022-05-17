@@ -13,7 +13,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "requests>=2.25.1,<2.28.0",
-        "numpy>=1.19.4,<1.22.0",
+        "numpy>=1.19.4,<1.23.0",
         "pandas>=1.2,<1.4",
         "ipython>=7.3.0",
         "polars>=0.13.0,<0.14.0",
