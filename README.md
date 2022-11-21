@@ -4,7 +4,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
-This repository is created by [CEMS BV](https://cemsbv.nl/) and helps the user to access and process API calls to the [NUCLEI](https://crux-nuclei.com/) environment.
+This repository is created by [CEMS BV](https://cemsbv.nl/) and helps the user to access and process API calls to the [NUCLEI](https://nuclei.cemsbv.io/#/) environment.
 
 ## Installation
 
@@ -19,18 +19,17 @@ Please note that to use `GeoDataFrames` from the `geopandas` library `cems-nucle
 To use `nuclei` add the follow ENV vars to your environment. Or provide them when asked.
 
 ```
-* NUCLEI_USER
-    - Your NUCLEI user name
-* NUCLEI_PASSWORD
-    - Your NUCLEI user password
+* NUCLEI_TOKEN
+    - Your NUCLEI user token
 ```
 
+You can obtain your `NUCLEI_TOKEN` on [NUCLEI](https://nuclei.cemsbv.io/#/).
 
 ## Code quality tools
 
 To maintain code quality we use `super-linter`.
 
-```commandline
+```bash
 
 docker pull github/super-linter:latest
 docker run -e RUN_LOCAL=true \

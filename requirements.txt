@@ -14,8 +14,6 @@ attrs==21.4.0
     #   pytest
 babel==2.10.1
     # via sphinx
-backcall==0.2.0
-    # via ipython
 certifi==2021.10.8
     # via
     #   fiona
@@ -32,8 +30,6 @@ click-plugins==1.1.1
     # via fiona
 cligj==0.7.2
     # via fiona
-decorator==5.1.1
-    # via ipython
 docutils==0.17.1
     # via
     #   m2r2
@@ -55,18 +51,12 @@ importlib-metadata==4.11.3
     #   sphinx
 iniconfig==1.1.1
     # via pytest
-ipython==7.33.0
-    # via cems-nuclei (setup.py)
-jedi==0.18.1
-    # via ipython
 jinja2==3.1.2
     # via sphinx
 m2r2==0.3.2
     # via -r requirements.in
 markupsafe==2.1.1
     # via jinja2
-matplotlib-inline==0.1.3
-    # via ipython
 mistune==0.8.4
     # via m2r2
 munch==2.5.0
@@ -76,7 +66,6 @@ numpy==1.21.6
     #   cems-nuclei (setup.py)
     #   pandas
     #   polars
-    #   pyarrow
 packaging==21.3
     # via
     #   pytest
@@ -85,28 +74,16 @@ pandas==1.3.5
     # via
     #   cems-nuclei (setup.py)
     #   geopandas
-parso==0.8.3
-    # via jedi
-pexpect==4.8.0
-    # via ipython
-pickleshare==0.7.5
-    # via ipython
 pluggy==1.0.0
     # via pytest
 polars==0.13.5
     # via cems-nuclei (setup.py)
-prompt-toolkit==3.0.29
-    # via ipython
-ptyprocess==0.7.0
-    # via pexpect
 py==1.11.0
     # via pytest
-pyarrow==8.0.0
-    # via cems-nuclei (setup.py)
 pygments==2.12.0
-    # via
-    #   ipython
-    #   sphinx
+    # via sphinx
+pyjwt==2.6.0
+    # via cems-nuclei (setup.py)
 pyparsing==3.0.9
     # via packaging
 pyproj==3.2.1
@@ -155,18 +132,12 @@ sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
 tomli==2.0.1
     # via pytest
-traitlets==5.2.0
-    # via
-    #   ipython
-    #   matplotlib-inline
 typing-extensions==4.2.0
     # via
     #   importlib-metadata
     #   polars
 urllib3==1.26.9
     # via requests
-wcwidth==0.2.5
-    # via prompt-toolkit
 zipp==3.8.0
     # via importlib-metadata
 
