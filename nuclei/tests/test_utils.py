@@ -10,15 +10,11 @@ from nuclei.utils import (
     message_to_python_types,
     python_types_to_message,
     serialize_pandas_parquet,
-    token_time_valid,
 )
 
 try:
     import geopandas as gpd
-    from geopandas.testing import (
-        assert_geodataframe_equal,
-        assert_geoseries_equal,
-    )
+    from geopandas.testing import assert_geodataframe_equal, assert_geoseries_equal
 except ImportError:
     gpd = None
 
@@ -148,19 +144,3 @@ def test_literals():
     assert message_to_python_types(s) == s
     list_ = [1, 2, 3]
     assert message_to_python_types(list_) == list_
-
-
-def test_time_expired():
-    tkn = (
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9."
-        "eyJpYXQiOjE2MTU4OTcxNjgsIm5iZiI6MTYxNT"
-        "g5NzE2OCwianRpIjoiNmFjNWYzMWUtOTIwNS00Nj"
-        "JiLTliNzgtMjY4NjIyM2UwOGMyIiwiZXhwIjoxNjE"
-        "1OTQwMzY4LCJpZGVudGl0eSI6InJpdGNoaWU0NkBnb"
-        "WFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJ"
-        "hY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJhbGxvd2VkX2"
-        "FjY2VzcyI6ImFkbWluIiwibGltaXQiOnsibnVsbCI6bnVsbH19fQ. "
-        "M_Hyozg8KkWLz-mUpvpktbWCKwONp1pLwn9aufy3cPY"
-    )
-
-    assert not token_time_valid(tkn)

@@ -1,18 +1,14 @@
 import base64
-import binascii
 import io
 import json
 import os
-import re
-import time
 import warnings
 from collections.abc import Collection, Mapping
-from typing import Any, Dict, Tuple, Type, Union
+from typing import Any, Type, Union
 
 import numpy as np
 import pandas as pd
 import polars as pl
-import requests
 
 try:
     import geopandas as gpd
@@ -277,57 +273,3 @@ def message_to_python_types(
 
 def to_json(data: str) -> dict:
     return json.loads(data.replace("'", '"'))
-
-
-def validify_url(url: str) -> str:
-    """
-    Remove leading part of URL
-    """
-    # Using 'ttps' because look-behind requires fixed-width pattern
-    return re.sub(r"(?<!http:|ttps:)//", r"/", url)
-
-
-def create_routing_table() -> Dict[str, Tuple[str, str]]:
-    baseurl = "https://crux-nuclei.com"
-    r = requests.get(baseurl + "/g/svc/api")
-    if r.status_code != 200:  # pragma: no cover
-        raise IOError("Could not connect to nuclei for routing tables")
-
-    routes = dict()
-
-    for app in r.json():
-        # json schema example:
-        # app: "gef-model"
-        # url: "/api/gef-model/"
-        # host_env: "GEF_MODEL_SERVICE_HOST"
-        # port_env: "GEF_MODEL_SERVICE_PORT"
-
-        app_name = app["app"]
-        url = app["url"]
-        host = os.environ.get(app["host_env"])
-        port = os.environ.get(app["port_env"])
-        routes[app_name] = (baseurl + url, f"http://{host}:{port}{url}")
-    return routes
-
-
-def token_time_valid(jwt: str) -> bool:
-    """
-    Check if the jwt is not expired.
-    """
-    payload = jwt.split(".")[1]
-    # Here we decode the base64 encoded middle part of the JWT token. The length of the
-    # payload needs to be a multi-fold of 4, so we pad it with "=" dummies if necessary.
-    try:
-        content: Dict = json.loads(
-            base64.urlsafe_b64decode(
-                payload + "=" * divmod(len(payload), 4)[1]
-            ).decode()
-        )
-    except (binascii.Error, UnicodeDecodeError):
-        return False
-
-    # expiry time in seconds since unix epoch
-    exp = content.get("exp")
-    if exp is not None:
-        return int(exp) > time.time()
-    return True
