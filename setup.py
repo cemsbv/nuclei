@@ -16,7 +16,7 @@ setup(
         "numpy>=1.19.4,<1.22.0",
         "pandas>=1.2,<1.4",
         "ipython>=7.3.0",
-        "polars>=0.13.0,<0.14.0",
+        "polars>=0.13.0,<0.16.0",
     ],
     extras_require={"geo": ["geopandas>=0.8.1,<0.11.0"]},
     python_requires=">=3.7",
