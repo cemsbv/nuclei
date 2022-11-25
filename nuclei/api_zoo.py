@@ -41,6 +41,7 @@ def create_session() -> requests.Session:
         """
         # send new request after update short-lived access token
         try:
+            # decode JWT token
             _ = jwt.decode(
                 r.request.headers["Authorization"].split(" ")[1],
                 algorithms=["HS256"],
@@ -84,7 +85,8 @@ def authenticate() -> str:
     # ask user for user token
     else:
         token = input(
-            "Authentication is needed. Please provide your NUCLEI User Token?"
+            "Authentication is needed! Please provide your NUCLEI User Token. "
+            f"You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens."
         )
 
         logging.info("user token set in environment")
@@ -103,3 +105,14 @@ def authenticate() -> str:
         )
 
     return r.text
+
+
+if __name__ == "__main__":
+    # create session
+    session = create_session()
+
+    # call healthcheck endpoint PileCore
+    response = session.get(url="https://crux-nuclei.com/api/pilecore/v2/healthcheck")
+
+    # Should be "Service alive"
+    print(response.text)
