@@ -14,25 +14,18 @@ Installation
     pip install cems-nuclei
 
 
-Please note that to use `GeoDataFrames` from the `geopandas` library `cems-nuclei[geo]` should be installed.
+Please note that to use `message_to_python_types` or `python_types_to_message` library `cems-nuclei[ser]` should be installed.
 
 Basic usage
 -----------
-To have a look at the available API's in NUCLEI run the following code-block:
+To have a look at the available API's in NUCLEI go to the platform and have a look at the API documentation.
+To inizilatise your session call :func:`nuclei.api_zoo.create_session`.
 
 .. ipython:: python
 
     import nuclei
 
-    print(nuclei.get_applications())
-
-For more information about the available endpoints of single API run the following code-block:
-
-.. ipython:: python
-
-    print(nuclei.get_endpoints("piles"))
-
-To call an endpoint use :func:`nuclei.api_zoo.call_endpoint()`
+    print(nuclei.create_session())
 
 
 To help the user create a `schema` to use in the API call `nuclei` has a

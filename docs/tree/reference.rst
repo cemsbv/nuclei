@@ -3,11 +3,7 @@
 Reference
 ==========
 
-.. autofunction:: nuclei.api_zoo.call_endpoint
-
-.. autofunction:: nuclei.api_zoo.get_applications
-
-.. autofunction:: nuclei.api_zoo.get_endpoints
+.. autofunction:: nuclei.api_zoo.create_session
 
 Utils
 ------

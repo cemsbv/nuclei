@@ -8,18 +8,15 @@ It consists of a fully automated soil classification based on a convolutional ne
 The complete API documentation can be accesses `here <https://crux-nuclei.com/api/gef-model/ui/>`__.
 
 Please note that you need a NUCLEI account to call one of our endpoints.
-You can sign up `here <https://crux-nuclei.com/sign-up>`__ to get your free access to `gef-model`!
+You can sign up `here <nuclei.cemsbv.io/#/>`__ to get your free access to `gef-model`!
 For this example we set the account information in our environment. If you are not
-confident to reproduce that `nuclei` will ask you to provide the credentials when calling the
+confident to reproduce that `nuclei` will ask you to provide the `user token` when calling the
 endpoint.
 
-
 Lets show you how to use `nuclei` and access the `gef-model` API.
-We use the :func:`nuclei.api_zoo.get_endpoints` function to get an overview of the different endpoints
-that are available within `gef-model`.
-
 
 .. ipython:: python
+    :okexcept:
 
     import os
 
@@ -27,14 +24,8 @@ that are available within `gef-model`.
     import numpy as np
     import nuclei
 
-    APP = "gef-model"
-    print(nuclei.get_endpoints(APP))
-
-Next we use the cpt parser of `pygef <https://cemsbv.github.io/pygef/>`__ to parse a cpt and create the request body.
-This body is used to call the `"/plot"` endpoint of the `gef-model` with :func:`nuclei.api_zoo.call_endpoint()`.
-
-.. ipython:: python
-    :okexcept:
+    # create session
+    session = nuclei.create_session()
 
     # Parse a CPT file with pygef.
     path_cpt = os.path.join(
@@ -60,7 +51,9 @@ This body is used to call the `"/plot"` endpoint of the `gef-model` with :func:`
 
     # call the gef-model endpoint with nuclei
     @savefig cpt_plot.png
-    plot = nuclei.call_endpoint(APP, "/plot", schema)
+    plot = session.post(
+        "https://crux-nuclei.com/api/gef-model/plot", schema
+    ).text
 
     @suppress
     with open(
@@ -71,15 +64,17 @@ This body is used to call the `"/plot"` endpoint of the `gef-model` with :func:`
 
 
 The `"/classify"` endpoint allows you the access the data of the graph above.
-Please note that the :func:`nuclei.api_zoo.call_endpoint()` will transform the responds
-to python types by default. This means that for example a `polars <https://www.pola.rs/>`__ DataFrames are transformed
+Please note that the :func:`nuclei.utils.message_to_python_types()` will transform the responds
+to python types. This means that for example a `polars <https://www.pola.rs/>`__ DataFrames are transformed
 from `json` back to the DataFrame.
 
 .. ipython:: python
     :okexcept:
 
     # call the gef-model endpoint with nuclei
-    responds = nuclei.call_endpoint(APP, "/classify", schema)
-    print(responds["prediction"])
+    responds = session.post(
+        "https://crux-nuclei.com/api/gef-model/classify", schema
+    ).json()
+    print(nuclei.message_to_python_types(responds)["prediction"])
 
 If you have any questions please send an email to info@cemsbv.nl
