@@ -6,19 +6,17 @@ import warnings
 from collections.abc import Collection, Mapping
 from typing import Any, Type, Union
 
-import numpy as np
-import pandas as pd
-import polars as pl
-
 try:
     import geopandas as gpd
+    import numpy as np
+    import pandas as pd
+    import polars as pl
 except ImportError:
-    gpd = None
+    raise ImportError(
+        "Could not import one of dependencies.  Must install nuclei[ser] "
+        " in order to use the utils functions"
+    )
 
-MSG = (
-    "Could not import geopandas.  Must install nuclei[geo] "
-    " in order to use validate method"
-)
 
 DF = "DataFrame"
 DF_PARQUET = "DataFrame.parquet"
@@ -96,9 +94,6 @@ def deserialize_geopandas_json(
     """
     Only needed for backwards compatibility.
     """
-    if gpd is None:
-        raise ImportError(MSG)
-
     obj = gpd.read_file(message["body"]).reset_index(drop=True)
     obj = obj.drop(columns="id")
 
@@ -111,9 +106,6 @@ def deserialize_geopandas_json(
 def serialize_geopandas_json(
     obj: Union[Type["gpd.GeoDataFrame"], Type["gpd.GeoSeries"]]
 ) -> dict:
-    if gpd is None:
-        raise ImportError(MSG)
-
     if isinstance(obj, gpd.GeoDataFrame):
         return {"nuclei": {"type": GDF}, "body": obj.to_json()}
     else:
@@ -269,7 +261,3 @@ def message_to_python_types(
 
     # return original input if it is anything else
     return message
-
-
-def to_json(data: str) -> dict:
-    return json.loads(data.replace("'", '"'))
