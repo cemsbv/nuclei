@@ -19,13 +19,13 @@ Please note that to use `message_to_python_types` or `python_types_to_message` l
 Basic usage
 -----------
 To have a look at the available API's in NUCLEI go to the platform and have a look at the API documentation.
-To inizilatise your session call :func:`nuclei.api_zoo.create_session`.
+To initialise your session call :func:`nuclei.api_zoo.create_session`.
 
-.. ipython:: python
+.. code-block:: python
 
     import nuclei
 
-    print(nuclei.create_session())
+    session = nuclei.create_session()
 
 
 To help the user create a `schema` to use in the API call `nuclei` has a
@@ -39,23 +39,25 @@ serialized DataFrame.
 
     import pandas as pd
 
+    from nuclei import utils
+
     schema = pd.get_dummies(pd.Series(list('abcaa')))
-    print(nuclei.utils.python_types_to_message(schema))
+    print(utils.python_types_to_message(schema))
 
 To transform a serialized DataFrame to its original type use the :func:`nuclei.utils.python_types_to_message` function.
 
 .. ipython:: python
 
-    message = nuclei.utils.python_types_to_message(schema)
-    print(nuclei.utils.message_to_python_types(message))
+    message = utils.python_types_to_message(schema)
+    print(utils.message_to_python_types(message))
 
 Please note that a list that of python types will be serialized as well.
 This means that the individual object will be transformed.
 
 .. ipython:: python
 
-    message = nuclei.utils.python_types_to_message(schema)
-    print(nuclei.utils.message_to_python_types([{"a": 12}, message]))
+    message = utils.python_types_to_message(schema)
+    print(utils.message_to_python_types([{"a": 12}, message]))
 
 
 .. toctree::

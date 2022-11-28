@@ -12,7 +12,7 @@ To install a package in this repository run:
 
 `$ pip install cems-nuclei`
 
-Please note that to use `GeoDataFrames` from the `geopandas` library `cems-nuclei[geo]` should be installed.
+Please note that to use `message_to_python_types` or `python_types_to_message` library `cems-nuclei[ser]` should be installed.
 
 ## ENV VARS
 
@@ -23,7 +23,8 @@ To use `nuclei` add the follow ENV vars to your environment. Or provide them whe
     - Your NUCLEI user token
 ```
 
-You can obtain your `NUCLEI_TOKEN` on [NUCLEI](https://nuclei.cemsbv.io/#/).
+You can obtain your `NUCLEI_TOKEN` on [NUCLEI](https://nuclei.cemsbv.io/#/). 
+Go to `personal-access-tokens` and create a new user token.
 
 ## Code quality tools
 
@@ -47,8 +48,16 @@ docker run -e RUN_LOCAL=true \
 
 Install the requirements:
 
-`pip install -r docs.requirements.txt`
+```bash
+
+  pip install -r docs.requirements.txt
+
+```
 
 Build the docs:
 
-`sphinx-build -b html docs public`
+```bash
+
+    sphinx-build -b html docs public
+
+```
