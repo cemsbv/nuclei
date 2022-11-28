@@ -15,14 +15,14 @@ endpoint.
 
 Lets show you how to use `nuclei` and access the `gef-model` API.
 
-.. ipython:: python
-    :okexcept:
+.. code-block:: python
 
     import os
-
+    from IPython.display import Image
     from pygef import Cpt
     import numpy as np
     import nuclei
+    from nuclei import utils
 
     # create session
     session = nuclei.create_session()
@@ -50,17 +50,13 @@ Lets show you how to use `nuclei` and access the `gef-model` API.
     }
 
     # call the gef-model endpoint with nuclei
-    @savefig cpt_plot.png
-    plot = session.post(
-        "https://crux-nuclei.com/api/gef-model/plot", schema
-    ).text
+    responds = session.post(
+        "https://crux-nuclei.com/api/gef-model/plot",
+        json=utils.python_types_to_message(schema)
+    )
 
-    @suppress
-    with open(
-        os.path.join(
-            os.environ.get("DOC_PATH"), "savefig/cpt_plot.png"), "wb") as png:
-        png.write(plot.data)
-        # FIXME: ipython savefig does not work with plot result
+    plot = Image(responds.content)
+
 
 
 The `"/classify"` endpoint allows you the access the data of the graph above.
@@ -68,13 +64,13 @@ Please note that the :func:`nuclei.utils.message_to_python_types()` will transfo
 to python types. This means that for example a `polars <https://www.pola.rs/>`__ DataFrames are transformed
 from `json` back to the DataFrame.
 
-.. ipython:: python
-    :okexcept:
+.. code-block:: python
 
     # call the gef-model endpoint with nuclei
     responds = session.post(
-        "https://crux-nuclei.com/api/gef-model/classify", schema
+        "https://crux-nuclei.com/api/gef-model/classify",
+        json=utils.python_types_to_message(schema)
     ).json()
-    print(nuclei.message_to_python_types(responds)["prediction"])
+    print(utils.message_to_python_types(responds)["prediction"])
 
 If you have any questions please send an email to info@cemsbv.nl
