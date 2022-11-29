@@ -14,55 +14,50 @@ Installation
     pip install cems-nuclei
 
 
-Please note that to use `GeoDataFrames` from the `geopandas` library `cems-nuclei[geo]` should be installed.
+Please note that to use `NucleiClient` library `cems-nuclei[client]` should be installed.
 
 Basic usage
 -----------
-To have a look at the available API's in NUCLEI run the following code-block:
+To have a look at the available API's in NUCLEI go to the platform and have a look at the API documentation.
+To initialise your session call :func:`nuclei.api.main.create_session`.
 
-.. ipython:: python
+.. code-block:: python
 
     import nuclei
 
-    print(nuclei.get_applications())
-
-For more information about the available endpoints of single API run the following code-block:
-
-.. ipython:: python
-
-    print(nuclei.get_endpoints("piles"))
-
-To call an endpoint use :func:`nuclei.api_zoo.call_endpoint()`
+    session = nuclei.create_session()
 
 
 To help the user create a `schema` to use in the API call `nuclei` has a
-:func:`nuclei.utils.python_types_to_message` function. This function
-transforms python types to JSON types.
+:func:`nuclei.client.main.NucleiClient` class. This classes holds a `call_endpoint`
+function that transforms python types to JSON types.
 
-The following code-block creates a `pandas.DataFrame` and transforms it to a
-serialized DataFrame.
+The following code-block shows the mechanism behind module. First we
+create a `pandas.DataFrame` and transforms it to a serialized DataFrame.
 
 .. ipython:: python
 
     import pandas as pd
 
-    schema = pd.get_dummies(pd.Series(list('abcaa')))
-    print(nuclei.utils.python_types_to_message(schema))
+    from nuclei.client import utils
 
-To transform a serialized DataFrame to its original type use the :func:`nuclei.utils.python_types_to_message` function.
+    schema = pd.get_dummies(pd.Series(list('abcaa')))
+    print(utils.python_types_to_message(schema))
+
+To transform a serialized DataFrame to its original type use the :func:`nuclei.client.utils.python_types_to_message` function.
 
 .. ipython:: python
 
-    message = nuclei.utils.python_types_to_message(schema)
-    print(nuclei.utils.message_to_python_types(message))
+    message = utils.python_types_to_message(schema)
+    print(utils.message_to_python_types(message))
 
 Please note that a list that of python types will be serialized as well.
 This means that the individual object will be transformed.
 
 .. ipython:: python
 
-    message = nuclei.utils.python_types_to_message(schema)
-    print(nuclei.utils.message_to_python_types([{"a": 12}, message]))
+    message = utils.python_types_to_message(schema)
+    print(utils.message_to_python_types([{"a": 12}, message]))
 
 
 .. toctree::

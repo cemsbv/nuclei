@@ -1,28 +1,22 @@
 import base64
-import binascii
 import io
 import json
 import os
-import re
-import time
 import warnings
 from collections.abc import Collection, Mapping
-from typing import Any, Dict, Tuple, Type, Union
-
-import numpy as np
-import pandas as pd
-import polars as pl
-import requests
+from typing import Any, Union
 
 try:
     import geopandas as gpd
+    import numpy as np
+    import pandas as pd
+    import polars as pl
 except ImportError:
-    gpd = None
+    raise ImportError(
+        "Could not import one of dependencies [geopandas, numpy, pandas, polars].  "
+        "Must install nuclei[client] in order to use the utils functions"
+    )
 
-MSG = (
-    "Could not import geopandas.  Must install nuclei[geo] "
-    " in order to use validate method"
-)
 
 DF = "DataFrame"
 DF_PARQUET = "DataFrame.parquet"
@@ -34,6 +28,10 @@ POLARS_DF = "POLARS_DataFrame"
 PANDAS_DF = "PANDAS_DataFrame"
 PANDAS_DF_PARQUET = "PANDAS_DataFrame.parquet"
 PANDAS_PDS = "PANDAS_Series"
+
+
+def to_json(data: str) -> dict:
+    return json.loads(data.replace("'", '"'))
 
 
 def buffer_to_base64(buf: io.BytesIO) -> str:
@@ -96,13 +94,10 @@ def deserialize_pandas_parquet(message: dict) -> pd.DataFrame:
 
 def deserialize_geopandas_json(
     message: dict,
-) -> Union[Type["gpd.GeoDataFrame"], Type["gpd.GeoSeries"], Any]:
+) -> Union[gpd.GeoDataFrame, gpd.GeoSeries, Any]:
     """
     Only needed for backwards compatibility.
     """
-    if gpd is None:
-        raise ImportError(MSG)
-
     obj = gpd.read_file(message["body"]).reset_index(drop=True)
     obj = obj.drop(columns="id")
 
@@ -112,12 +107,7 @@ def deserialize_geopandas_json(
     return obj
 
 
-def serialize_geopandas_json(
-    obj: Union[Type["gpd.GeoDataFrame"], Type["gpd.GeoSeries"]]
-) -> dict:
-    if gpd is None:
-        raise ImportError(MSG)
-
+def serialize_geopandas_json(obj: Union[gpd.GeoDataFrame, gpd.GeoSeries]) -> dict:
     if isinstance(obj, gpd.GeoDataFrame):
         return {"nuclei": {"type": GDF}, "body": obj.to_json()}
     else:
@@ -142,8 +132,8 @@ def python_types_to_message(
         pd.Series,
         pd.DataFrame,
         pl.DataFrame,
-        Type["gpd.GeoSeries"],
-        Type["gpd.GeoDataFrame"],
+        gpd.GeoSeries,
+        gpd.GeoDataFrame,
         np.ndarray,
         list,
         str,
@@ -211,8 +201,8 @@ def message_to_python_types(
     pd.Series,
     pd.DataFrame,
     pl.DataFrame,
-    Type["gpd.GeoSeries"],
-    Type["gpd.GeoDataFrame"],
+    gpd.GeoSeries,
+    gpd.GeoDataFrame,
     np.ndarray,
     list,
     str,
@@ -273,61 +263,3 @@ def message_to_python_types(
 
     # return original input if it is anything else
     return message
-
-
-def to_json(data: str) -> dict:
-    return json.loads(data.replace("'", '"'))
-
-
-def validify_url(url: str) -> str:
-    """
-    Remove leading part of URL
-    """
-    # Using 'ttps' because look-behind requires fixed-width pattern
-    return re.sub(r"(?<!http:|ttps:)//", r"/", url)
-
-
-def create_routing_table() -> Dict[str, Tuple[str, str]]:
-    baseurl = "https://crux-nuclei.com"
-    r = requests.get(baseurl + "/g/svc/api")
-    if r.status_code != 200:  # pragma: no cover
-        raise IOError("Could not connect to nuclei for routing tables")
-
-    routes = dict()
-
-    for app in r.json():
-        # json schema example:
-        # app: "gef-model"
-        # url: "/api/gef-model/"
-        # host_env: "GEF_MODEL_SERVICE_HOST"
-        # port_env: "GEF_MODEL_SERVICE_PORT"
-
-        app_name = app["app"]
-        url = app["url"]
-        host = os.environ.get(app["host_env"])
-        port = os.environ.get(app["port_env"])
-        routes[app_name] = (baseurl + url, f"http://{host}:{port}{url}")
-    return routes
-
-
-def token_time_valid(jwt: str) -> bool:
-    """
-    Check if the jwt is not expired.
-    """
-    payload = jwt.split(".")[1]
-    # Here we decode the base64 encoded middle part of the JWT token. The length of the
-    # payload needs to be a multi-fold of 4, so we pad it with "=" dummies if necessary.
-    try:
-        content: Dict = json.loads(
-            base64.urlsafe_b64decode(
-                payload + "=" * divmod(len(payload), 4)[1]
-            ).decode()
-        )
-    except (binascii.Error, UnicodeDecodeError):
-        return False
-
-    # expiry time in seconds since unix epoch
-    exp = content.get("exp")
-    if exp is not None:
-        return int(exp) > time.time()
-    return True

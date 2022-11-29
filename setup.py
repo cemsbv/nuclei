@@ -12,12 +12,17 @@ setup(
     license="mit",
     packages=find_packages(),
     install_requires=[
-        "requests>=2.25.1,<2.28.0",
-        "numpy>=1.19.4,<1.22.0",
-        "pandas>=1.2,<1.4",
+        "requests>=2.25.1",
+        "pyjwt==2.6.0",
         "ipython>=7.3.0",
-        "polars>=0.13.0,<0.14.0",
     ],
-    extras_require={"geo": ["geopandas>=0.8.1,<0.11.0"]},
+    extras_require={
+        "client": [
+            "geopandas>=0.8.1,<0.11.0",
+            "numpy>=1.19.4,<1.22.0",
+            "pandas>=1.2,<1.4",
+            "polars>=0.13.0,<0.14.0",
+        ]
+    },
     python_requires=">=3.7",
 )

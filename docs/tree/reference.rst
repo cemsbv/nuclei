@@ -3,15 +3,22 @@
 Reference
 ==========
 
-.. autofunction:: nuclei.api_zoo.call_endpoint
+API
+------
 
-.. autofunction:: nuclei.api_zoo.get_applications
+.. autofunction:: nuclei.api.main.create_session
 
-.. autofunction:: nuclei.api_zoo.get_endpoints
+Client
+-------
+
+.. autoclass:: nuclei.client.main.NucleiClient
+    :members:
+    :inherited-members:
+    :undoc-members:
 
 Utils
-------
-.. autofunction:: nuclei.utils.message_to_python_types
+______
+.. autofunction:: nuclei.client.utils.message_to_python_types
 
-.. autofunction:: nuclei.utils.python_types_to_message
+.. autofunction:: nuclei.client.utils.python_types_to_message
 
