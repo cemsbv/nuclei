@@ -7,7 +7,6 @@ import pandas as pd
 import polars as pl
 import pytest
 from geopandas.testing import assert_geodataframe_equal, assert_geoseries_equal
-
 from nuclei.client.utils import (
     deserialize_pandas_parquet,
     message_to_python_types,

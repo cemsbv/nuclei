@@ -4,7 +4,6 @@ from typing import Any, List, Optional, Union
 
 import requests
 from IPython.display import Image
-
 from nuclei import create_session
 
 # try import serialize and deserialize functions
