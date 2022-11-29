@@ -12,7 +12,7 @@ To install a package in this repository run:
 
 `$ pip install cems-nuclei`
 
-Please note that to use `message_to_python_types` or `python_types_to_message` library `cems-nuclei[ser]` should be installed.
+Please note that to use `NucleiClient` library `cems-nuclei[client]` should be installed.
 
 ## ENV VARS
 
@@ -59,5 +59,13 @@ Build the docs:
 ```bash
 
     sphinx-build -b html docs public
+
+```
+
+## Dependencies
+
+```bash
+
+pip-compile --extra=client --output-file=requirements.txt requirements.in setup.py
 
 ```

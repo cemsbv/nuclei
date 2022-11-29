@@ -14,12 +14,12 @@ Installation
     pip install cems-nuclei
 
 
-Please note that to use `message_to_python_types` or `python_types_to_message` library `cems-nuclei[ser]` should be installed.
+Please note that to use `NucleiClient` library `cems-nuclei[client]` should be installed.
 
 Basic usage
 -----------
 To have a look at the available API's in NUCLEI go to the platform and have a look at the API documentation.
-To initialise your session call :func:`nuclei.api_zoo.create_session`.
+To initialise your session call :func:`nuclei.api.main.create_session`.
 
 .. code-block:: python
 
@@ -29,22 +29,22 @@ To initialise your session call :func:`nuclei.api_zoo.create_session`.
 
 
 To help the user create a `schema` to use in the API call `nuclei` has a
-:func:`nuclei.utils.python_types_to_message` function. This function
-transforms python types to JSON types.
+:func:`nuclei.client.main.NucleiClient` class. This classes holds a `call_endpoint`
+function that transforms python types to JSON types.
 
-The following code-block creates a `pandas.DataFrame` and transforms it to a
-serialized DataFrame.
+The following code-block shows the mechanism behind module. First we
+create a `pandas.DataFrame` and transforms it to a serialized DataFrame.
 
 .. ipython:: python
 
     import pandas as pd
 
-    from nuclei import utils
+    from nuclei.client import utils
 
     schema = pd.get_dummies(pd.Series(list('abcaa')))
     print(utils.python_types_to_message(schema))
 
-To transform a serialized DataFrame to its original type use the :func:`nuclei.utils.python_types_to_message` function.
+To transform a serialized DataFrame to its original type use the :func:`nuclei.client.utils.python_types_to_message` function.
 
 .. ipython:: python
 

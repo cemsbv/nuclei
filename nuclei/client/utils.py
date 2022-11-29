@@ -4,7 +4,7 @@ import json
 import os
 import warnings
 from collections.abc import Collection, Mapping
-from typing import Any, Type, Union
+from typing import Any, Union
 
 try:
     import geopandas as gpd
@@ -13,8 +13,8 @@ try:
     import polars as pl
 except ImportError:
     raise ImportError(
-        "Could not import one of dependencies.  Must install nuclei[ser] "
-        " in order to use the utils functions"
+        "Could not import one of dependencies [geopandas, numpy, pandas, polars].  "
+        "Must install nuclei[client] in order to use the utils functions"
     )
 
 
@@ -28,6 +28,10 @@ POLARS_DF = "POLARS_DataFrame"
 PANDAS_DF = "PANDAS_DataFrame"
 PANDAS_DF_PARQUET = "PANDAS_DataFrame.parquet"
 PANDAS_PDS = "PANDAS_Series"
+
+
+def to_json(data: str) -> dict:
+    return json.loads(data.replace("'", '"'))
 
 
 def buffer_to_base64(buf: io.BytesIO) -> str:
@@ -90,7 +94,7 @@ def deserialize_pandas_parquet(message: dict) -> pd.DataFrame:
 
 def deserialize_geopandas_json(
     message: dict,
-) -> Union[Type["gpd.GeoDataFrame"], Type["gpd.GeoSeries"], Any]:
+) -> Union[gpd.GeoDataFrame, gpd.GeoSeries, Any]:
     """
     Only needed for backwards compatibility.
     """
@@ -103,9 +107,7 @@ def deserialize_geopandas_json(
     return obj
 
 
-def serialize_geopandas_json(
-    obj: Union[Type["gpd.GeoDataFrame"], Type["gpd.GeoSeries"]]
-) -> dict:
+def serialize_geopandas_json(obj: Union[gpd.GeoDataFrame, gpd.GeoSeries]) -> dict:
     if isinstance(obj, gpd.GeoDataFrame):
         return {"nuclei": {"type": GDF}, "body": obj.to_json()}
     else:
@@ -130,8 +132,8 @@ def python_types_to_message(
         pd.Series,
         pd.DataFrame,
         pl.DataFrame,
-        Type["gpd.GeoSeries"],
-        Type["gpd.GeoDataFrame"],
+        gpd.GeoSeries,
+        gpd.GeoDataFrame,
         np.ndarray,
         list,
         str,
@@ -199,8 +201,8 @@ def message_to_python_types(
     pd.Series,
     pd.DataFrame,
     pl.DataFrame,
-    Type["gpd.GeoSeries"],
-    Type["gpd.GeoDataFrame"],
+    gpd.GeoSeries,
+    gpd.GeoDataFrame,
     np.ndarray,
     list,
     str,

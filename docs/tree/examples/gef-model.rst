@@ -18,14 +18,12 @@ Lets show you how to use `nuclei` and access the `gef-model` API.
 .. code-block:: python
 
     import os
-    from IPython.display import Image
     from pygef import Cpt
     import numpy as np
     import nuclei
-    from nuclei import utils
 
     # create session
-    session = nuclei.create_session()
+    client = nuclei.NucleiClient()
 
     # Parse a CPT file with pygef.
     path_cpt = os.path.join(
@@ -34,7 +32,7 @@ Lets show you how to use `nuclei` and access the `gef-model` API.
     cpt = Cpt(path_cpt)
 
     # create the body to send to the gef-model endpoint.
-    schema = {
+    body = {
         "cpt_object": {
             "name": cpt.test_id,
             "x": cpt.x,
@@ -50,13 +48,11 @@ Lets show you how to use `nuclei` and access the `gef-model` API.
     }
 
     # call the gef-model endpoint with nuclei
-    responds = session.post(
-        "https://crux-nuclei.com/api/gef-model/plot",
-        json=utils.python_types_to_message(schema)
+    responds = client.call_endpoint(
+        app = "CPT Core",
+        endpoint = "/plot",
+        schema = body
     )
-
-    plot = Image(responds.content)
-
 
 
 The `"/classify"` endpoint allows you the access the data of the graph above.
@@ -67,10 +63,11 @@ from `json` back to the DataFrame.
 .. code-block:: python
 
     # call the gef-model endpoint with nuclei
-    responds = session.post(
-        "https://crux-nuclei.com/api/gef-model/classify",
-        json=utils.python_types_to_message(schema)
-    ).json()
-    print(utils.message_to_python_types(responds)["prediction"])
+    responds = client.call_endpoint(
+        app = "CPT Core",
+        endpoint = "/classify",
+        schema = body
+    )
+    print(responds["prediction"])
 
 If you have any questions please send an email to info@cemsbv.nl
