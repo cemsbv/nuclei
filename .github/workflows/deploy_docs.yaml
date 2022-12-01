@@ -25,8 +25,7 @@ jobs:
       - name: Build docs
         run: sphinx-build -b html docs public
         env:
-          NUCLEI_USER: ${{ secrets.NUCLEI_USER }}
-          NUCLEI_PASSWORD: ${{ secrets.NUCLEI_PASSWORD }}
+          NUCLEI_TOKEN: ${{ secrets.NUCLEI_TOKEN }}
       - name: Publish docs
         uses: peaceiris/actions-gh-pages@v3
         with:

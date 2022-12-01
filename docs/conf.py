@@ -21,8 +21,8 @@ os.environ["DOC_PATH"] = os.path.dirname(__file__)
 
 # -- Project information -----------------------------------------------------
 
-project = "nuclei"
-copyright = "2021, CEMS BV"
+project = "NUCLEI"
+copyright = "2022, CEMS BV"
 author = "Robin Wimmers"
 
 # The full version, including alpha/beta/rc tags

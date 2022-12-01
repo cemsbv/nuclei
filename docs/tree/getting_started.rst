@@ -60,8 +60,12 @@ This means that the individual object will be transformed.
     print(utils.message_to_python_types([{"a": 12}, message]))
 
 
+User Guide
+-----------
+
 .. toctree::
    :maxdepth: 1
-   :caption: User Guide:
 
    examples/gef-model.rst
+
+   examples/vibracore.rst

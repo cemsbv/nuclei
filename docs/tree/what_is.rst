@@ -1,3 +1,5 @@
+.. image:: https://nuclei.cemsbv.io/logo.svg
+
 What is NUCLEI?
 ==================
 
