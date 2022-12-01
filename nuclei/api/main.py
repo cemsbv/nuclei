@@ -27,7 +27,7 @@ def create_session() -> requests.Session:
         Response hook functions to set as event hook on the session.
 
         This hook does:
-            - Update shortlived access token if needed.
+            - Update short-lived access token if needed.
 
         Parameters
         ----------
@@ -50,7 +50,7 @@ def create_session() -> requests.Session:
         except jwt.ExpiredSignatureError:
             logging.info(r.text)
 
-            # get short-lived acces token
+            # get short-lived access token
             logging.info("Update Bearer token")
             token = authenticate()
 
@@ -108,6 +108,9 @@ def authenticate() -> str:
 
 
 if __name__ == "__main__":
+    # set logging level
+    logging.getLogger().setLevel(logging.INFO)
+
     # create session
     session = create_session()
 

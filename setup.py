@@ -14,10 +14,10 @@ setup(
     install_requires=[
         "requests>=2.25.1",
         "pyjwt==2.6.0",
-        "ipython>=7.3.0",
     ],
     extras_require={
         "client": [
+            "ipython>=7.3.0",
             "geopandas>=0.8.1,<0.11.0",
             "numpy>=1.19.4,<1.22.0",
             "pandas>=1.2,<1.4",

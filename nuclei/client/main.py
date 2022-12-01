@@ -1,16 +1,19 @@
 import base64
+import logging
 from functools import lru_cache
 from typing import Any, List, Optional, Union
 
+import jwt
 import requests
-from IPython.display import Image
 from nuclei import create_session
 
 # try import serialize and deserialize functions
 try:
+    from IPython.display import Image
     from nuclei.client import utils
 except ImportError:
     utils = None  # type: ignore
+    Image = None  # type: ignore
 
 # TODO get routing from endpoint
 ROUTING = {
@@ -28,9 +31,9 @@ class NucleiClient:
         This class allows the user to interact with our APIs. API documentation can be
         found on our platform > https://nuclei.cemsbv.io/#
         """
-        if utils is None:
+        if utils is None or Image is None:
             raise ImportError(
-                "Could not import one of dependencies [geopandas, numpy, pandas, polars].  "
+                "Could not import one of dependencies [geopandas, numpy, pandas, polars, Image].  "
                 "Must install nuclei[client] in order to use NucleiClient"
             )
 
@@ -55,8 +58,23 @@ class NucleiClient:
         if app in self.get_applications:
             return self.routing[app]
         raise ValueError(
-            f"Application not available, please select on of the following valid application {self.routing.keys()}"
+            f"Application not available, please select one of the following valid applications {self.get_applications}"
         )
+
+    @property
+    def get_user_claims(self) -> List[str]:
+        """
+        Get user claims of your token.
+        Returns
+        -------
+        out : list[str]
+            Names of the API's
+        """
+        return jwt.decode(
+            self.session.headers["Authorization"].split(" ")[1],  # type: ignore
+            algorithms=["HS256"],
+            options={"verify_signature": False, "verify_exp": False},
+        )["user_claims"]["allowed_access"].split("|")
 
     @property
     def get_applications(self) -> List[str]:
@@ -70,7 +88,18 @@ class NucleiClient:
         return list(self.routing.keys())
 
     @lru_cache(16)
-    def get_app_specification(self, app: str) -> dict:
+    def _get_app_specification(self, app: str) -> dict:
+        """
+        Private methode to get the JSON schema of the API documentation.
+
+        Parameters
+        ----------
+        app : str
+            Name of the API.
+        Returns
+        -------
+        dict
+        """
         return requests.get(self.get_url(app) + "/openapi.json").json()
 
     def get_endpoints(self, app: str) -> List[str]:
@@ -85,7 +114,7 @@ class NucleiClient:
         out : list[str]
             Endpoint urls.
         """
-        return list(self.get_app_specification(app)["paths"].keys())
+        return list(self._get_app_specification(app)["paths"].keys())
 
     def get_endpoint_type(self, app: str, endpoint: str) -> str:
         """
@@ -101,9 +130,9 @@ class NucleiClient:
         """
 
         if endpoint in self.get_endpoints(app):
-            return list(self.get_app_specification(app)["paths"][endpoint].keys())[0]
+            return list(self._get_app_specification(app)["paths"][endpoint].keys())[0]
         raise ValueError(
-            f"Endpoint name not valid, please select on of the following valid application {self.get_endpoints(app)}"
+            f"Endpoint name not valid, please select on of the following valid endpoints {self.get_endpoints(app)}"
         )
 
     def call_endpoint(
@@ -115,16 +144,20 @@ class NucleiClient:
     ) -> Any:
         """
         Calls an API in the nuclei landscape.
+
         Parameters
         ----------
-        app : str
+        app: str
             Name of the API. call `get_applications` to obtain a list with all applications.
-        endpoint : str
+        endpoint: str
             Name of the API's endpoint. call `get_endpoints` to obtain a list with all applications for a given API.
-        schema : dict
+        schema: dict, optional
+            Default is None
             The parameter schema for the API. Take a look at the API documentation.
-        return_response : bool
+        return_response: bool, optional
+            Default is False
             Return the requests response instead of the parsed data object.
+
         Returns
         -------
         out : dict
@@ -141,10 +174,14 @@ class NucleiClient:
                 self.get_url(app) + endpoint,
                 params=utils.python_types_to_message(schema),
             )
-        else:
+        elif t == "post":
             r = self.session.post(
                 self.get_url(app) + endpoint,
                 json=utils.python_types_to_message(schema),
+            )
+        else:
+            raise ValueError(
+                "Not a valid request type. Only GET or POST requests are supported."
             )
 
         if return_response:
@@ -169,10 +206,13 @@ class NucleiClient:
 
 
 if __name__ == "__main__":
+    # set logging level
+    logging.getLogger().setLevel(logging.INFO)
+
     # create session
     client = NucleiClient()
 
-    for appname in ROUTING.keys():
+    for appname in client.get_applications:
         # call healthcheck endpoint
         response = client.call_endpoint(app=appname, endpoint="/healthcheck")
 
