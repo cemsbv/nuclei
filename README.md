@@ -50,7 +50,7 @@ Install the requirements:
 
 ```bash
 
-  pip install -r docs.requirements.txt
+pip install -r docs.requirements.txt
 
 ```
 
@@ -58,7 +58,7 @@ Build the docs:
 
 ```bash
 
-    sphinx-build -b html docs public
+sphinx-build -b html docs public
 
 ```
 

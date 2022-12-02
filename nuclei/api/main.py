@@ -89,6 +89,25 @@ def authenticate() -> str:
             f"You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens."
         )
 
+        # decode JWT token
+        try:
+            _ = jwt.decode(
+                token,
+                algorithms=["HS256"],
+                options={"verify_signature": False},
+            )
+        except jwt.ExpiredSignatureError:
+            raise jwt.ExpiredSignatureError(
+                "Your NUCLEI User Token is expired. Please create a new token on "
+                "https://nuclei.cemsbv.io/#/personal-access-tokens."
+            )
+
+        except jwt.InvalidTokenError as e:
+            raise jwt.InvalidTokenError(
+                "Your NUCLEI User Token is invalid. Please copy your user token from "
+                f"https://nuclei.cemsbv.io/#/personal-access-tokens. The following error accord: {e}"
+            )
+
         logging.info("user token set in environment")
         os.environ["NUCLEI_TOKEN"] = token
 
@@ -97,9 +116,13 @@ def authenticate() -> str:
         data=token,
     )
 
-    if r.status_code == 401:
-        raise Exception("Unauthorized - incorrect token")
+    if r.status_code == 400 or r.status_code == 401:
+        logging.info("Remove user token from environment")
+        _ = os.environ.pop("NUCLEI_TOKEN", None)
+        raise Exception("Unauthorized - invalid token")
     elif r.status_code != 200:
+        logging.info("Remove user token from environment")
+        _ = os.environ.pop("NUCLEI_TOKEN", None)
         raise Exception(
             f"Cannot authorize (status: {r.status_code}, msg: {r.json()['msg']})"
         )
@@ -110,6 +133,9 @@ def authenticate() -> str:
 if __name__ == "__main__":
     # set logging level
     logging.getLogger().setLevel(logging.INFO)
+
+    # force ask user for user token
+    _ = os.environ.pop("NUCLEI_TOKEN", None)
 
     # create session
     session = create_session()
