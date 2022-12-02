@@ -45,7 +45,7 @@ def create_session() -> requests.Session:
             _ = jwt.decode(
                 r.request.headers["Authorization"].split(" ")[1],
                 algorithms=["HS256"],
-                options={"verify_signature": False},
+                options={"verify_signature": False, "verify_exp": True},
             )
         except jwt.ExpiredSignatureError:
             logging.info(r.text)
@@ -94,7 +94,7 @@ def authenticate() -> str:
             _ = jwt.decode(
                 token,
                 algorithms=["HS256"],
-                options={"verify_signature": False},
+                options={"verify_signature": False, "verify_exp": True},
             )
         except jwt.ExpiredSignatureError:
             raise jwt.ExpiredSignatureError(
