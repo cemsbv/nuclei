@@ -128,20 +128,3 @@ def authenticate() -> str:
         )
 
     return r.text
-
-
-if __name__ == "__main__":
-    # set logging level
-    logging.getLogger().setLevel(logging.INFO)
-
-    # force ask user for user token
-    _ = os.environ.pop("NUCLEI_TOKEN", None)
-
-    # create session
-    session = create_session()
-
-    # call healthcheck endpoint PileCore
-    response = session.get(url="https://crux-nuclei.com/api/pilecore/v2/healthcheck")
-
-    # Should be "Service alive"
-    print(response.text)
