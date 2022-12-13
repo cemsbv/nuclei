@@ -144,3 +144,5 @@ User Guide
    examples/gef-model.rst
 
    examples/vibracore.rst
+
+   examples/pilecore.rst
