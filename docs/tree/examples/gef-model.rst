@@ -8,7 +8,7 @@ It consists of a fully automated soil classification based on a convolutional ne
 The complete API documentation can be accesses `here <https://nuclei.cemsbv.io/#/cptcore/api>`__.
 
 Please note that you need a NUCLEI account to call one of our endpoints.
-You can sign up `here <nuclei.cemsbv.io/#/>`__ to get your free access to `CPT Core`!
+You can sign up `here <https://nuclei.cemsbv.io/#/>`__ to get your free access to `CPT Core`!
 For this example we set the account information in our environment. If you are not
 confident to reproduce that `nuclei` will ask you to provide the `user token` when calling the
 endpoint.
@@ -31,7 +31,7 @@ Lets show you how to use `nuclei` and access the `CPT Core` API.
 
 Next we use the cpt parser of `pygef <https://cemsbv.github.io/pygef/>`__ to parse a cpt and create the request body.
 This body is used to call the `"/plot"` endpoint of the `CPT Core` with
-:func:`nuclei.client.main.NucleiClient.call_endpoint()`.
+:meth:`~.call_endpoint`.
 
 .. ipython:: python
     :okexcept:
@@ -71,7 +71,7 @@ This body is used to call the `"/plot"` endpoint of the `CPT Core` with
 
 
 The `"/classify"` endpoint allows you the access the data of the graph above.
-Please note that the :func:`nuclei.client.main.NucleiClient.call_endpoint()` will transform the responds
+Please note that the :meth:`~.call_endpoint` will transform the responds
 to python types by default. This means that for example a `polars <https://www.pola.rs/>`__ DataFrames are transformed
 from `json` back to the DataFrame.
 
