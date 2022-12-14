@@ -13,7 +13,7 @@ being damaged by the installation of the piles or sheet piles.
 The complete API documentation can be accesses `here <https://nuclei.cemsbv.io/#/vibracore/api>`__.
 
 Please note that you need a NUCLEI account to call one of our endpoints.
-You can sign up `here <nuclei.cemsbv.io/#/>`__ to get your free access to `VibraCore`!
+You can sign up `here <https://nuclei.cemsbv.io/#/>`__ to get your free access to `VibraCore`!
 For this example we set the account information in our environment. If you are not
 confident to reproduce that `nuclei` will ask you to provide the `user token` when calling the
 endpoint.
