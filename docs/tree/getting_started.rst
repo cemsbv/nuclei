@@ -50,7 +50,7 @@ can be done as such:
 
 .. ipython:: python
 
-    from nuclei import NucleiClient
+    from nuclei.client import NucleiClient
 
     client = NucleiClient()
 
