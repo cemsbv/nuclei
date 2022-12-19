@@ -14,8 +14,10 @@ try:
 
     from nuclei.client import utils
 except ImportError:
-    utils = None  # type: ignore
-    Image = None  # type: ignore
+    raise ImportError(
+        "Could not import one of dependencies [geopandas, numpy, pandas, polars, ipython].  "
+        "You must install nuclei[client] in order to use NucleiClient"
+    )
 
 # TODO get routing from endpoint
 ROUTING = {
@@ -33,12 +35,6 @@ class NucleiClient:
         This class allows the user to interact with our APIs. API documentation can be
         found on our platform > https://nuclei.cemsbv.io/#
         """
-        if utils is None or Image is None:
-            raise ImportError(
-                "Could not import one of dependencies [geopandas, numpy, pandas, polars, Image].  "
-                "Must install nuclei[client] in order to use NucleiClient"
-            )
-
         # initialize session
         self.session = create_session()
 
