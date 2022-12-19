@@ -9,6 +9,7 @@ docker run -e RUN_LOCAL=true \
 -e VALIDATE_YAML=false \
 -e VALIDATE_PYTHON_FLAKE8=false \
 -e LINTER_RULES_PATH=/ \
+-e VALIDATE_BASH=false \
 -e PYTHON_ISORT_CONFIG_FILE=pyproject.toml \
 -e PYTHON_MYPY_CONFIG_FILE=.mypy.ini \
 -v $PWD:/tmp/lint github/super-linter
