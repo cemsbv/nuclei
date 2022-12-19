@@ -5,11 +5,13 @@ from typing import Any, List, Optional, Union
 
 import jwt
 import requests
+
 from nuclei import create_session
 
 # try import serialize and deserialize functions
 try:
     from IPython.display import Image
+
     from nuclei.client import utils
 except ImportError:
     utils = None  # type: ignore
