@@ -56,10 +56,11 @@ jobs:
           DEFAULT_BRANCH: main
           VALIDATE_CSS: false
           VALIDATE_YAML: false
+          VALIDATE_BASH: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
           LINTER_RULES_PATH: /
           PYTHON_MYPY_CONFIG_FILE: .mypy.ini
+          PYTHON_ISORT_CONFIG_FILE: pyproject.toml
   test_docs:
     name: Test docs
     runs-on: ubuntu-latest

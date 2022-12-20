@@ -134,3 +134,6 @@ dmypy.json
 # CEMS
 .cemsdev/
 cemsdev.toml
+
+# VS-Code
+.vscode

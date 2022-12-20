@@ -28,21 +28,27 @@ Go to `personal-access-tokens` and create a new user token.
 
 ## Code quality tools
 
-To maintain code quality we use `super-linter`.
+To maintain code quality we use the Gitlab `super-linter`.
+
+To run the linters locally, run the `run_super_linters.sh` bash script from the root directory:
 
 ```bash
 
-docker pull github/super-linter:latest
-docker run -e RUN_LOCAL=true \
--e VALIDATE_PYTHON_PYLINT=false \
--e VALIDATE_MARKDOWN=false \
--e VALIDATE_JSCPD=false \
--e VALIDATE_CSS=false \
--e VALIDATE_YAML=false \
--e VALIDATE_PYTHON_FLAKE8=false \
--v $PWD:/tmp/lint github/super-linter
+./run_super_linter.sh
 
 ```
+
+*Note: this requred `docker` to be installed.*
+
+For first-time use, set the correct permissions with:
+
+```bash
+
+chmod u+x run_super_linter.sh
+
+```
+
+
 
 ## Documentation
 
