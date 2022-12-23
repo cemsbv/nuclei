@@ -24,7 +24,7 @@ Lets show you how to use `nuclei` and access the `VibraCore` API.
 
     from time import sleep
 
-    from nuclei import NucleiClient
+    from nuclei.client import NucleiClient
 
     # set app name
     APP = "VibraCore"

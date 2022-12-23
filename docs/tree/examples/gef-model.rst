@@ -21,7 +21,7 @@ Lets show you how to use `nuclei` and access the `CPT Core` API.
 
     from pygef import Cpt
     import numpy as np
-    from nuclei import NucleiClient
+    from nuclei.client import NucleiClient
 
     # set app name
     APP = "CPT Core"

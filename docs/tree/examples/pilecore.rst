@@ -22,7 +22,7 @@ Lets show you how to use `nuclei` and access the `PileCore` API.
     from time import sleep
     import pandas as pd
 
-    from nuclei import NucleiClient
+    from nuclei.client import NucleiClient
 
     # set app name
     APP = "PileCore"
