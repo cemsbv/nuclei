@@ -71,16 +71,30 @@ def create_session() -> requests.Session:
 
 def authenticate() -> str:
     """
-    Get authentication token from backend
+    Returns a validated short-lived token from backend.
 
-    Returns
-    -------
-    String
+    Promts the user for a user-token if it is not stored as an environmental variable
+    "NUCLEI_TOKEN". A prompted user token will be stored as env-var after validation.
+
+    Will throw an exception when authentication fails.
     """
+
+    user_token = _get_valid_user_token()
+
+    return _get_valid_shortlived_token(user_token)
+
+
+def _get_valid_user_token() -> str:
+    """
+    Obtains the user-token from the env-vars or stdin and returns it.
+    If the token is valid, it is stored as env-var "NUCLEI_TOKEN" as a side-effect.
+    """
+
     # check if User Token is in environment variables
     if "NUCLEI_TOKEN" in os.environ:
         logging.info("user token found in environment")
         token = os.environ["NUCLEI_TOKEN"]
+        _validate_user_token(token)
 
     # ask user for user token
     else:
@@ -89,31 +103,52 @@ def authenticate() -> str:
             f"You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens."
         )
 
-        # decode JWT token
-        try:
-            _ = jwt.decode(
-                token,
-                algorithms=["HS256"],
-                options={"verify_signature": False, "verify_exp": True},
-            )
-        except jwt.ExpiredSignatureError:
-            raise jwt.ExpiredSignatureError(
-                "Your NUCLEI User Token is expired. Please create a new token on "
-                "https://nuclei.cemsbv.io/#/personal-access-tokens."
-            )
-
-        except jwt.InvalidTokenError as e:
-            raise jwt.InvalidTokenError(
-                "Your NUCLEI User Token is invalid. Please copy your user token from "
-                f"https://nuclei.cemsbv.io/#/personal-access-tokens. The following error accord: {e}"
-            )
-
-        logging.info("user token set in environment")
+        _validate_user_token(token)
         os.environ["NUCLEI_TOKEN"] = token
+        logging.info("user token set in environment")
+
+    return token
+
+
+def _validate_user_token(token: str) -> None:
+    """Validade a JWT User-token by trying to decode it.
+
+    Parameters
+    ----------
+    token: str
+        The Nuclei User JWT.
+    """
+
+    try:
+        _ = jwt.decode(
+            token,
+            algorithms=["HS256"],
+            options={"verify_signature": False, "verify_exp": True},
+        )
+    except jwt.ExpiredSignatureError:
+        raise jwt.ExpiredSignatureError(
+            "Your NUCLEI User Token is expired. Please create a new token on "
+            "https://nuclei.cemsbv.io/#/personal-access-tokens."
+        )
+
+    except jwt.InvalidTokenError as e:
+        raise jwt.InvalidTokenError(
+            "Your NUCLEI User Token is invalid. Please copy your user token from "
+            f"https://nuclei.cemsbv.io/#/personal-access-tokens. "
+            "The following error occured: {e}"
+        )
+
+
+def _get_valid_shortlived_token(user_token: str) -> str:
+    """
+    Takes a nuclei user-token and returns a valid nuclei shortlived token.
+    Will remove the NUCLEI_TOKEN environmental variable key if no token could be
+    obtained with the user-token.
+    """
 
     r = requests.get(
         "https://nuclei.cemsbv.io/v1/shortlived-access-token",
-        data=token,
+        data=user_token,
     )
 
     if r.status_code == 400 or r.status_code == 401:
@@ -128,20 +163,3 @@ def authenticate() -> str:
         )
 
     return r.text
-
-
-if __name__ == "__main__":
-    # set logging level
-    logging.getLogger().setLevel(logging.INFO)
-
-    # force ask user for user token
-    _ = os.environ.pop("NUCLEI_TOKEN", None)
-
-    # create session
-    session = create_session()
-
-    # call healthcheck endpoint PileCore
-    response = session.get(url="https://crux-nuclei.com/api/pilecore/v2/healthcheck")
-
-    # Should be "Service alive"
-    print(response.text)

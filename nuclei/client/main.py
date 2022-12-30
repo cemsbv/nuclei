@@ -201,18 +201,3 @@ class NucleiClient:
         elif content_type.startswith("text/"):
             return r.text
         return r.content
-
-
-if __name__ == "__main__":
-    # set logging level
-    logging.getLogger().setLevel(logging.INFO)
-
-    # create session
-    client = NucleiClient()
-
-    for appname in client.get_applications:
-        # call healthcheck endpoint
-        response = client.call_endpoint(app=appname, endpoint="/healthcheck")
-
-        # Should be "Service alive"
-        print(appname + " - " + str(response))
