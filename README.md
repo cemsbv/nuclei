@@ -38,7 +38,7 @@ To run the linters locally, run the `run_super_linters.sh` bash script from the 
 
 ```
 
-*Note: this requred `docker` to be installed.*
+*Note: this requires `docker` to be installed.*
 
 For first-time use, set the correct permissions with:
 
