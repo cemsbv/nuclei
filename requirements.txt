@@ -8,30 +8,18 @@ alabaster==0.7.12
     # via sphinx
 asteroid-sphinx-theme==0.0.3
     # via -r requirements.in
+asttokens==2.2.1
+    # via stack-data
 attrs==21.4.0
-    # via
-    #   fiona
-    #   pytest
+    # via pytest
 babel==2.10.1
     # via sphinx
 backcall==0.2.0
     # via ipython
 certifi==2021.10.8
-    # via
-    #   fiona
-    #   pyproj
-    #   requests
+    # via requests
 charset-normalizer==2.0.12
     # via requests
-click==8.1.3
-    # via
-    #   click-plugins
-    #   cligj
-    #   fiona
-click-plugins==1.1.1
-    # via fiona
-cligj==0.7.2
-    # via fiona
 decorator==5.1.1
     # via ipython
 docutils==0.17.1
@@ -39,24 +27,15 @@ docutils==0.17.1
     #   m2r2
     #   sphinx
     #   sphinx-rtd-theme
-fiona==1.8.21
-    # via geopandas
-geopandas==0.10.2
-    # via cems-nuclei (setup.py)
+executing==1.2.0
+    # via stack-data
 idna==3.3
     # via requests
 imagesize==1.3.0
     # via sphinx
-importlib-metadata==4.11.3
-    # via
-    #   click
-    #   pluggy
-    #   pytest
-    #   sphinx
 iniconfig==1.1.1
     # via pytest
-ipython==7.33.0
-    # via cems-nuclei (setup.py)
+ipython==8.8.0
 jedi==0.18.1
     # via ipython
 jinja2==3.1.2
@@ -69,21 +48,10 @@ matplotlib-inline==0.1.3
     # via ipython
 mistune==0.8.4
     # via m2r2
-munch==2.5.0
-    # via fiona
-numpy==1.21.6
-    # via
-    #   cems-nuclei (setup.py)
-    #   pandas
-    #   polars
 packaging==21.3
     # via
     #   pytest
     #   sphinx
-pandas==1.3.5
-    # via
-    #   cems-nuclei (setup.py)
-    #   geopandas
 parso==0.8.3
     # via jedi
 pexpect==4.8.0
@@ -92,43 +60,28 @@ pickleshare==0.7.5
     # via ipython
 pluggy==1.0.0
     # via pytest
-polars==0.13.5
-    # via cems-nuclei (setup.py)
 prompt-toolkit==3.0.29
     # via ipython
 ptyprocess==0.7.0
     # via pexpect
+pure-eval==0.2.2
+    # via stack-data
 py==1.11.0
     # via pytest
 pygments==2.12.0
     # via
     #   ipython
     #   sphinx
-pyjwt==2.6.0
-    # via cems-nuclei (setup.py)
 pyparsing==3.0.9
     # via packaging
-pyproj==3.2.1
-    # via geopandas
 pytest==7.1.2
     # via -r requirements.in
-python-dateutil==2.8.2
-    # via pandas
 pytz==2022.1
-    # via
-    #   babel
-    #   pandas
+    # via babel
 requests==2.27.1
-    # via
-    #   cems-nuclei (setup.py)
-    #   sphinx
-shapely==1.8.2
-    # via geopandas
+    # via sphinx
 six==1.16.0
-    # via
-    #   fiona
-    #   munch
-    #   python-dateutil
+    # via asttokens
 snowballstemmer==2.2.0
     # via sphinx
 sphinx==4.5.0
@@ -152,22 +105,15 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
+stack-data==0.6.2
+    # via ipython
 tomli==2.0.1
     # via pytest
 traitlets==5.2.0
     # via
     #   ipython
     #   matplotlib-inline
-typing-extensions==4.2.0
-    # via
-    #   importlib-metadata
-    #   polars
 urllib3==1.26.9
     # via requests
 wcwidth==0.2.5
     # via prompt-toolkit
-zipp==3.8.0
-    # via importlib-metadata
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
