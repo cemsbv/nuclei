@@ -24,6 +24,7 @@ ROUTING = {
     "PileCore": "https://crux-nuclei.com/api/pilecore/v2",
     "VibraCore": "https://crux-nuclei.com/api/vibracore/v1",
     "CPT Core": "https://crux-nuclei.com/api/gef-model",
+    "ShallowCore": "https://crux-nuclei.com/api/shallowcore/v1",
 }
 
 
