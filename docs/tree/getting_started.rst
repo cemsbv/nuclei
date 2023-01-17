@@ -146,3 +146,5 @@ User Guide
    examples/vibracore.rst
 
    examples/pilecore.rst
+
+   examples/shallowcore.rst
