@@ -19,12 +19,12 @@ except ImportError:
         "You must install nuclei[client] in order to use NucleiClient"
     )
 
-# TODO get routing from endpoint
 ROUTING = {
     "PileCore": "https://crux-nuclei.com/api/pilecore/v2",
     "VibraCore": "https://crux-nuclei.com/api/vibracore/v1",
     "CPT Core": "https://crux-nuclei.com/api/gef-model",
     "ShallowCore": "https://crux-nuclei.com/api/shallowcore/v1",
+    "GEF Map": "https://crux-nuclei.com/api/gef",
 }
 
 
