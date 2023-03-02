@@ -1,5 +1,4 @@
 import base64
-import io
 import json
 import os
 import uuid
@@ -7,7 +6,6 @@ import uuid
 import jwt
 import pytest
 import requests
-from IPython.display import Image
 from requests import Response
 
 from nuclei.client.main import ROUTING as routing
@@ -56,7 +54,6 @@ def mock_invalid_jwt(key: str = "") -> str:
 
 @pytest.fixture
 def mock_get_shortlived_token_200(monkeypatch):
-
     real_request = requests.get
 
     def get_shortlived_token(url, data=None) -> Response:
