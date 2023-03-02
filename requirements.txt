@@ -127,7 +127,7 @@ platformdirs==3.0.0
     # via black
 pluggy==1.0.0
     # via pytest
-polars==0.13.62
+polars==0.16.9
     # via
     #   nuclei (pyproject.toml)
     #   pygef
