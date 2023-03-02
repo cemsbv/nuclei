@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibraCore &mdash; NUCLEI unknown documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/index.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PileCore" href="pilecore.html" />
+    <link rel="prev" title="CPT Core" href="gef-model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> NUCLEI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../what_is.html">What is NUCLEI?</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#user-token">User Token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#guided-usage">Guided usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#advanced-usage">Advanced usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#schema-serialization">Schema serialization</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#user-guide">User Guide</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gef-model.html">CPT Core</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">VibraCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pilecore.html">PileCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shallowcore.html">ShallowCore</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NUCLEI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../getting_started.html">Getting started</a> &raquo;</li>
+      <li>VibraCore</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tree/examples/vibracore.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vibracore">
+<span id="id1"></span><h1>VibraCore<a class="headerlink" href="#vibracore" title="Permalink to this headline"></a></h1>
+<p>VibraCore is an API service that automates the risk management of building
+damage during vibration works, such as the installation of sheet piles or driven piles. Based on the
+soil profile (GEF file) the maximum impact force is calculated (according to CUR 166) or the elastic
+modulus of the soil is determined (according to Prepal). This is used to predict the maximum vibration
+velocity. Based on the attributes of the nearby buildings the failure vibration velocity is calculated
+(according to SBR A). If the check fails the building has a unacceptable risk (according to SBR A) of
+being damaged by the installation of the piles or sheet piles.
+The complete API documentation can be accesses <a class="reference external" href="https://nuclei.cemsbv.io/#/vibracore/api">here</a>.</p>
+<p>Please note that you need a NUCLEI account to call one of our endpoints.
+You can sign up <a class="reference external" href="https://nuclei.cemsbv.io/#/">here</a> to get your free access to <cite>VibraCore</cite>!
+For this example we set the account information in our environment. If you are not
+confident to reproduce that <cite>nuclei</cite> will ask you to provide the <cite>user token</cite> when calling the
+endpoint.</p>
+<p>Lets show you how to use <cite>nuclei</cite> and access the <cite>VibraCore</cite> API.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="gp">In [2]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">NucleiClient</span>
+
+<span class="go"># set app name</span>
+<span class="gp">In [3]: </span><span class="n">APP</span> <span class="o">=</span> <span class="s2">&quot;VibraCore&quot;</span>
+
+<span class="go"># create session</span>
+<span class="gp">In [4]: </span><span class="n">client</span> <span class="o">=</span> <span class="n">NucleiClient</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Next we define the schema to send to the endpoint.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># create the body to send to the VibraCore endpoint.</span>
+<span class="gp">In [5]: </span><span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;building_info&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>    <span class="p">{</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>          <span class="p">[</span>
+<span class="gp">   ...: </span>            <span class="p">[</span>
+<span class="gp">   ...: </span>              <span class="mi">0</span><span class="p">,</span>
+<span class="gp">   ...: </span>              <span class="mi">0</span>
+<span class="gp">   ...: </span>            <span class="p">],</span>
+<span class="gp">   ...: </span>            <span class="p">[</span>
+<span class="gp">   ...: </span>              <span class="mi">0</span><span class="p">,</span>
+<span class="gp">   ...: </span>              <span class="mi">5</span>
+<span class="gp">   ...: </span>            <span class="p">],</span>
+<span class="gp">   ...: </span>            <span class="p">[</span>
+<span class="gp">   ...: </span>              <span class="mi">5</span><span class="p">,</span>
+<span class="gp">   ...: </span>              <span class="mi">5</span>
+<span class="gp">   ...: </span>            <span class="p">]</span>
+<span class="gp">   ...: </span>          <span class="p">]</span>
+<span class="gp">   ...: </span>        <span class="p">],</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Polygon&quot;</span>
+<span class="gp">   ...: </span>      <span class="p">},</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;ID&quot;</span><span class="p">:</span> <span class="s2">&quot;1234&quot;</span>
+<span class="gp">   ...: </span>      <span class="p">},</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;properties_cur&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;building_part&quot;</span><span class="p">:</span> <span class="s2">&quot;vloer&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;foundation_element&quot;</span><span class="p">:</span> <span class="s2">&quot;staal&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;installation_type&quot;</span><span class="p">:</span> <span class="s2">&quot;trillen&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;beton&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;safety_factor&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;vibration_direction&quot;</span><span class="p">:</span> <span class="s2">&quot;vertical&quot;</span>
+<span class="gp">   ...: </span>      <span class="p">},</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;properties_sbr_a&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;one&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;monumental&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;structural_condition&quot;</span><span class="p">:</span> <span class="s2">&quot;gevoelig&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;vibration_sensitive&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;vibration_type&quot;</span><span class="p">:</span> <span class="s2">&quot;continu&quot;</span>
+<span class="gp">   ...: </span>      <span class="p">}</span>
+<span class="gp">   ...: </span>    <span class="p">}</span>
+<span class="gp">   ...: </span>  <span class="p">],</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;prediction&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;attenuation_constant&quot;</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;force&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;measurement_type&quot;</span><span class="p">:</span> <span class="s2">&quot;indicatief&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;methode_safety_factor&quot;</span><span class="p">:</span> <span class="s2">&quot;CUR&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;references_velocity&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;variation_coefficient&quot;</span><span class="p">:</span> <span class="mf">0.02</span>
+<span class="gp">   ...: </span>  <span class="p">},</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;validation&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;source_location&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>        <span class="mi">7</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">7</span>
+<span class="gp">   ...: </span>      <span class="p">],</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span>
+<span class="gp">   ...: </span>    <span class="p">}</span>
+<span class="gp">   ...: </span>  <span class="p">}</span>
+<span class="gp">   ...: </span><span class="p">}</span>
+<span class="gp">   ...: </span>
+
+<span class="go"># call the vibracore endpoint with nuclei</span>
+<span class="gp">In [6]: </span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">call_endpoint</span><span class="p">(</span><span class="n">APP</span><span class="p">,</span> <span class="s2">&quot;/cur166/geodataframe&quot;</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+
+<span class="go"># fetch the task result</span>
+<span class="gp">In [7]: </span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="gp">In [8]: </span><span class="n">gdf</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">call_endpoint</span><span class="p">(</span><span class="n">APP</span><span class="p">,</span> <span class="s2">&quot;/get-task&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+<span class="gp">In [9]: </span><span class="nb">print</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
+<span class="go">     F    ID  ...  x_required                                           geometry</span>
+<span class="go">0  500  1234  ...    3.746486  POLYGON ((0.00000 0.00000, 0.00000 5.00000, 5....</span>
+
+<span class="go">[1 rows x 21 columns]</span>
+
+<span class="go"># plot figure</span>
+<span class="gp">In [10]: </span><span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gh">Out[10]: </span><span class="go">&lt;Axes: &gt;</span>
+</pre></div>
+</div>
+<img alt="../../_images/vibracore_map.png" src="../../_images/vibracore_map.png" />
+<p>If you have any questions please send an email to <a class="reference external" href="mailto:info&#37;&#52;&#48;cemsbv&#46;nl">info<span>&#64;</span>cemsbv<span>&#46;</span>nl</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gef-model.html" class="btn btn-neutral float-left" title="CPT Core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pilecore.html" class="btn btn-neutral float-right" title="PileCore" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CEMS BV.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

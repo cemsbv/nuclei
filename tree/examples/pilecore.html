@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PileCore &mdash; NUCLEI unknown documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/index.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ShallowCore" href="shallowcore.html" />
+    <link rel="prev" title="VibraCore" href="vibracore.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> NUCLEI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../what_is.html">What is NUCLEI?</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#user-token">User Token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#guided-usage">Guided usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#advanced-usage">Advanced usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#schema-serialization">Schema serialization</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#user-guide">User Guide</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gef-model.html">CPT Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vibracore.html">VibraCore</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PileCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shallowcore.html">ShallowCore</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NUCLEI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../getting_started.html">Getting started</a> &raquo;</li>
+      <li>PileCore</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tree/examples/pilecore.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pilecore">
+<span id="id1"></span><h1>PileCore<a class="headerlink" href="#pilecore" title="Permalink to this headline"></a></h1>
+<p>PileCore aims to give you the full pile calculation utilities without an engineer in the loop.
+This means that calculations must be able to run from start to finish from a set of given
+parameters. <cite>Pilecore</cite> is able to determine the tipping point between positive and negative
+friction and will optimize pile groups automatically.
+The complete API documentation can be accesses <a class="reference external" href="https://nuclei.cemsbv.io/#/pilecore/api">here</a>.</p>
+<p>Please note that you need a NUCLEI account to call one of our endpoints.
+You can sign up <a class="reference external" href="https://nuclei.cemsbv.io/#/">here</a> to get your free access to <cite>PileCore</cite>!
+For this example we set the account information in our environment. If you are not
+confident to reproduce that <cite>nuclei</cite> will ask you to provide the <cite>user token</cite> when calling the
+endpoint.</p>
+<p>Lets show you how to use <cite>nuclei</cite> and access the <cite>PileCore</cite> API.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="gp">In [3]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">NucleiClient</span>
+
+<span class="go"># set app name</span>
+<span class="gp">In [4]: </span><span class="n">APP</span> <span class="o">=</span> <span class="s2">&quot;PileCore&quot;</span>
+
+<span class="go"># create session</span>
+<span class="gp">In [5]: </span><span class="n">client</span> <span class="o">=</span> <span class="n">NucleiClient</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Next we define the schema to send to the endpoint.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># create the body to send to the PileCore endpoint.</span>
+<span class="gp">In [6]: </span><span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;cpt_objects&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>    <span class="p">{</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;bottom_bearing_capacity&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">20</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">30</span>
+<span class="gp">   ...: </span>      <span class="p">],</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">142892.19</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mf">470783.87</span>
+<span class="gp">   ...: </span>      <span class="p">},</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CPT101&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;negative_friction&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span>
+<span class="gp">   ...: </span>      <span class="p">],</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;shaft_bearing_capacity&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>        <span class="mi">90</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">180</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">270</span>
+<span class="gp">   ...: </span>      <span class="p">]</span>
+<span class="gp">   ...: </span>    <span class="p">},</span>
+<span class="gp">   ...: </span>    <span class="p">{</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;bottom_bearing_capacity&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">20</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">30</span>
+<span class="gp">   ...: </span>      <span class="p">],</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">142892.19</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mf">470783.87</span>
+<span class="gp">   ...: </span>      <span class="p">},</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CPT102&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;negative_friction&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">10</span>
+<span class="gp">   ...: </span>      <span class="p">],</span>
+<span class="gp">   ...: </span>      <span class="s2">&quot;shaft_bearing_capacity&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>        <span class="mi">90</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">180</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="mi">270</span>
+<span class="gp">   ...: </span>      <span class="p">]</span>
+<span class="gp">   ...: </span>    <span class="p">}</span>
+<span class="gp">   ...: </span>  <span class="p">],</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;pile_tip_level&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>    <span class="mi">0</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="o">-</span><span class="mi">2</span>
+<span class="gp">   ...: </span>  <span class="p">],</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;pile_load_uls&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;stiff_construction&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;spatial_factor&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>    <span class="mf">0.5</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="mf">0.7</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="mf">0.9</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="mf">1.1</span>
+<span class="gp">   ...: </span>  <span class="p">],</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;optimize_result_by&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;minimum_pile_level&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;number_of_cpts&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;number_of_consecutive_pile_levels&quot;</span>
+<span class="gp">   ...: </span>  <span class="p">],</span>
+<span class="gp">   ...: </span>  <span class="s2">&quot;resolution&quot;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="gp">   ...: </span><span class="p">}</span>
+<span class="gp">   ...: </span>
+
+<span class="go"># call the pilecore endpoint with nuclei</span>
+<span class="gp">In [7]: </span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">call_endpoint</span><span class="p">(</span><span class="n">APP</span><span class="p">,</span> <span class="s2">&quot;/grouper/group_cpts&quot;</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+
+<span class="go"># fetch the task result</span>
+<span class="gp">In [8]: </span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="gp">In [9]: </span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">call_endpoint</span><span class="p">(</span><span class="n">APP</span><span class="p">,</span> <span class="s2">&quot;/get-task-result&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+<span class="gp">In [10]: </span><span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;sub_groups&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;table&quot;</span><span class="p">]))</span>
+<span class="go">   characteristic_bearing_capacity  ...  xi_values</span>
+<span class="go">0                        83.333333  ...        1.2</span>
+<span class="go">1                       166.666667  ...        1.2</span>
+<span class="go">2                       250.000000  ...        1.2</span>
+
+<span class="go">[3 rows x 15 columns]</span>
+</pre></div>
+</div>
+<p>If you have any questions please send an email to <a class="reference external" href="mailto:info&#37;&#52;&#48;cemsbv&#46;nl">info<span>&#64;</span>cemsbv<span>&#46;</span>nl</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vibracore.html" class="btn btn-neutral float-left" title="VibraCore" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="shallowcore.html" class="btn btn-neutral float-right" title="ShallowCore" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CEMS BV.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

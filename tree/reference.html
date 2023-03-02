@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reference &mdash; NUCLEI unknown documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/index.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="ShallowCore" href="examples/shallowcore.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> NUCLEI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what_is.html">What is NUCLEI?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#client">Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NUCLEI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tree/reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reference">
+<span id="id1"></span><h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline"></a></h1>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.api.main.create_session">
+<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">create_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#create_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.create_session" title="Permalink to this definition"></a></dt>
+<dd><p>Initialising session object to call the NUCLEI endpoints.
+Provide the user token from <a class="reference external" href="https://nuclei.cemsbv.io/#/personal-access-tokens">https://nuclei.cemsbv.io/#/personal-access-tokens</a> to
+upon request or set as environment variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Session</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="client">
+<h2>Client<a class="headerlink" href="#client" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nuclei.client.main.</span></span><span class="sig-name descname"><span class="pre">NucleiClient</span></span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.call_endpoint">
+<span class="sig-name descname"><span class="pre">call_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.call_endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.call_endpoint" title="Permalink to this definition"></a></dt>
+<dd><p>Calls an API in the nuclei landscape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<em>str</em>) – Name of the API. call <cite>get_applications</cite> to obtain a list with all applications.</p></li>
+<li><p><strong>endpoint</strong> (<em>str</em>) – Name of the API’s endpoint. call <cite>get_endpoints</cite> to obtain a list with all applications for a given API.</p></li>
+<li><p><strong>schema</strong> (<em>dict</em><em>, </em><em>optional</em>) – Default is None
+The parameter schema for the API. Take a look at the API documentation.</p></li>
+<li><p><strong>return_response</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is False
+Return the requests response instead of the parsed data object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>out</strong> – Parsed API’s json response.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_applications">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_applications" title="Permalink to this definition"></a></dt>
+<dd><p>Get available API’s in the Nuclei landscape.
+:returns: <strong>out</strong> – Names of the API’s
+:rtype: list[str]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_endpoint_type">
+<span class="sig-name descname"><span class="pre">get_endpoint_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.get_endpoint_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_endpoint_type" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – name of the app</p></li>
+<li><p><strong>endpoint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – url of the endpoint.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>“get” | “post”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_endpoints">
+<span class="sig-name descname"><span class="pre">get_endpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.get_endpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_endpoints" title="Permalink to this definition"></a></dt>
+<dd><p>Get available endpoints of single API.
+:type app: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>
+:param app: Name of the API.
+:type app: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>out</strong> – Endpoint urls.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_url">
+<span class="sig-name descname"><span class="pre">get_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.get_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_url" title="Permalink to this definition"></a></dt>
+<dd><p>Get API’s url</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>app</strong> (<em>str</em>) – Application name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>url</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_user_claims">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_user_claims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_user_claims" title="Permalink to this definition"></a></dt>
+<dd><p>Get user claims of your token.
+:returns: <strong>out</strong> – Names of the API’s
+:rtype: list[str]</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="utils">
+<h3>Utils<a class="headerlink" href="#utils" title="Permalink to this headline"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.client.utils.message_to_python_types">
+<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">message_to_python_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#message_to_python_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.message_to_python_types" title="Permalink to this definition"></a></dt>
+<dd><p>Cast json result to python types by searching for objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) – parsed json message</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>schema with original python types.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>schema</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.client.utils.python_types_to_message">
+<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">python_types_to_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#python_types_to_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.python_types_to_message" title="Permalink to this definition"></a></dt>
+<dd><p>Cast python types to jsonifyable message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schema</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GeoSeries</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GeoDataFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) – </p></li>
+<li><p><strong>use_json</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Added for rollout reasons. Use old json formatting until every backend and the frontend is updated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>jsonifyable message.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>message</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples/shallowcore.html" class="btn btn-neutral float-left" title="ShallowCore" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CEMS BV.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

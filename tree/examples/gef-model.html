@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPT Core &mdash; NUCLEI unknown documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/index.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="VibraCore" href="vibracore.html" />
+    <link rel="prev" title="Getting started" href="../getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> NUCLEI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../what_is.html">What is NUCLEI?</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../getting_started.html">Getting started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#user-token">User Token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#guided-usage">Guided usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#advanced-usage">Advanced usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#schema-serialization">Schema serialization</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started.html#user-guide">User Guide</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CPT Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vibracore.html">VibraCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pilecore.html">PileCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shallowcore.html">ShallowCore</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NUCLEI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../getting_started.html">Getting started</a> &raquo;</li>
+      <li>CPT Core</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tree/examples/gef-model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cpt-core">
+<span id="gef-model"></span><h1>CPT Core<a class="headerlink" href="#cpt-core" title="Permalink to this headline"></a></h1>
+<p>The <cite>CPT Core</cite> is the first developed API that has been widely used by CRUX employees and external clients in the past years.
+It consists of a fully automated soil classification based on a convolutional neural network,
+The complete API documentation can be accesses <a class="reference external" href="https://nuclei.cemsbv.io/#/cptcore/api">here</a>.</p>
+<p>Please note that you need a NUCLEI account to call one of our endpoints.
+You can sign up <a class="reference external" href="https://nuclei.cemsbv.io/#/">here</a> to get your free access to <cite>CPT Core</cite>!
+For this example we set the account information in our environment. If you are not
+confident to reproduce that <cite>nuclei</cite> will ask you to provide the <cite>user token</cite> when calling the
+endpoint.</p>
+<p>Lets show you how to use <cite>nuclei</cite> and access the <cite>CPT Core</cite> API.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="gp">In [2]: </span><span class="kn">from</span> <span class="nn">pygef</span> <span class="kn">import</span> <span class="n">Cpt</span>
+
+<span class="gp">In [3]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="gp">In [4]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">NucleiClient</span>
+
+<span class="go"># set app name</span>
+<span class="gp">In [5]: </span><span class="n">APP</span> <span class="o">=</span> <span class="s2">&quot;CPT Core&quot;</span>
+
+<span class="go"># create session</span>
+<span class="gp">In [6]: </span><span class="n">client</span> <span class="o">=</span> <span class="n">NucleiClient</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Next we use the cpt parser of <a class="reference external" href="https://cemsbv.github.io/pygef/">pygef</a> to parse a cpt and create the request body.
+This body is used to call the <cite>“/plot”</cite> endpoint of the <cite>CPT Core</cite> with
+<a class="reference internal" href="../reference.html#nuclei.client.main.NucleiClient.call_endpoint" title="nuclei.client.main.NucleiClient.call_endpoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code></a>.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># Parse a CPT file with pygef.</span>
+<span class="gp">In [7]: </span><span class="n">path_cpt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="gp">   ...: </span>    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DOC_PATH&quot;</span><span class="p">),</span> <span class="s2">&quot;_static/data/cpt.gef&quot;</span>
+<span class="gp">   ...: </span><span class="p">)</span>
+<span class="gp">   ...: </span>
+
+<span class="gp">In [8]: </span><span class="n">cpt</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">path_cpt</span><span class="p">)</span>
+
+<span class="go"># create the body to send to the gef-model endpoint.</span>
+<span class="gp">In [9]: </span><span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;cpt_object&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">cpt</span><span class="o">.</span><span class="n">test_id</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">cpt</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">cpt</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="n">cpt</span><span class="o">.</span><span class="n">zid</span><span class="p">,</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<span class="gp">   ...: </span>            <span class="n">cpt</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;elevation_with_respect_to_nap&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+<span class="gp">   ...: </span>        <span class="p">),</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;qc&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cpt</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;qc&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+<span class="gp">   ...: </span>        <span class="s2">&quot;fs&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cpt</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;fs&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+<span class="gp">   ...: </span>    <span class="p">},</span>
+<span class="gp">   ...: </span>    <span class="s2">&quot;img_encoding&quot;</span><span class="p">:</span> <span class="s2">&quot;base64&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span><span class="p">}</span>
+<span class="gp">   ...: </span>
+
+<span class="go"># call the gef-model endpoint with nuclei</span>
+<span class="gp">In [10]: </span><span class="n">plot</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">call_endpoint</span><span class="p">(</span><span class="n">APP</span><span class="p">,</span> <span class="s2">&quot;/plot&quot;</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/cpt_plot.png" src="../../_images/cpt_plot.png" />
+<p>The <cite>“/classify”</cite> endpoint allows you the access the data of the graph above.
+Please note that the <a class="reference internal" href="../reference.html#nuclei.client.main.NucleiClient.call_endpoint" title="nuclei.client.main.NucleiClient.call_endpoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code></a> will transform the responds
+to python types by default. This means that for example a <a class="reference external" href="https://www.pola.rs/">polars</a> DataFrames are transformed
+from <cite>json</cite> back to the DataFrame.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># call the gef-model endpoint with nuclei</span>
+<span class="gp">In [11]: </span><span class="n">responds</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">call_endpoint</span><span class="p">(</span><span class="n">APP</span><span class="p">,</span> <span class="s2">&quot;/classify&quot;</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+
+<span class="gp">In [12]: </span><span class="nb">print</span><span class="p">(</span><span class="n">responds</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">])</span>
+<span class="go">      depth         G  ...         P  elevation_with_respect_to_NAP</span>
+<span class="go">0     0.070  0.000460  ...  0.066905                         -0.160</span>
+<span class="go">1     0.090  0.000562  ...  0.035815                         -0.180</span>
+<span class="go">2     0.110  0.000439  ...  0.024014                         -0.200</span>
+<span class="go">3     0.130  0.000176  ...  0.013926                         -0.220</span>
+<span class="go">4     0.150  0.000099  ...  0.031227                         -0.240</span>
+<span class="go">..      ...       ...  ...       ...                            ...</span>
+<span class="go">985  19.727  0.000029  ...  0.014869                        -19.817</span>
+<span class="go">986  19.747  0.000025  ...  0.011855                        -19.837</span>
+<span class="go">987  19.767  0.000022  ...  0.010896                        -19.857</span>
+<span class="go">988  19.787  0.000021  ...  0.010802                        -19.877</span>
+<span class="go">989  19.806  0.000022  ...  0.011936                        -19.896</span>
+
+<span class="go">[990 rows x 7 columns]</span>
+</pre></div>
+</div>
+<p>If you have any questions please send an email to <a class="reference external" href="mailto:info&#37;&#52;&#48;cemsbv&#46;nl">info<span>&#64;</span>cemsbv<span>&#46;</span>nl</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../getting_started.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vibracore.html" class="btn btn-neutral float-right" title="VibraCore" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CEMS BV.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

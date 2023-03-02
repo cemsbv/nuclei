@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nuclei.client.main &mdash; NUCLEI unknown documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/index.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> NUCLEI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tree/what_is.html">What is NUCLEI?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tree/getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tree/reference.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">NUCLEI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>nuclei.client.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nuclei.client.main</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">jwt</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">nuclei</span> <span class="kn">import</span> <span class="n">create_session</span>
+
+<span class="c1"># try import serialize and deserialize functions</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+
+    <span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+        <span class="s2">&quot;Could not import one of dependencies [geopandas, numpy, pandas, polars, ipython].  &quot;</span>
+        <span class="s2">&quot;You must install nuclei[client] in order to use NucleiClient&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">ROUTING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;PileCore&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/pilecore/v2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;VibraCore&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/vibracore/v1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CPT Core&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/gef-model&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ShallowCore&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/shallowcore/v1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GEF Map&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/gef&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="NucleiClient"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient">[docs]</a><span class="k">class</span> <span class="nc">NucleiClient</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        NUCLEI Client.</span>
+
+<span class="sd">        This class allows the user to interact with our APIs. API documentation can be</span>
+<span class="sd">        found on our platform &gt; https://nuclei.cemsbv.io/#</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">create_session</span><span class="p">()</span>
+
+        <span class="c1"># get routing table to application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">routing</span> <span class="o">=</span> <span class="n">ROUTING</span>
+
+<div class="viewcode-block" id="NucleiClient.get_url"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get API&#39;s url</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        app : str</span>
+<span class="sd">            Application name</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        url : str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_applications</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="p">[</span><span class="n">app</span><span class="p">]</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Application not available, please select one of the following valid applications </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_applications</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">get_user_claims</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get user claims of your token.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list[str]</span>
+<span class="sd">            Names of the API&#39;s</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
+            <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">],</span>
+            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;verify_exp&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+        <span class="p">)[</span><span class="s2">&quot;user_claims&quot;</span><span class="p">][</span><span class="s2">&quot;allowed_access&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">get_applications</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get available API&#39;s in the Nuclei landscape.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list[str]</span>
+<span class="sd">            Names of the API&#39;s</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="nd">@lru_cache</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_get_app_specification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Private methode to get the JSON schema of the API documentation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        app : str</span>
+<span class="sd">            Name of the API.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/openapi.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NucleiClient.get_endpoints"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoints">[docs]</a>    <span class="k">def</span> <span class="nf">get_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get available endpoints of single API.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        app : str</span>
+<span class="sd">            Name of the API.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list[str]</span>
+<span class="sd">            Endpoint urls.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">)[</span><span class="s2">&quot;paths&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="NucleiClient.get_endpoint_type"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoint_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_endpoint_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        app</span>
+<span class="sd">            name of the app</span>
+<span class="sd">        endpoint</span>
+<span class="sd">            url of the endpoint.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        &quot;get&quot; | &quot;post&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">)[</span><span class="s2">&quot;paths&quot;</span><span class="p">][</span><span class="n">endpoint</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Endpoint name not valid, please select on of the following valid endpoints </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="NucleiClient.call_endpoint"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.call_endpoint">[docs]</a>    <span class="k">def</span> <span class="nf">call_endpoint</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_response</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calls an API in the nuclei landscape.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        app: str</span>
+<span class="sd">            Name of the API. call `get_applications` to obtain a list with all applications.</span>
+<span class="sd">        endpoint: str</span>
+<span class="sd">            Name of the API&#39;s endpoint. call `get_endpoints` to obtain a list with all applications for a given API.</span>
+<span class="sd">        schema: dict, optional</span>
+<span class="sd">            Default is None</span>
+<span class="sd">            The parameter schema for the API. Take a look at the API documentation.</span>
+<span class="sd">        return_response: bool, optional</span>
+<span class="sd">            Default is False</span>
+<span class="sd">            Return the requests response instead of the parsed data object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : dict</span>
+<span class="sd">            Parsed API&#39;s json response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_endpoint_type</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;get&quot;</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">python_types_to_message</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;post&quot;</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">python_types_to_message</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Not a valid request type. Only GET or POST requests are supported.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">r</span>
+
+        <span class="n">content_type</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s2">&quot;image/png;base64&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s2">&quot;image/png&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s2">&quot;application/json&quot;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">python_types</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">message_to_python_types</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nuclei parsing error&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+            <span class="k">return</span> <span class="n">python_types</span>
+        <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;text/&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CEMS BV.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

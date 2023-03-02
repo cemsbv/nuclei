@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nuclei.api.main &mdash; NUCLEI unknown documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/index.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> NUCLEI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tree/what_is.html">What is NUCLEI?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tree/getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tree/reference.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">NUCLEI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>nuclei.api.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nuclei.api.main</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">jwt</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+
+<div class="viewcode-block" id="create_session"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.create_session">[docs]</a><span class="k">def</span> <span class="nf">create_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialising session object to call the NUCLEI endpoints.</span>
+<span class="sd">    Provide the user token from https://nuclei.cemsbv.io/#/personal-access-tokens to</span>
+<span class="sd">    upon request or set as environment variable.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Session</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># initialising session</span>
+    <span class="n">_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_response_hook</span><span class="p">(</span>
+        <span class="n">r</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Response hook functions to set as event hook on the session.</span>
+
+<span class="sd">        This hook does:</span>
+<span class="sd">            - Update short-lived access token if needed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        r : Response</span>
+<span class="sd">        args : Any</span>
+<span class="sd">        kwargs : Any</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># send new request after update short-lived access token</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># decode JWT token</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">],</span>
+                <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;verify_exp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+            <span class="c1"># get short-lived access token</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Update Bearer token&quot;</span><span class="p">)</span>
+            <span class="n">token</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">()</span>
+
+            <span class="c1"># set token to header</span>
+            <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+
+            <span class="k">return</span> <span class="n">_session</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span>
+
+    <span class="c1"># set bearer token</span>
+    <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">authenticate</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+
+    <span class="c1"># set hook</span>
+    <span class="n">_session</span><span class="o">.</span><span class="n">hooks</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_response_hook</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_session</span></div>
+
+
+<span class="k">def</span> <span class="nf">authenticate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a validated short-lived token from backend.</span>
+
+<span class="sd">    Promts the user for a user-token if it is not stored as an environmental variable</span>
+<span class="sd">    &quot;NUCLEI_TOKEN&quot;. A prompted user token will be stored as env-var after validation.</span>
+
+<span class="sd">    Will throw an exception when authentication fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">user_token</span> <span class="o">=</span> <span class="n">_get_valid_user_token</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">_get_valid_shortlived_token</span><span class="p">(</span><span class="n">user_token</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_valid_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtains the user-token from the env-vars or stdin and returns it.</span>
+<span class="sd">    If the token is valid, it is stored as env-var &quot;NUCLEI_TOKEN&quot; as a side-effect.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># check if User Token is in environment variables</span>
+    <span class="k">if</span> <span class="s2">&quot;NUCLEI_TOKEN&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;user token found in environment&quot;</span><span class="p">)</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">]</span>
+        <span class="n">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+    <span class="c1"># ask user for user token</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+            <span class="s2">&quot;Authentication is needed! Please provide your NUCLEI User Token. &quot;</span>
+            <span class="s2">&quot;You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;user token set in environment&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">token</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validade a JWT User-token by trying to decode it.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    token: str</span>
+<span class="sd">        The Nuclei User JWT.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+            <span class="n">token</span><span class="p">,</span>
+            <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">],</span>
+            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;verify_exp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">(</span>
+            <span class="s2">&quot;Your NUCLEI User Token is expired. Please create a new token on &quot;</span>
+            <span class="s2">&quot;https://nuclei.cemsbv.io/#/personal-access-tokens.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span><span class="p">(</span>
+            <span class="s2">&quot;Your NUCLEI User Token is invalid. Please copy your user token from &quot;</span>
+            <span class="s2">&quot;https://nuclei.cemsbv.io/#/personal-access-tokens. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;The following error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_valid_shortlived_token</span><span class="p">(</span><span class="n">user_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a nuclei user-token and returns a valid nuclei shortlived token.</span>
+<span class="sd">    Will remove the NUCLEI_TOKEN environmental variable key if no token could be</span>
+<span class="sd">    obtained with the user-token.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;https://nuclei.cemsbv.io/v1/shortlived-access-token&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">user_token</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">400</span> <span class="ow">or</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Remove user token from environment&quot;</span><span class="p">)</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unauthorized - invalid token&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Remove user token from environment&quot;</span><span class="p">)</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Cannot authorize (status: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">, msg: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;msg&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CEMS BV.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
