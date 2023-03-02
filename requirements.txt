@@ -49,7 +49,7 @@ decorator==5.1.1
     # via ipython
 docopt==0.6.2
     # via coveralls
-docutils==0.17.1
+docutils==0.18.1
     # via
     #   m2r2
     #   sphinx
@@ -176,15 +176,15 @@ six==1.16.0
     #   python-dateutil
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==4.5.0
+sphinx==6.1.3
     # via
     #   asteroid-sphinx-theme
     #   cems-nuclei (pyproject.toml)
     #   sphinx-autodoc-typehints
     #   sphinx-rtd-theme
-sphinx-autodoc-typehints==1.18.1
+sphinx-autodoc-typehints==1.22.0
     # via cems-nuclei (pyproject.toml)
-sphinx-rtd-theme==1.0.0
+sphinx-rtd-theme==1.2.0
     # via cems-nuclei (pyproject.toml)
 sphinxcontrib-applehelp==1.0.4
     # via sphinx
@@ -192,6 +192,8 @@ sphinxcontrib-devhelp==1.0.2
     # via sphinx
 sphinxcontrib-htmlhelp==2.0.1
     # via sphinx
+sphinxcontrib-jquery==2.0.0
+    # via sphinx-rtd-theme
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
 sphinxcontrib-qthelp==1.0.3
