@@ -31,7 +31,7 @@ test = [
     "pytest"
 ]
 docs = [
-    "Sphinx==4.5.0",
+    "Sphinx==6.1.3",
     "pygef==0.7.4",
     "sphinx-autodoc-typehints==1.18.1",
     "asteroid-sphinx-theme==0.0.3",
