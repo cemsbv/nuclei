@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "nuclei"
+name = "cems-nuclei"
 version = "0.3.0a1"
 description = "Python wrapper around NUCLEI's functionality."
 dependencies = [
