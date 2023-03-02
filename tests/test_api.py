@@ -3,17 +3,13 @@ import os
 
 import jwt
 import pytest
-from conftest import (
-    mock_expired_jwt,
-    mock_get_shortlived_token_200,
-    mock_invalid_jwt,
-    mock_valid_jwt,
-)
 from requests import Request, Response, Session
 from requests.hooks import dispatch_hook
 from requests.models import PreparedRequest
 
 from nuclei.api import main as api
+
+from .conftest import mock_expired_jwt, mock_invalid_jwt, mock_valid_jwt
 
 
 def test_authenticate_stdin_valid(monkeypatch, mock_get_shortlived_token_200):

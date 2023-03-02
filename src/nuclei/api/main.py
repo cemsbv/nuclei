@@ -100,7 +100,7 @@ def _get_valid_user_token() -> str:
     else:
         token = input(
             "Authentication is needed! Please provide your NUCLEI User Token. "
-            f"You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens."
+            "You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens."
         )
 
         _validate_user_token(token)
@@ -134,8 +134,8 @@ def _validate_user_token(token: str) -> None:
     except jwt.InvalidTokenError as e:
         raise jwt.InvalidTokenError(
             "Your NUCLEI User Token is invalid. Please copy your user token from "
-            f"https://nuclei.cemsbv.io/#/personal-access-tokens. "
-            "The following error occured: {e}"
+            "https://nuclei.cemsbv.io/#/personal-access-tokens. "
+            f"The following error occurred: {e}"
         )
 
 

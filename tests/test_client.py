@@ -4,10 +4,11 @@ import os
 
 import pytest
 import requests
-from conftest import mock_valid_jwt
 from IPython.display import Image
 
 from nuclei.client.main import NucleiClient
+
+from .conftest import mock_valid_jwt
 
 
 def test_client_env_vars(user_token_envvar, mock_get_shortlived_token_200):
@@ -55,7 +56,6 @@ def test_applications_to_endpoints(
     endpoints = client.get_endpoints(app)
 
     for endpoint in endpoints:
-
         assert isinstance(endpoint, str)
         assert endpoint[0] == r"/"
 
@@ -239,7 +239,6 @@ def test_call_endpoint_post_returns_json_with_parsing_error(
     session_send_post_returns_json,
     mock_message_to_python_parsing_error,
 ):
-
     client = NucleiClient()
 
     response = client.call_endpoint(
@@ -256,7 +255,6 @@ def test_call_endpoint_post_returns_text(
     get_app_specification_post,
     session_send_post_returns_text,
 ):
-
     client = NucleiClient()
 
     response = client.call_endpoint(

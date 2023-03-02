@@ -1,3 +1,51 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nuclei"
+version = "0.3.0a1"
+description = "Python wrapper around NUCLEI's functionality."
+dependencies = [
+    "requests>=2.25.1",
+    "pyjwt==2.6.0",
+]
+requires-python = ">=3.9"
+license = { file = "LICENSE.txt" }
+readme = "README.md"
+keywords = ["API"]
+
+[project.urls]
+repository = "https://github.com/cemsbv/nuclei"
+
+[project.optional-dependencies]
+client = [
+    "ipython>=7.3.0",
+    "geopandas>=0.8.1,<0.11.0",
+    "numpy>=1.19.4,<1.22.0",
+    "pandas>=1.2,<1.4",
+    "polars>=0.13.0,<0.14.0",
+]
+test = [
+    "coveralls",
+    "pytest"
+]
+docs = [
+    "Sphinx==4.5.0",
+    "pygef==0.7.4",
+    "sphinx-autodoc-typehints==1.18.1",
+    "asteroid-sphinx-theme==0.0.3",
+    "sphinx_rtd_theme==1.0.0",
+    "m2r2==0.3.2",
+]
+lint = [
+    "black",
+    "isort",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
 [tool.isort]
 profile = "black"
 multi_line_output = 3
@@ -6,3 +54,39 @@ force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
+
+[tool.mypy]
+files = ["nuclei"]
+mypy_path = 'src'
+namespace_packages = true
+show_error_codes = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unused_configs = true
+disallow_subclassing_any = true
+no_implicit_optional = true
+disallow_untyped_defs = true
+strict_concatenate = true
+disallow_any_generics = false
+disallow_untyped_calls = true
+warn_return_any = false
+no_implicit_reexport = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pkg_resources.*",
+    "pandas.*",
+    "geopandas.*",
+    "polars.*",
+    "numpy.*",
+    "pytest.*",
+    "setuptools.*",
+    "jwt.*",
+    "IPython.*"
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests/*"]
+disallow_untyped_defs = false
