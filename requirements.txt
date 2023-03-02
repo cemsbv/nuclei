@@ -70,7 +70,7 @@ importlib-resources==5.12.0
     # via matplotlib
 iniconfig==2.0.0
     # via pytest
-ipython==7.34.0
+ipython==8.11.0
     # via nuclei (pyproject.toml)
 isort==5.11.5
     # via nuclei (pyproject.toml)
