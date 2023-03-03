@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Getting started &mdash; NUCLEI unknown documentation</title>
@@ -12,10 +12,10 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -28,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> NUCLEI
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NUCLEI
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -72,8 +76,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Getting started</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting started</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tree/getting_started.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -84,14 +88,14 @@
            <div itemprop="articleBody">
              
   <section id="getting-started">
-<span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
 <p>New to <cite>Nuclei</cite> in <cite>Python</cite>? Don’t worry, you’ve found the perfect place to get started!</p>
 <p>Full documentation of the <cite>Nuclei</cite> APIs can be found by logging in to on the <a class="reference external" href="https://nuclei.cemsbv.io/#">nuclei</a> website.</p>
 <p>If you don’t yet have a <cite>Nuclei</cite> account you can create one for free(!)
 from the <cite>Sign Up</cite> tab after clicking <cite>Log In</cite> on the <a class="reference external" href="https://nuclei.cemsbv.io/#">nuclei</a>
 website.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
 <p><cite>Nuclei</cite> can be installed with <cite>pip</cite> by running:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cems</span><span class="o">-</span><span class="n">nuclei</span>
 </pre></div>
@@ -102,7 +106,7 @@ website.</p>
 </div>
 </section>
 <section id="user-token">
-<h2>User Token<a class="headerlink" href="#user-token" title="Permalink to this headline"></a></h2>
+<h2>User Token<a class="headerlink" href="#user-token" title="Permalink to this heading"></a></h2>
 <p>To connect to <cite>Nuclei</cite> you’ll first need a user token. You can obtain
 this token by signing in to the <a class="reference external" href="https://nuclei.cemsbv.io/#">nuclei</a>
 website and navigate to the
@@ -113,7 +117,7 @@ NUCLEI_TOKEN in your <cite>Python</cite> environment. Else you will be prompted
 for this token when necessary.</p>
 </section>
 <section id="guided-usage">
-<h2>Guided usage<a class="headerlink" href="#guided-usage" title="Permalink to this headline"></a></h2>
+<h2>Guided usage<a class="headerlink" href="#guided-usage" title="Permalink to this heading"></a></h2>
 <p>If you’re not so comfortable with creating your own API calls, you can easily access
 the <cite>nuclei</cite> endpoints by creating a <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient" title="nuclei.client.main.NucleiClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code></a> object and using
 the <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient.call_endpoint" title="nuclei.client.main.NucleiClient.call_endpoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code></a> to handle the calls for you.</p>
@@ -156,20 +160,20 @@ you won’t have to worry about passing the correct types.</p>
 documentation of the specific apps to see the limitations.</p>
 </section>
 <section id="advanced-usage">
-<h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline"></a></h2>
+<h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this heading"></a></h2>
 <p>If you want to have full control and create your own API calls
 with the <cite>requests</cite> package, you can do so by calling <a class="reference internal" href="reference.html#nuclei.api.main.create_session" title="nuclei.api.main.create_session"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_session()</span></code></a>.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f974571a160&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7fa5d5175940&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
 covers authentication for you.</p>
 </section>
 <section id="schema-serialization">
-<h2>Schema serialization<a class="headerlink" href="#schema-serialization" title="Permalink to this headline"></a></h2>
+<h2>Schema serialization<a class="headerlink" href="#schema-serialization" title="Permalink to this heading"></a></h2>
 <p>The automatic schema serialization tools are also available to advanced users by
 calling the <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a> and <a class="reference internal" href="reference.html#nuclei.client.utils.message_to_python_types" title="nuclei.client.utils.message_to_python_types"><code class="xref py py-func docutils literal notranslate"><span class="pre">message_to_python_types()</span></code></a>
 functions directly.</p>
@@ -210,7 +214,7 @@ This means that the individual object will be transformed.</p>
 </div>
 </section>
 <section id="user-guide">
-<h2>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline"></a></h2>
+<h2>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/gef-model.html">CPT Core</a></li>
