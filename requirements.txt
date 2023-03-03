@@ -58,7 +58,7 @@ fiona==1.9.1
     # via geopandas
 fonttools==4.38.0
     # via matplotlib
-geopandas==0.10.2
+geopandas==0.12.2
     # via nuclei (pyproject.toml)
 idna==3.4
     # via requests
