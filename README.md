@@ -62,8 +62,8 @@ You can get your token at: `https://cemsbv.crux-nuclei.com`
 We format our code with black and isort.
 
 ```bash
-black --config "pyproject.toml" src/nuclei
-isort --settings-path "pyproject.toml" src/nuclei
+black --config "pyproject.toml" src/nuclei tests
+isort --settings-path "pyproject.toml" src/nuclei tests
 ```
 
 ## Lint
