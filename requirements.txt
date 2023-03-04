@@ -154,7 +154,7 @@ pyparsing==3.0.9
     # via matplotlib
 pyproj==3.4.1
     # via geopandas
-pytest==7.2.1
+pytest==7.2.2
     # via cems-nuclei (pyproject.toml)
 python-dateutil==2.8.2
     # via
