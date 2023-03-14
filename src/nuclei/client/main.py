@@ -53,16 +53,17 @@ class NucleiClient:
         -------
         url : str
         """
-        if app in self.get_applications:
+        if app in self.applications:
             return self.routing[app]
         raise ValueError(
-            f"Application not available, please select one of the following valid applications {self.get_applications}"
+            f"Application not available, please select one of the following valid applications {self.applications}"
         )
 
     @property
-    def get_user_claims(self) -> List[str]:
+    def user_claims(self) -> List[str]:
         """
-        Get user claims of your token.
+        Provide the user claims of your token.
+
         Returns
         -------
         out : list[str]
@@ -75,9 +76,10 @@ class NucleiClient:
         )["user_claims"]["allowed_access"].split("|")
 
     @property
-    def get_applications(self) -> List[str]:
+    def applications(self) -> List[str]:
         """
-        Get available API's in the Nuclei landscape.
+        Provide available API's in the Nuclei landscape.
+
         Returns
         -------
         out : list[str]

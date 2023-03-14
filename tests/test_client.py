@@ -45,7 +45,7 @@ def test_applications_to_endpoints(
     client = NucleiClient()
 
     # Test get_applications
-    apps = client.get_applications
+    apps = client.applications
 
     assert app in apps
 
@@ -83,7 +83,7 @@ def test_get_userclaims(mock_get_shortlived_token_200, user_token_envvar):
 
     client = NucleiClient()
 
-    assert client.get_user_claims == ["free"]
+    assert client.user_claims == ["free"]
 
 
 def test_wrong_endpoint_for_type(mock_get_shortlived_token_200, user_token_envvar):
