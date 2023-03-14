@@ -71,7 +71,7 @@ The :class:`~.NucleiClient` can provide you with a list of `Nuclei` applications
 
 .. ipython:: python
 
-    print(client.get_applications)
+    print(client.applications)
 
 And can also fetch the available endpoints for an application for you:
 
@@ -83,7 +83,7 @@ You can also check the applications to which you have full access:
 
 .. ipython:: python
 
-    endpoints = print(client.get_user_claims)
+    endpoints = print(client.user_claims)
 
 If an application is not listed here, your usage of the app is limited. Check the
 documentation of the specific apps to see the limitations.
