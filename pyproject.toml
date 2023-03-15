@@ -24,7 +24,7 @@ client = [
     "geopandas>=0.8.1,<0.13.0",
     "numpy>=1.19.4,<1.25.0",
     "pandas>=1.2,<1.6",
-    "polars>=0.13.0,<0.17.0",
+    "polars>=0.14.0,<0.17.0",
 ]
 test = [
     "coveralls",
