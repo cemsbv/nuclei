@@ -19,7 +19,7 @@ Lets show you how to use `nuclei` and access the `CPT Core` API.
 
     import os
 
-    from pygef import Cpt
+    from pygef import read_cpt
     import numpy as np
     from nuclei.client import NucleiClient
 
@@ -40,20 +40,20 @@ This body is used to call the `"/plot"` endpoint of the `CPT Core` with
     path_cpt = os.path.join(
         os.environ.get("DOC_PATH"), "_static/data/cpt.gef"
     )
-    cpt = Cpt(path_cpt)
+    cpt = read_cpt(path_cpt)
 
     # create the body to send to the gef-model endpoint.
     schema = {
         "cpt_object": {
-            "name": cpt.test_id,
-            "x": cpt.x,
-            "y": cpt.y,
-            "ref": cpt.zid,
+            "name": cpt.alias,
+            "x": cpt.delivered_location.x,
+            "y": cpt.delivered_location.y,
+            "ref": cpt.delivered_vertical_position_offset,
             "index": np.array(
-                cpt.df["elevation_with_respect_to_nap"], dtype=float
+                cpt.data["depthOffset"], dtype=float
             ),
-            "qc": np.array(cpt.df["qc"], dtype=float),
-            "fs": np.array(cpt.df["fs"], dtype=float),
+            "qc": np.array(cpt.data["coneResistance"], dtype=float),
+            "fs": np.array(cpt.data["localFriction"], dtype=float),
         },
         "img_encoding": "base64",
     }
