@@ -12,7 +12,6 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -52,12 +51,12 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#client">Client</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#nuclei.client.main.NucleiClient"><code class="docutils literal notranslate"><span class="pre">NucleiClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.applications"><code class="docutils literal notranslate"><span class="pre">NucleiClient.applications</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.call_endpoint"><code class="docutils literal notranslate"><span class="pre">NucleiClient.call_endpoint()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_applications"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_applications</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_endpoint_type"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_endpoint_type()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_endpoints"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_endpoints()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_url"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_url()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_user_claims"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_user_claims</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.user_claims"><code class="docutils literal notranslate"><span class="pre">NucleiClient.user_claims</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#utils">Utils</a><ul>
@@ -118,7 +117,21 @@ upon request or set as environment variable.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="nuclei.client.main.NucleiClient">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nuclei.client.main.</span></span><span class="sig-name descname"><span class="pre">NucleiClient</span></span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><dl class="py property">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.applications">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nuclei.client.main.NucleiClient.applications" title="Permalink to this definition"></a></dt>
+<dd><p>Provide available API’s in the Nuclei landscape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>out</strong> – Names of the API’s</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.call_endpoint">
 <span class="sig-name descname"><span class="pre">call_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.call_endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.call_endpoint" title="Permalink to this definition"></a></dt>
 <dd><p>Calls an API in the nuclei landscape.</p>
@@ -140,14 +153,6 @@ Return the requests response instead of the parsed data object.</p></li>
 <dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_applications">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_applications" title="Permalink to this definition"></a></dt>
-<dd><p>Get available API’s in the Nuclei landscape.
-:returns: <strong>out</strong> – Names of the API’s
-:rtype: list[str]</p>
 </dd></dl>
 
 <dl class="py method">
@@ -201,11 +206,17 @@ Return the requests response instead of the parsed data object.</p></li>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_user_claims">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_user_claims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_user_claims" title="Permalink to this definition"></a></dt>
-<dd><p>Get user claims of your token.
-:returns: <strong>out</strong> – Names of the API’s
-:rtype: list[str]</p>
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.user_claims">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_claims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nuclei.client.main.NucleiClient.user_claims" title="Permalink to this definition"></a></dt>
+<dd><p>Provide the user claims of your token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>out</strong> – Names of the API’s</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

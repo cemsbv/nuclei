@@ -12,7 +12,6 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -142,7 +141,7 @@ can get the raw response by setting the <cite>return_response</cite> argument to
 with the <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a> function (see below) so in most cases
 you won’t have to worry about passing the correct types.</p>
 <p>The <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient" title="nuclei.client.main.NucleiClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code></a> can provide you with a list of <cite>Nuclei</cite> applications:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_applications</span><span class="p">)</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">applications</span><span class="p">)</span>
 <span class="go">[&#39;PileCore&#39;, &#39;VibraCore&#39;, &#39;CPT Core&#39;, &#39;ShallowCore&#39;, &#39;GEF Map&#39;]</span>
 </pre></div>
 </div>
@@ -152,8 +151,8 @@ you won’t have to worry about passing the correct types.</p>
 </pre></div>
 </div>
 <p>You can also check the applications to which you have full access:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_user_claims</span><span class="p">)</span>
-<span class="go">[&#39;free&#39;, &#39;gef-model&#39;, &#39;shallowcore&#39;, &#39;vibracore&#39;, &#39;pilecore&#39;, &#39;mlu&#39;]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">user_claims</span><span class="p">)</span>
+<span class="go">[&#39;free&#39;, &#39;gef-model&#39;, &#39;gef-map&#39;, &#39;shallowcore&#39;, &#39;vibracore&#39;, &#39;pilecore&#39;, &#39;mlu&#39;, &#39;latex-report&#39;]</span>
 </pre></div>
 </div>
 <p>If an application is not listed here, your usage of the app is limited. Check the
@@ -166,7 +165,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f49510689d0&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7fe8e1744520&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
