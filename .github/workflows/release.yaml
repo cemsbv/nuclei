@@ -5,11 +5,8 @@ on:
     tags: ["[0-9]+.[0-9]+.[0-9]+*"]
 
 jobs:
-  test:
-    uses: ./.github/workflows/test.yaml
   deploy_docs:
     name: Deploy docs
-    needs: test
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
