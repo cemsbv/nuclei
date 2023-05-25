@@ -39,7 +39,7 @@ cligj==0.7.2
     # via fiona
 contourpy==1.0.7
     # via matplotlib
-coverage==6.5.0
+coverage==7.2.6
     # via coveralls
 coveralls==3.3.1
     # via cems-nuclei (pyproject.toml)
