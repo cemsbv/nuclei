@@ -100,7 +100,14 @@ class NucleiClient:
         -------
         dict
         """
-        return requests.get(self.get_url(app) + "/openapi.json").json()
+        response = requests.get(self.get_url(app) + "/openapi.json")
+        if response.status_code != 200:
+            raise ValueError(
+                "Unfortunately the server you are trying to reaches is unavailable (status code: "
+                f"{response.status_code}). Please check you connection. If the problem persist contact "
+                "CEMS at info@cemsbv.nl"
+            )
+        return response.json()
 
     def get_endpoints(self, app: str) -> List[str]:
         """
