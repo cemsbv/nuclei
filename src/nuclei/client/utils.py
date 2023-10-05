@@ -65,7 +65,7 @@ def deserialize_pandas_json(message: dict) -> Union[pd.DataFrame, pd.Series]:
     if message["nuclei"]["type"] == PDS or message["nuclei"]["type"] == PANDAS_PDS:
         typ = "series"
 
-    return pd.read_json(message["body"], typ=typ).sort_index()
+    return pd.read_json(io.StringIO(message["body"]), typ=typ).sort_index()
 
 
 def serialize_pandas_json(obj: Union[pd.DataFrame, pd.Series]) -> dict:
