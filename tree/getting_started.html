@@ -165,7 +165,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7fcde99ffee0&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f7f8dd540d0&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
@@ -187,28 +187,28 @@ create a <cite>pandas.DataFrame</cite> and transforms it to a serialized DataFra
 <span class="gp">In [12]: </span><span class="n">message</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">python_types_to_message</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
 
 <span class="gp">In [13]: </span><span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<span class="go">{&#39;nuclei&#39;: {&#39;type&#39;: &#39;PANDAS_DataFrame&#39;}, &#39;body&#39;: &#39;{&quot;a&quot;:{&quot;0&quot;:1,&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:1,&quot;4&quot;:1},&quot;b&quot;:{&quot;0&quot;:0,&quot;1&quot;:1,&quot;2&quot;:0,&quot;3&quot;:0,&quot;4&quot;:0},&quot;c&quot;:{&quot;0&quot;:0,&quot;1&quot;:0,&quot;2&quot;:1,&quot;3&quot;:0,&quot;4&quot;:0}}&#39;}</span>
+<span class="go">{&#39;nuclei&#39;: {&#39;type&#39;: &#39;PANDAS_DataFrame&#39;}, &#39;body&#39;: &#39;{&quot;a&quot;:{&quot;0&quot;:true,&quot;1&quot;:false,&quot;2&quot;:false,&quot;3&quot;:true,&quot;4&quot;:true},&quot;b&quot;:{&quot;0&quot;:false,&quot;1&quot;:true,&quot;2&quot;:false,&quot;3&quot;:false,&quot;4&quot;:false},&quot;c&quot;:{&quot;0&quot;:false,&quot;1&quot;:false,&quot;2&quot;:true,&quot;3&quot;:false,&quot;4&quot;:false}}&#39;}</span>
 </pre></div>
 </div>
 <p>To transform a serialized DataFrame to its original type use the <a class="reference internal" href="reference.html#nuclei.client.utils.message_to_python_types" title="nuclei.client.utils.message_to_python_types"><code class="xref py py-func docutils literal notranslate"><span class="pre">message_to_python_types()</span></code></a> function.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [14]: </span><span class="nb">print</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">message_to_python_types</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-<span class="go">   a  b  c</span>
-<span class="go">0  1  0  0</span>
-<span class="go">1  0  1  0</span>
-<span class="go">2  0  0  1</span>
-<span class="go">3  1  0  0</span>
-<span class="go">4  1  0  0</span>
+<span class="go">       a      b      c</span>
+<span class="go">0   True  False  False</span>
+<span class="go">1  False   True  False</span>
+<span class="go">2  False  False   True</span>
+<span class="go">3   True  False  False</span>
+<span class="go">4   True  False  False</span>
 </pre></div>
 </div>
 <p>Please note that a list that of python types will be serialized as well.
 This means that the individual object will be transformed.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [15]: </span><span class="nb">print</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">message_to_python_types</span><span class="p">([{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">},</span> <span class="n">message</span><span class="p">]))</span>
-<span class="go">[{&#39;a&#39;: 12},    a  b  c</span>
-<span class="go">0  1  0  0</span>
-<span class="go">1  0  1  0</span>
-<span class="go">2  0  0  1</span>
-<span class="go">3  1  0  0</span>
-<span class="go">4  1  0  0]</span>
+<span class="go">[{&#39;a&#39;: 12},        a      b      c</span>
+<span class="go">0   True  False  False</span>
+<span class="go">1  False   True  False</span>
+<span class="go">2  False  False   True</span>
+<span class="go">3   True  False  False</span>
+<span class="go">4   True  False  False]</span>
 </pre></div>
 </div>
 </section>
