@@ -1,7 +1,1 @@
-from importlib.metadata import PackageNotFoundError, version
-
-try:
-    __version__ = version("nuclei")
-# during CI
-except PackageNotFoundError:
-    __version__ = "unknown"
+__version__ = "0.3.2"
