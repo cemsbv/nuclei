@@ -83,7 +83,7 @@ def test_get_userclaims(mock_get_shortlived_token_200, user_token_envvar):
 
     client = NucleiClient()
 
-    assert client.user_claims == ["free"]
+    assert client.user_permissions == ["read:users"]
 
 
 def test_wrong_endpoint_for_type(mock_get_shortlived_token_200, user_token_envvar):
@@ -241,12 +241,12 @@ def test_call_endpoint_post_returns_json_with_parsing_error(
 ):
     client = NucleiClient()
 
-    response = client.call_endpoint(
-        app="PileCore", endpoint="/MockPostEndpoint", schema={"somekey": "somevalue"}
-    )
-
-    assert isinstance(response, dict)
-    assert response["message"] == "Test Confirmed"
+    with pytest.raises(Exception):
+        client.call_endpoint(
+            app="PileCore",
+            endpoint="/MockPostEndpoint",
+            schema={"somekey": "somevalue"},
+        )
 
 
 def test_call_endpoint_post_returns_text(

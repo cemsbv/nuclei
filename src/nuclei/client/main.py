@@ -7,23 +7,23 @@ import requests
 
 from nuclei import create_session
 
-# try import serialize and deserialize functions
+# try import serialize functions
 try:
     from IPython.display import Image
 
     from nuclei.client import utils
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Could not import one of dependencies [geopandas, numpy, pandas, polars, ipython].  "
-        "You must install nuclei[client] in order to use NucleiClient"
+        "Could not import one of dependencies [numpy, ipython]. "
+        "You must install nuclei[client] in order to use NucleiClient \n"
+        rf"Traceback: {e}"
     )
 
 ROUTING = {
     "PileCore": "https://crux-nuclei.com/api/pilecore/v2",
-    "VibraCore": "https://crux-nuclei.com/api/vibracore/v1",
-    "CPT Core": "https://crux-nuclei.com/api/gef-model",
+    "VibraCore": "https://crux-nuclei.com/api/vibracore/v2",
+    "CPT Core": "https://crux-nuclei.com/api/cptcore/v1",
     "ShallowCore": "https://crux-nuclei.com/api/shallowcore/v1",
-    "GEF Map": "https://crux-nuclei.com/api/gef",
 }
 
 
@@ -60,9 +60,9 @@ class NucleiClient:
         )
 
     @property
-    def user_claims(self) -> List[str]:
+    def user_permissions(self) -> List[str]:
         """
-        Provide the user claims of your token.
+        Provide the user permissions of your token.
 
         Returns
         -------
@@ -73,7 +73,7 @@ class NucleiClient:
             self.session.headers["Authorization"].split(" ")[1],  # type: ignore
             algorithms=["HS256"],
             options={"verify_signature": False, "verify_exp": False},
-        )["user_claims"]["allowed_access"].split("|")
+        )["permissions"]
 
     @property
     def applications(self) -> List[str]:
@@ -177,12 +177,12 @@ class NucleiClient:
             schema = utils.to_json(schema)
 
         if t == "get":
-            r = self.session.get(
+            response = self.session.get(
                 self.get_url(app) + endpoint,
                 params=utils.python_types_to_message(schema),
             )
         elif t == "post":
-            r = self.session.post(
+            response = self.session.post(
                 self.get_url(app) + endpoint,
                 json=utils.python_types_to_message(schema),
             )
@@ -192,21 +192,22 @@ class NucleiClient:
             )
 
         if return_response:
-            return r
+            return response
 
-        content_type = r.headers["Content-Type"]
+        if not response.ok:
+            raise RuntimeError(
+                "An error was thrown during your reqeust. \n"
+                f"Status code: {response.status_code} \n"
+                f"Message: {response.content!r}"
+            )
+
+        content_type = response.headers["Content-Type"]
         if content_type == "image/png;base64":
-            return Image(base64.b64decode(r.text))
+            return Image(base64.b64decode(response.text))
         elif content_type == "image/png":
-            return Image(r.content)
+            return Image(response.content)
         elif content_type == "application/json":
-            result = r.json()
-            try:
-                python_types = utils.message_to_python_types(result)
-            except Exception as e:
-                print("Nuclei parsing error", e, result)
-                return result
-            return python_types
+            return response.json()
         elif content_type.startswith("text/"):
-            return r.text
-        return r.content
+            return response.text
+        return response.content
