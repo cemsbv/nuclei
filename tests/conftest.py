@@ -17,13 +17,13 @@ def mock_valid_jwt(key: str = "") -> str:
     """valid JWT token."""
     return jwt.encode(
         payload={
+            "name": "ALL",
             "expires": 999999999999,
             "unique_key": unique_key,
             "user_id": "auth0|1234567890ABCDEFGH",
-            "roles": None,
-            "exp": 999999999999,
-            "identity": "auth0|1234567890ABCDEFGH",
-            "user_claims": {"allowed_access": "free", "email_verified": True},
+            "permissions": [
+                "read:users",
+            ],
         },
         algorithm="HS256",
         key=key,
@@ -115,12 +115,12 @@ def mock_text_response():
 
 @pytest.fixture
 def mock_message_to_python_parsing_error(monkeypatch):
-    """Raise an arbitrary exception on any nuclei.client.utils.message_to_python_types call"""
+    """Raise an arbitrary exception on any nuclei.client.utils.python_types_to_message call"""
 
-    def mock_mtpt():
+    def mock_mtpt(*args):
         raise Exception
 
-    monkeypatch.setattr("nuclei.client.utils.message_to_python_types", mock_mtpt)
+    monkeypatch.setattr("nuclei.client.utils.python_types_to_message", mock_mtpt)
 
 
 @pytest.fixture
