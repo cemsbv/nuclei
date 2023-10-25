@@ -83,7 +83,7 @@ You can also check the applications to which you have full access:
 
 .. ipython:: python
 
-    endpoints = print(client.user_claims)
+    endpoints = print(client.user_permissions)
 
 If an application is not listed here, your usage of the app is limited. Check the
 documentation of the specific apps to see the limitations.
