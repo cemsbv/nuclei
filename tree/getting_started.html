@@ -18,7 +18,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CPT Core" href="examples/gef-model.html" />
+    <link rel="next" title="Reference" href="reference.html" />
     <link rel="prev" title="What is NUCLEI?" href="what_is.html" /> 
 </head>
 
@@ -50,13 +50,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#guided-usage">Guided usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-usage">Advanced usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#schema-serialization">Schema serialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#user-guide">User Guide</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/gef-model.html">CPT Core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/vibracore.html">VibraCore</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/pilecore.html">PileCore</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/shallowcore.html">ShallowCore</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
@@ -142,7 +135,7 @@ with the <a class="reference internal" href="reference.html#nuclei.client.utils.
 you won’t have to worry about passing the correct types.</p>
 <p>The <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient" title="nuclei.client.main.NucleiClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code></a> can provide you with a list of <cite>Nuclei</cite> applications:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">applications</span><span class="p">)</span>
-<span class="go">[&#39;PileCore&#39;, &#39;VibraCore&#39;, &#39;CPT Core&#39;, &#39;ShallowCore&#39;, &#39;GEF Map&#39;]</span>
+<span class="go">[&#39;PileCore&#39;, &#39;VibraCore&#39;, &#39;CPT Core&#39;, &#39;ShallowCore&#39;]</span>
 </pre></div>
 </div>
 <p>And can also fetch the available endpoints for an application for you:</p>
@@ -151,8 +144,8 @@ you won’t have to worry about passing the correct types.</p>
 </pre></div>
 </div>
 <p>You can also check the applications to which you have full access:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">user_claims</span><span class="p">)</span>
-<span class="go">[&#39;free&#39;, &#39;gef-model&#39;, &#39;test&#39;, &#39;gef-map&#39;]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">user_permissions</span><span class="p">)</span>
+<span class="go">[&#39;read:api_access_token&#39;, &#39;read:cptcore+classify&#39;, &#39;read:cptcore+parse&#39;, &#39;read:datalake_admin&#39;, &#39;read:datalake_app_subsurface-data-map&#39;, &#39;read:datalake_app_superset&#39;, &#39;read:datalake_project_198&#39;, &#39;read:datalake_project_199&#39;, &#39;read:latex+report&#39;, &#39;read:notebooks&#39;, &#39;read:pilecore+calculate&#39;, &#39;read:pilecore+report&#39;, &#39;read:shallowcore+calculate&#39;, &#39;read:shallowcore+report&#39;, &#39;read:subsurface_data_map&#39;, &#39;read:user_info&#39;, &#39;read:users&#39;, &#39;read:vibracore+calculate&#39;, &#39;read:vibracore+report&#39;, &#39;sudo:nuclei&#39;, &#39;write:api_access_token&#39;, &#39;write:datalake_admin&#39;, &#39;write:datalake_app_subsurface-data-map&#39;, &#39;write:datalake_app_superset&#39;, &#39;write:datalake_project_198&#39;, &#39;write:notebooks&#39;, &#39;write:subsurface_data_map&#39;, &#39;write:typst_report&#39;]</span>
 </pre></div>
 </div>
 <p>If an application is not listed here, your usage of the app is limited. Check the
@@ -165,7 +158,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f29fdc3e490&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7fb9f2d471c0&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
@@ -174,53 +167,20 @@ covers authentication for you.</p>
 <section id="schema-serialization">
 <h2>Schema serialization<a class="headerlink" href="#schema-serialization" title="Permalink to this heading"></a></h2>
 <p>The automatic schema serialization tools are also available to advanced users by
-calling the <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a> and <a class="reference internal" href="reference.html#nuclei.client.utils.message_to_python_types" title="nuclei.client.utils.message_to_python_types"><code class="xref py py-func docutils literal notranslate"><span class="pre">message_to_python_types()</span></code></a>
-functions directly.</p>
+calling the <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a> function directly.</p>
 <p>The following code-block shows the mechanism behind these functions. First we
-create a <cite>pandas.DataFrame</cite> and transforms it to a serialized DataFrame with <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a>.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+create a <cite>numpy.array</cite> and transforms it to a serialized list with <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a>.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="gp">In [10]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">utils</span>
 
-<span class="gp">In [11]: </span><span class="n">schema</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;abcaa&#39;</span><span class="p">)))</span>
+<span class="gp">In [11]: </span><span class="n">schema</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
 
 <span class="gp">In [12]: </span><span class="n">message</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">python_types_to_message</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
 
 <span class="gp">In [13]: </span><span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<span class="go">{&#39;nuclei&#39;: {&#39;type&#39;: &#39;PANDAS_DataFrame&#39;}, &#39;body&#39;: &#39;{&quot;a&quot;:{&quot;0&quot;:true,&quot;1&quot;:false,&quot;2&quot;:false,&quot;3&quot;:true,&quot;4&quot;:true},&quot;b&quot;:{&quot;0&quot;:false,&quot;1&quot;:true,&quot;2&quot;:false,&quot;3&quot;:false,&quot;4&quot;:false},&quot;c&quot;:{&quot;0&quot;:false,&quot;1&quot;:false,&quot;2&quot;:true,&quot;3&quot;:false,&quot;4&quot;:false}}&#39;}</span>
+<span class="go">[[1.0, 2.0], [None, 4.0]]</span>
 </pre></div>
-</div>
-<p>To transform a serialized DataFrame to its original type use the <a class="reference internal" href="reference.html#nuclei.client.utils.message_to_python_types" title="nuclei.client.utils.message_to_python_types"><code class="xref py py-func docutils literal notranslate"><span class="pre">message_to_python_types()</span></code></a> function.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [14]: </span><span class="nb">print</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">message_to_python_types</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-<span class="go">       a      b      c</span>
-<span class="go">0   True  False  False</span>
-<span class="go">1  False   True  False</span>
-<span class="go">2  False  False   True</span>
-<span class="go">3   True  False  False</span>
-<span class="go">4   True  False  False</span>
-</pre></div>
-</div>
-<p>Please note that a list that of python types will be serialized as well.
-This means that the individual object will be transformed.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [15]: </span><span class="nb">print</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">message_to_python_types</span><span class="p">([{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">},</span> <span class="n">message</span><span class="p">]))</span>
-<span class="go">[{&#39;a&#39;: 12},        a      b      c</span>
-<span class="go">0   True  False  False</span>
-<span class="go">1  False   True  False</span>
-<span class="go">2  False  False   True</span>
-<span class="go">3   True  False  False</span>
-<span class="go">4   True  False  False]</span>
-</pre></div>
-</div>
-</section>
-<section id="user-guide">
-<h2>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this heading"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/gef-model.html">CPT Core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/vibracore.html">VibraCore</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/pilecore.html">PileCore</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/shallowcore.html">ShallowCore</a></li>
-</ul>
 </div>
 </section>
 </section>
@@ -230,7 +190,7 @@ This means that the individual object will be transformed.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="what_is.html" class="btn btn-neutral float-left" title="What is NUCLEI?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples/gef-model.html" class="btn btn-neutral float-right" title="CPT Core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

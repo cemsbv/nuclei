@@ -70,142 +70,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nuclei.client.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">io</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-    <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-        <span class="s2">&quot;Could not import one of dependencies [geopandas, numpy, pandas, polars].  &quot;</span>
+        <span class="s2">&quot;Could not import one of dependencies [numpy]. &quot;</span>
         <span class="s2">&quot;Must install nuclei[client] in order to use the utils functions&quot;</span>
     <span class="p">)</span>
-
-
-<span class="n">DF</span> <span class="o">=</span> <span class="s2">&quot;DataFrame&quot;</span>
-<span class="n">DF_PARQUET</span> <span class="o">=</span> <span class="s2">&quot;DataFrame.parquet&quot;</span>
-<span class="n">PDS</span> <span class="o">=</span> <span class="s2">&quot;Series&quot;</span>
-<span class="n">NUMPY</span> <span class="o">=</span> <span class="s2">&quot;numpy&quot;</span>
-<span class="n">GDF</span> <span class="o">=</span> <span class="s2">&quot;GeoDataFrame&quot;</span>
-<span class="n">GPDS</span> <span class="o">=</span> <span class="s2">&quot;GeoSeries&quot;</span>
-<span class="n">POLARS_DF</span> <span class="o">=</span> <span class="s2">&quot;POLARS_DataFrame&quot;</span>
-<span class="n">PANDAS_DF</span> <span class="o">=</span> <span class="s2">&quot;PANDAS_DataFrame&quot;</span>
-<span class="n">PANDAS_DF_PARQUET</span> <span class="o">=</span> <span class="s2">&quot;PANDAS_DataFrame.parquet&quot;</span>
-<span class="n">PANDAS_PDS</span> <span class="o">=</span> <span class="s2">&quot;PANDAS_Series&quot;</span>
 
 
 <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">buffer_to_base64</span><span class="p">(</span><span class="n">buf</span><span class="p">:</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">buf</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">base64_to_buffer</span><span class="p">(</span><span class="n">blob</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">:</span>
-    <span class="n">blob</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
-    <span class="n">buf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
-    <span class="n">buf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">buf</span>
-
-
-<span class="k">def</span> <span class="nf">deserialize_polars_json</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Only needed for backwards compatibility.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)))</span>
-
-
-<span class="k">def</span> <span class="nf">serialize_polars_json</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">POLARS_DF</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">write_json</span><span class="p">()}</span>
-
-
-<span class="k">def</span> <span class="nf">deserialize_pandas_json</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Only needed for backwards compatibility.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;frame&quot;</span>
-    <span class="k">if</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;nuclei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">PDS</span> <span class="ow">or</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;nuclei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">PANDAS_PDS</span><span class="p">:</span>
-        <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;series&quot;</span>
-
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">]),</span> <span class="n">typ</span><span class="o">=</span><span class="n">typ</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
-
-
-<span class="k">def</span> <span class="nf">serialize_pandas_json</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">PANDAS_DF</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">PANDAS_PDS</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
-
-
-<span class="k">def</span> <span class="nf">serialize_pandas_parquet</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="n">buf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">obj</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">PANDAS_DF</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
-
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">PANDAS_DF_PARQUET</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">buffer_to_base64</span><span class="p">(</span><span class="n">buf</span><span class="p">)}</span>
-
-
-<span class="k">def</span> <span class="nf">deserialize_pandas_parquet</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="n">buf</span> <span class="o">=</span> <span class="n">base64_to_buffer</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">deserialize_geopandas_json</span><span class="p">(</span>
-    <span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Only needed for backwards compatibility.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">obj</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;geometry&quot;</span><span class="p">:</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">geometry</span>
-
-    <span class="k">return</span> <span class="n">obj</span>
-
-
-<span class="k">def</span> <span class="nf">serialize_geopandas_json</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">GDF</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">GPDS</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
-
-
-<span class="k">def</span> <span class="nf">serialize_numpy</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="n">buf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;nuclei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">NUMPY</span><span class="p">},</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">buffer_to_base64</span><span class="p">(</span><span class="n">buf</span><span class="p">)}</span>
-
-
-<span class="k">def</span> <span class="nf">deserialize_numpy</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="n">buf</span> <span class="o">=</span> <span class="n">base64_to_buffer</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">])</span>
-    <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-
 <div class="viewcode-block" id="python_types_to_message"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.utils.python_types_to_message">[docs]</a><span class="k">def</span> <span class="nf">python_types_to_message</span><span class="p">(</span>
     <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
         <span class="nb">dict</span><span class="p">,</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-        <span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">,</span>
-        <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span>
         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="nb">list</span><span class="p">,</span>
         <span class="nb">str</span><span class="p">,</span>
@@ -213,7 +97,6 @@
         <span class="nb">int</span><span class="p">,</span>
         <span class="nb">bool</span><span class="p">,</span>
     <span class="p">],</span>
-    <span class="n">use_json</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cast python types to jsonifyable message.</span>
@@ -221,120 +104,26 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    schema</span>
-<span class="sd">    use_json</span>
-<span class="sd">        Added for rollout reasons. Use old json formatting until every backend and the frontend is updated.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    message</span>
 <span class="sd">        jsonifyable message.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">use_json</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;FORCE_SERIALIZATION&quot;</span><span class="p">,</span> <span class="ow">not</span> <span class="n">use_json</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">gpd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="p">(</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">use_json</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">serialize_geopandas_json</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">NotImplemented</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">use_json</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">serialize_polars_json</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">NotImplemented</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">use_json</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">serialize_pandas_json</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">serialize_pandas_parquet</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">use_json</span><span class="p">:</span>
-            <span class="c1"># no NaN in array</span>
-            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
-                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;NaN&quot;</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">schema</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">serialize_numpy</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+        <span class="c1"># no NaN in array</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;NaN&quot;</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">schema</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">schema</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="c1"># recurse and convert to jsonifyable types</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">python_types_to_message</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">Collection</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">python_types_to_message</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">schema</span></div>
-
-
-<div class="viewcode-block" id="message_to_python_types"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.utils.message_to_python_types">[docs]</a><span class="k">def</span> <span class="nf">message_to_python_types</span><span class="p">(</span>
-    <span class="n">message</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
-        <span class="nb">dict</span><span class="p">,</span>
-        <span class="nb">list</span><span class="p">,</span>
-        <span class="nb">str</span><span class="p">,</span>
-        <span class="nb">float</span><span class="p">,</span>
-        <span class="nb">int</span><span class="p">,</span>
-        <span class="nb">bool</span><span class="p">,</span>
-    <span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="nb">dict</span><span class="p">,</span>
-    <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
-    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-    <span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">,</span>
-    <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="nb">list</span><span class="p">,</span>
-    <span class="nb">str</span><span class="p">,</span>
-    <span class="nb">float</span><span class="p">,</span>
-    <span class="nb">int</span><span class="p">,</span>
-    <span class="nb">bool</span><span class="p">,</span>
-<span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Cast json result to python types by searching for objects</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    message</span>
-<span class="sd">        parsed json message</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    schema</span>
-<span class="sd">        schema with original python types.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="c1"># input is a custom serialized type</span>
-        <span class="k">if</span> <span class="s2">&quot;nuclei&quot;</span> <span class="ow">in</span> <span class="n">message</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;nuclei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="n">DF_PARQUET</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">&quot;`DataFrame.parquet` is deprecated and will soon be replaced by `PANDAS_DataFrame.parquet`.&quot;</span><span class="p">,</span>
-                    <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="k">return</span> <span class="n">deserialize_pandas_parquet</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="n">PANDAS_DF_PARQUET</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">deserialize_pandas_parquet</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="n">DF</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">==</span> <span class="n">PDS</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">&quot;`DataFrame` and `Series` is deprecated and will soon be replaced by `PANDAS_DataFrame` or &quot;</span>
-                    <span class="s2">&quot;`PANDAS_Series`.&quot;</span><span class="p">,</span>
-                    <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="k">return</span> <span class="n">deserialize_pandas_json</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="n">PANDAS_DF</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">==</span> <span class="n">PANDAS_PDS</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">deserialize_pandas_json</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="n">GDF</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">==</span> <span class="n">GPDS</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">deserialize_geopandas_json</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="n">POLARS_DF</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">deserialize_polars_json</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="n">NUMPY</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">deserialize_numpy</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-
-        <span class="c1"># input is a &quot;normal&quot; dict</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">message_to_python_types</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-
-    <span class="c1"># input is a list, tuple or set</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">Collection</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">message_to_python_types</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">message</span><span class="p">]</span>
-
-    <span class="c1"># return original input if it is anything else</span>
-    <span class="k">return</span> <span class="n">message</span></div>
 </pre></div>
 
            </div>
