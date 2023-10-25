@@ -105,46 +105,17 @@ covers authentication for you.
 Schema serialization
 --------------------
 The automatic schema serialization tools are also available to advanced users by
-calling the :func:`~.python_types_to_message` and :func:`~.message_to_python_types`
-functions directly.
+calling the :func:`~.python_types_to_message` function directly.
 
 The following code-block shows the mechanism behind these functions. First we
-create a `pandas.DataFrame` and transforms it to a serialized DataFrame with :func:`~.python_types_to_message`.
+create a `numpy.array` and transforms it to a serialized list with :func:`~.python_types_to_message`.
 
 .. ipython:: python
 
-    import pandas as pd
+    import numpy as np
 
     from nuclei.client import utils
 
-    schema = pd.get_dummies(pd.Series(list('abcaa')))
+    schema = np.array([[np.int16(1), 2.0], [np.nan, np.float32(4)]])
     message = utils.python_types_to_message(schema)
     print(message)
-
-To transform a serialized DataFrame to its original type use the :func:`~.message_to_python_types` function.
-
-.. ipython:: python
-
-    print(utils.message_to_python_types(message))
-
-Please note that a list that of python types will be serialized as well.
-This means that the individual object will be transformed.
-
-.. ipython:: python
-
-    print(utils.message_to_python_types([{"a": 12}, message]))
-
-
-User Guide
------------
-
-.. toctree::
-   :maxdepth: 1
-
-   examples/gef-model.rst
-
-   examples/vibracore.rst
-
-   examples/pilecore.rst
-
-   examples/shallowcore.rst

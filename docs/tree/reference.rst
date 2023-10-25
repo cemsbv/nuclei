@@ -18,7 +18,5 @@ Client
 
 Utils
 ______
-.. autofunction:: nuclei.client.utils.message_to_python_types
-
 .. autofunction:: nuclei.client.utils.python_types_to_message
 
