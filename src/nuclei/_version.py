@@ -1,7 +1,7 @@
-import pkg_resources
+from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = pkg_resources.get_distribution("nuclei").version
+    __version__ = version("nuclei")
 # during CI
-except pkg_resources.DistributionNotFound:
+except PackageNotFoundError:
     __version__ = "unknown"
