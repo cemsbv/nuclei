@@ -42,11 +42,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install setuptools twine
+          pip install setuptools twine build
       - name: Build & Release
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
-          python setup.py sdist
+          python3 -m build
           twine upload --skip-existing dist/*
