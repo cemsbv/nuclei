@@ -31,8 +31,16 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
   deploy_pypi:
-    needs: deploy_docs
     runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/cems-nuclei
+
+    # Mandatory permission for trusted publishing to PyPi
+    permissions:
+      id-token: write
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -42,11 +50,19 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install setuptools twine build
-      - name: Build & Release
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          python3 -m build
-          twine upload --skip-existing dist/*
+          pip install setuptools build
+
+      - name: Build a binary wheel and a source tarball
+        run: python3 -m build
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
