@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0-beta.2] - 2023-10-26
+
+### Build
+
+- Release wheel and source
+
 ## [0.4.0-beta.1] - 2023-10-26
 
 ### Bug Fixes
