@@ -53,6 +53,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#nuclei.client.main.NucleiClient"><code class="docutils literal notranslate"><span class="pre">NucleiClient</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.applications"><code class="docutils literal notranslate"><span class="pre">NucleiClient.applications</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.call_endpoint"><code class="docutils literal notranslate"><span class="pre">NucleiClient.call_endpoint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_application_version"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_application_version()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_endpoint_type"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_endpoint_type()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_endpoints"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_endpoints()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nuclei.client.main.NucleiClient.get_url"><code class="docutils literal notranslate"><span class="pre">NucleiClient.get_url()</span></code></a></li>
@@ -169,6 +170,23 @@ Return the requests response instead of the parsed data object.</p></li>
 <li><p><strong>ValueError:</strong> – Endpoint does not exist in the API landscape</p></li>
 <li><p><strong>ConnectionError:</strong> – Application not available</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.get_application_version">
+<span class="sig-name descname"><span class="pre">get_application_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.get_application_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.get_application_version" title="Permalink to this definition"></a></dt>
+<dd><p>Provide version of the API in the Nuclei landscape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>app</strong> (<em>str</em>) – Name of the API.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> – Semantic Version of the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

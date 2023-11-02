@@ -181,6 +181,22 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
+<div class="viewcode-block" id="NucleiClient.get_application_version"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_application_version">[docs]</a>    <span class="k">def</span> <span class="nf">get_application_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provide version of the API in the Nuclei landscape.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        app : str</span>
+<span class="sd">            Name of the API.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : str</span>
+<span class="sd">            Semantic Version of the API</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">)[</span><span class="s2">&quot;info&quot;</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span></div>
+
 <div class="viewcode-block" id="NucleiClient.get_endpoints"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoints">[docs]</a>    <span class="k">def</span> <span class="nf">get_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get available endpoints of single API.</span>
