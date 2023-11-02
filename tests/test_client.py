@@ -187,12 +187,13 @@ def test_call_endpoint_invalid_method(
 
     client = NucleiClient()
 
-    with pytest.raises(ValueError) as err:
+    with pytest.raises(NotImplementedError) as err:
         client.call_endpoint(app="PileCore", endpoint="/MockWeirdEndpoint")
 
     assert (
         str(err.value)
-        == "Not a valid request type. Only GET or POST requests are supported."
+        == "Not a valid HTTP request methode. Only GET or POST requests are supported. "
+        "Use the session attribute to get full control of your request. Provided methode: weird"
     )
 
 

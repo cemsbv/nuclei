@@ -1,6 +1,6 @@
 import base64
 from functools import lru_cache
-from typing import Any, List, Optional, Union
+from typing import Any, List, Literal, Optional, Union
 
 import jwt
 import requests
@@ -102,7 +102,7 @@ class NucleiClient:
         """
         response = requests.get(self.get_url(app) + "/openapi.json")
         if response.status_code != 200:
-            raise ValueError(
+            raise ConnectionError(
                 "Unfortunately the server you are trying to reaches is unavailable (status code: "
                 f"{response.status_code}). Please check you connection. If the problem persist contact "
                 "CEMS at info@cemsbv.nl"
@@ -146,6 +146,7 @@ class NucleiClient:
         self,
         app: str,
         endpoint: str,
+        methode: Literal["auto", "get", "post"] = "auto",
         schema: Optional[Union[dict, str]] = None,
         return_response: bool = False,
     ) -> Any:
@@ -158,6 +159,10 @@ class NucleiClient:
             Name of the API. call `get_applications` to obtain a list with all applications.
         endpoint: str
             Name of the API's endpoint. call `get_endpoints` to obtain a list with all applications for a given API.
+        methode: str
+            default  is auto
+            HTTP methode used to call endpoint. When auto methode is selected the HTTP methode is
+            obtained from the openapi docs.
         schema: dict, optional
             Default is None
             The parameter schema for the API. Take a look at the API documentation.
@@ -167,28 +172,52 @@ class NucleiClient:
 
         Returns
         -------
-        out : dict
-            Parsed API's json response.
+        json : dict
+            json response
+        text : str
+            text response
+        content : bytes
+            content response
+        out : Response
+            requests response object
+        figure: Image
+             IPython display Image object
+
+        Raises
+        -------
+        RuntimeError:
+            Thrown when response is between 400 and 600 to see if
+            there was a client error or a server error.
+        NotImplementedError:
+            HTTP methode not get or post request
+        ValueError:
+            Endpoint does not exist in the API landscape
+        ConnectionError:
+            Application not available
         """
 
-        t = self.get_endpoint_type(app, endpoint)
+        if methode == "auto":
+            t = self.get_endpoint_type(app, endpoint)
+        else:
+            t = methode
 
         if isinstance(schema, str):
             schema = utils.to_json(schema)
 
-        if t == "get":
+        if t.lower() == "get":
             response = self.session.get(
                 self.get_url(app) + endpoint,
                 params=utils.python_types_to_message(schema),
             )
-        elif t == "post":
+        elif t.lower() == "post":
             response = self.session.post(
                 self.get_url(app) + endpoint,
                 json=utils.python_types_to_message(schema),
             )
         else:
-            raise ValueError(
-                "Not a valid request type. Only GET or POST requests are supported."
+            raise NotImplementedError(
+                "Not a valid HTTP request methode. Only GET or POST requests are supported. "
+                f"Use the session attribute to get full control of your request. Provided methode: {t}"
             )
 
         if return_response:
@@ -197,8 +226,9 @@ class NucleiClient:
         if not response.ok:
             raise RuntimeError(
                 "An error was thrown during your reqeust. \n"
+                f"Request URL: {response.url} \n"
                 f"Status code: {response.status_code} \n"
-                f"Message: {response.content!r}"
+                f"Message:     {response.content!r}"
             )
 
         content_type = response.headers["Content-Type"]
