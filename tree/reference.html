@@ -132,24 +132,43 @@ upon request or set as environment variable.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nuclei.client.main.NucleiClient.call_endpoint">
-<span class="sig-name descname"><span class="pre">call_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.call_endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.call_endpoint" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">call_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.call_endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.main.NucleiClient.call_endpoint" title="Permalink to this definition"></a></dt>
 <dd><p>Calls an API in the nuclei landscape.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>app</strong> (<em>str</em>) – Name of the API. call <cite>get_applications</cite> to obtain a list with all applications.</p></li>
 <li><p><strong>endpoint</strong> (<em>str</em>) – Name of the API’s endpoint. call <cite>get_endpoints</cite> to obtain a list with all applications for a given API.</p></li>
+<li><p><strong>methode</strong> (<em>str</em>) – default  is auto
+HTTP methode used to call endpoint. When auto methode is selected the HTTP methode is
+obtained from the openapi docs.</p></li>
 <li><p><strong>schema</strong> (<em>dict</em><em>, </em><em>optional</em>) – Default is None
 The parameter schema for the API. Take a look at the API documentation.</p></li>
 <li><p><strong>return_response</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is False
 Return the requests response instead of the parsed data object.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>out</strong> – Parsed API’s json response.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>json</strong> (<em>dict</em>) – json response</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – text response</p></li>
+<li><p><strong>content</strong> (<em>bytes</em>) – content response</p></li>
+<li><p><strong>out</strong> (<em>Response</em>) – requests response object</p></li>
+<li><p><strong>figure</strong> (<em>Image</em>) – IPython display Image object</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>RuntimeError:</strong> – Thrown when response is between 400 and 600 to see if
+    there was a client error or a server error.</p></li>
+<li><p><strong>NotImplementedError:</strong> – HTTP methode not get or post request</p></li>
+<li><p><strong>ValueError:</strong> – Endpoint does not exist in the API landscape</p></li>
+<li><p><strong>ConnectionError:</strong> – Application not available</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
