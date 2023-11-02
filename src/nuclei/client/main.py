@@ -109,6 +109,22 @@ class NucleiClient:
             )
         return response.json()
 
+    def get_application_version(self, app: str) -> str:
+        """
+        Provide version of the API in the Nuclei landscape.
+
+        Parameters
+        ----------
+        app : str
+            Name of the API.
+
+        Returns
+        -------
+        out : str
+            Semantic Version of the API
+        """
+        return self._get_app_specification(app)["info"]["version"]
+
     def get_endpoints(self, app: str) -> List[str]:
         """
         Get available endpoints of single API.

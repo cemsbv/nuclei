@@ -282,3 +282,22 @@ def user_token_envvar(monkeypatch):
     monkeypatch.setattr(
         os, "environ", {"NUCLEI_TOKEN": mock_valid_jwt(key="user_secret")}
     )
+
+
+@pytest.fixture
+def get_app_specification_version(monkeypatch, mock_get_shortlived_token_200):
+    def mock_get_app_specification(self, app: str) -> dict:
+        if app == "PileCore":
+            return {
+                "info": {
+                    "version": "0.1.0-beta.1",
+                }
+            }
+        raise ValueError(
+            "The _get_app_specification is mocked in this test. Usage is restricted to the PileCore app."
+        )
+
+    monkeypatch.setattr(
+        "nuclei.client.main.NucleiClient._get_app_specification",
+        mock_get_app_specification,
+    )

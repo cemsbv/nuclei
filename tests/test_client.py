@@ -264,3 +264,15 @@ def test_call_endpoint_post_returns_text(
 
     assert isinstance(response, str)
     assert response == "Some text"
+
+
+def test_call_endpoint_version(
+    user_token_envvar,
+    mock_get_shortlived_token_200,
+    get_app_specification_version,
+):
+    """Test `get_application_version`"""
+
+    client = NucleiClient()
+
+    assert client.get_application_version(app="PileCore") == "0.1.0-beta.1"
