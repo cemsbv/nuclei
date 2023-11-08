@@ -13,19 +13,18 @@ website.
 
 Installation
 ------------
-`Nuclei` can be installed with `pip` by running:
-
-.. code-block::
-
-    pip install cems-nuclei
-
-
-Or instead, if you want to use the `NucleiClient` functionality: 
+To install this package, including the `NucleiClient` library and its dependencies, run:
 
 .. code-block::
 
     pip install cems-nuclei[client]
-    
+
+
+To skip the installation of the `NucleiClient` library, in case you do not need it (e.g. only use pure requests), run:
+
+.. code-block::
+
+    pip install cems-nuclei
 
 User Token
 ------------

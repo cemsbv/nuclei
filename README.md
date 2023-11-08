@@ -4,16 +4,22 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
-
-This repository is created by [CEMS BV](https://cemsbv.nl/) and helps the user to access and process API calls to the [NUCLEI](https://nuclei.cemsbv.io/#/) environment.
+This repository is created by [CEMS BV](https://cemsbv.nl/) and helps the user to access and process API calls to
+the [NUCLEI](https://nuclei.cemsbv.io/#/) environment.
 
 # Installation
 
-To install a package in this repository run:
+To install this package, including the `NucleiClient` library and its dependencies, run:
 
-`$ pip install cems-nuclei`
+```bash
+pip install cems-nuclei[client]
+```
 
-Please note that to use `NucleiClient` library `cems-nuclei[client]` should be installed.
+To skip the installation of the `NucleiClient` library, in case you do not need it (e.g. only use pure requests), run:
+
+```bash
+pip install cems-nuclei
+```
 
 ## ENV VARS
 
@@ -24,14 +30,15 @@ To use `nuclei` add the follow ENV vars to your environment. Or provide them whe
     - Your NUCLEI user token
 ```
 
-You can obtain your `NUCLEI_TOKEN` on [NUCLEI](https://nuclei.cemsbv.io/#/). 
+You can obtain your `NUCLEI_TOKEN` on [NUCLEI](https://nuclei.cemsbv.io/#/).
 Go to `personal-access-tokens` and create a new user token.
 
 # Contribution
 
 ## Environment
 
-We recommend developing in Python3.9 with a clean virtual environment (using `virtualenv` or `conda`), installing the requirements from the requirements.txt file:
+We recommend developing in Python3.9 with a clean virtual environment (using `virtualenv` or `conda`), installing the
+requirements from the requirements.txt file:
 
 Example using `virtualenv` and `pip` to install the dependencies in a new environment .env on Linux:
 
