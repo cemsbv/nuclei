@@ -88,12 +88,12 @@ from the <cite>Sign Up</cite> tab after clicking <cite>Log In</cite> on the <a c
 website.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
-<p><cite>Nuclei</cite> can be installed with <cite>pip</cite> by running:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cems</span><span class="o">-</span><span class="n">nuclei</span>
+<p>To install this package, including the <cite>NucleiClient</cite> library and its dependencies, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cems</span><span class="o">-</span><span class="n">nuclei</span><span class="p">[</span><span class="n">client</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Or instead, if you want to use the <cite>NucleiClient</cite> functionality:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cems</span><span class="o">-</span><span class="n">nuclei</span><span class="p">[</span><span class="n">client</span><span class="p">]</span>
+<p>To skip the installation of the <cite>NucleiClient</cite> library, in case you do not need it (e.g. only use pure requests), run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cems</span><span class="o">-</span><span class="n">nuclei</span>
 </pre></div>
 </div>
 </section>
@@ -158,7 +158,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f5e44ec62e0&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f979b2fb310&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
