@@ -145,7 +145,7 @@ you won’t have to worry about passing the correct types.</p>
 </div>
 <p>You can also check the applications to which you have full access:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">user_permissions</span><span class="p">)</span>
-<span class="go">[&#39;read:api_access_token&#39;, &#39;read:cptcore+classify&#39;, &#39;read:cptcore+parse&#39;, &#39;read:datalake_admin&#39;, &#39;read:datalake_app_subsurface-data-map&#39;, &#39;read:datalake_app_superset&#39;, &#39;read:datalake_project_198&#39;, &#39;read:datalake_project_199&#39;, &#39;read:latex+report&#39;, &#39;read:notebooks&#39;, &#39;read:pilecore+calculate&#39;, &#39;read:pilecore+report&#39;, &#39;read:shallowcore+calculate&#39;, &#39;read:shallowcore+report&#39;, &#39;read:subsurface_data_map&#39;, &#39;read:user_info&#39;, &#39;read:users&#39;, &#39;read:vibracore+calculate&#39;, &#39;read:vibracore+report&#39;, &#39;sudo:nuclei&#39;, &#39;write:api_access_token&#39;, &#39;write:datalake_admin&#39;, &#39;write:datalake_app_subsurface-data-map&#39;, &#39;write:datalake_app_superset&#39;, &#39;write:datalake_project_198&#39;, &#39;write:notebooks&#39;, &#39;write:subsurface_data_map&#39;, &#39;write:typst_report&#39;]</span>
+<span class="go">[&#39;read:cptcore+classify&#39;, &#39;read:cptcore+parse&#39;, &#39;read:latex+report&#39;, &#39;read:pilecore+calculate&#39;, &#39;read:pilecore+report&#39;, &#39;read:shallowcore+calculate&#39;, &#39;read:shallowcore+report&#39;, &#39;read:vibracore+calculate&#39;, &#39;read:vibracore+report&#39;]</span>
 </pre></div>
 </div>
 <p>If an application is not listed here, your usage of the app is limited. Check the
@@ -158,7 +158,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f979b2fb310&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7fc3f3f65310&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that

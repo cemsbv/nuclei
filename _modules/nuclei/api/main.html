@@ -72,7 +72,6 @@
   <h1>Source code for nuclei.api.main</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">import</span> <span class="nn">jwt</span>
 <span class="kn">import</span> <span class="nn">requests</span>
@@ -92,60 +91,17 @@
     <span class="c1"># initialising session</span>
     <span class="n">_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_response_hook</span><span class="p">(</span>
-        <span class="n">r</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Response hook functions to set as event hook on the session.</span>
-
-<span class="sd">        This hook does:</span>
-<span class="sd">            - Update short-lived access token if needed.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        r : Response</span>
-<span class="sd">        args : Any</span>
-<span class="sd">        kwargs : Any</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Response</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># send new request after update short-lived access token</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># decode JWT token</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-                <span class="n">r</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">],</span>
-                <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;verify_exp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
-            <span class="p">)</span>
-        <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-
-            <span class="c1"># get short-lived access token</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Update Bearer token&quot;</span><span class="p">)</span>
-            <span class="n">token</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">()</span>
-
-            <span class="c1"># set token to header</span>
-            <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
-            <span class="n">r</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
-
-            <span class="k">return</span> <span class="n">_session</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span>
-
     <span class="c1"># set bearer token</span>
     <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">authenticate</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
 
-    <span class="c1"># set hook</span>
-    <span class="n">_session</span><span class="o">.</span><span class="n">hooks</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_response_hook</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_session</span></div>
 
 
 <span class="k">def</span> <span class="nf">authenticate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a validated short-lived token from backend.</span>
+<span class="sd">    Returns a validated JWT token from backend.</span>
 
-<span class="sd">    Promts the user for a user-token if it is not stored as an environmental variable</span>
+<span class="sd">    Prompt the user for a user-token if it is not stored as an environmental variable</span>
 <span class="sd">    &quot;NUCLEI_TOKEN&quot;. A prompted user token will be stored as env-var after validation.</span>
 
 <span class="sd">    Will throw an exception when authentication fails.</span>
@@ -153,7 +109,7 @@
 
     <span class="n">user_token</span> <span class="o">=</span> <span class="n">_get_valid_user_token</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="n">_get_valid_shortlived_token</span><span class="p">(</span><span class="n">user_token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">user_token</span>
 
 
 <span class="k">def</span> <span class="nf">_get_valid_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -183,7 +139,7 @@
 
 
 <span class="k">def</span> <span class="nf">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validade a JWT User-token by trying to decode it.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a JWT User-token by trying to decode it.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -209,32 +165,6 @@
             <span class="s2">&quot;https://nuclei.cemsbv.io/#/personal-access-tokens. &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;The following error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_get_valid_shortlived_token</span><span class="p">(</span><span class="n">user_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Takes a nuclei user-token and returns a valid nuclei shortlived token.</span>
-<span class="sd">    Will remove the NUCLEI_TOKEN environmental variable key if no token could be</span>
-<span class="sd">    obtained with the user-token.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="s2">&quot;https://nuclei.cemsbv.io/v1/shortlived-access-token&quot;</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">user_token</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">400</span> <span class="ow">or</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Remove user token from environment&quot;</span><span class="p">)</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unauthorized - invalid token&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Remove user token from environment&quot;</span><span class="p">)</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Cannot authorize (status: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">, msg: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;msg&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
-        <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
 </pre></div>
 
            </div>
