@@ -34,6 +34,14 @@ class NucleiClient:
 
         This class allows the user to interact with our APIs. API documentation can be
         found on our platform > https://nuclei.cemsbv.io/#
+
+        Attributes
+        -----------
+        session: Session
+            requests.Session with authorisation set
+        routing: dict
+            Routing table to all available API's in the Nuclei landscape.
+
         """
         # initialize session
         self.session = create_session()
@@ -49,6 +57,7 @@ class NucleiClient:
         ----------
         app : str
             Application name
+
         Returns
         -------
         url : str
@@ -96,6 +105,7 @@ class NucleiClient:
         ----------
         app : str
             Name of the API.
+
         Returns
         -------
         dict
@@ -103,7 +113,7 @@ class NucleiClient:
         response = requests.get(self.get_url(app) + "/openapi.json")
         if response.status_code != 200:
             raise ConnectionError(
-                "Unfortunately the server you are trying to reaches is unavailable (status code: "
+                "Unfortunately the application you are trying to reaches is unavailable (status code: "
                 f"{response.status_code}). Please check you connection. If the problem persist contact "
                 "CEMS at info@cemsbv.nl"
             )
@@ -128,10 +138,12 @@ class NucleiClient:
     def get_endpoints(self, app: str) -> List[str]:
         """
         Get available endpoints of single API.
+
         Parameters
         ----------
         app : str
             Name of the API.
+
         Returns
         -------
         out : list[str]

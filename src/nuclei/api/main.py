@@ -1,6 +1,5 @@
 import logging
 import os
-from typing import Any
 
 import jwt
 import requests
@@ -20,60 +19,17 @@ def create_session() -> requests.Session:
     # initialising session
     _session = requests.Session()
 
-    def _response_hook(
-        r: requests.Response, *args: Any, **kwargs: Any
-    ) -> requests.Response:
-        """
-        Response hook functions to set as event hook on the session.
-
-        This hook does:
-            - Update short-lived access token if needed.
-
-        Parameters
-        ----------
-        r : Response
-        args : Any
-        kwargs : Any
-
-        Returns
-        -------
-        Response
-        """
-        # send new request after update short-lived access token
-        try:
-            # decode JWT token
-            _ = jwt.decode(
-                r.request.headers["Authorization"].split(" ")[1],
-                algorithms=["HS256"],
-                options={"verify_signature": False, "verify_exp": True},
-            )
-        except jwt.ExpiredSignatureError:
-            logging.info(r.text)
-
-            # get short-lived access token
-            logging.info("Update Bearer token")
-            token = authenticate()
-
-            # set token to header
-            _session.headers.update({"Authorization": f"Bearer {token}"})
-            r.request.headers["Authorization"] = _session.headers["Authorization"]  # type: ignore
-
-            return _session.send(r.request, verify=False)
-        return r
-
     # set bearer token
     _session.headers.update({"Authorization": f"Bearer {authenticate()}"})
 
-    # set hook
-    _session.hooks["response"].append(_response_hook)
     return _session
 
 
 def authenticate() -> str:
     """
-    Returns a validated short-lived token from backend.
+    Returns a validated JWT token from backend.
 
-    Promts the user for a user-token if it is not stored as an environmental variable
+    Prompt the user for a user-token if it is not stored as an environmental variable
     "NUCLEI_TOKEN". A prompted user token will be stored as env-var after validation.
 
     Will throw an exception when authentication fails.
@@ -81,7 +37,7 @@ def authenticate() -> str:
 
     user_token = _get_valid_user_token()
 
-    return _get_valid_shortlived_token(user_token)
+    return user_token
 
 
 def _get_valid_user_token() -> str:
@@ -111,7 +67,7 @@ def _get_valid_user_token() -> str:
 
 
 def _validate_user_token(token: str) -> None:
-    """Validade a JWT User-token by trying to decode it.
+    """Validate a JWT User-token by trying to decode it.
 
     Parameters
     ----------
@@ -137,29 +93,3 @@ def _validate_user_token(token: str) -> None:
             "https://nuclei.cemsbv.io/#/personal-access-tokens. "
             f"The following error occurred: {e}"
         )
-
-
-def _get_valid_shortlived_token(user_token: str) -> str:
-    """
-    Takes a nuclei user-token and returns a valid nuclei shortlived token.
-    Will remove the NUCLEI_TOKEN environmental variable key if no token could be
-    obtained with the user-token.
-    """
-
-    r = requests.get(
-        "https://nuclei.cemsbv.io/v1/shortlived-access-token",
-        data=user_token,
-    )
-
-    if r.status_code == 400 or r.status_code == 401:
-        logging.info("Remove user token from environment")
-        _ = os.environ.pop("NUCLEI_TOKEN", None)
-        raise Exception("Unauthorized - invalid token")
-    elif r.status_code != 200:
-        logging.info("Remove user token from environment")
-        _ = os.environ.pop("NUCLEI_TOKEN", None)
-        raise Exception(
-            f"Cannot authorize (status: {r.status_code}, msg: {r.json()['msg']})"
-        )
-
-    return r.text

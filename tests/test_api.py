@@ -79,7 +79,10 @@ def test_create_session(monkeypatch, mock_get_shortlived_token_200):
     session = api.create_session()
 
     assert isinstance(session, Session)
-    assert session.headers["Authorization"] == f"Bearer {mock_valid_jwt()}"
+    assert (
+        session.headers["Authorization"]
+        == f"Bearer {mock_valid_jwt(key='user_secret')}"
+    )
 
 
 def test_response_hook_valid_token(monkeypatch, mock_get_shortlived_token_200):
@@ -118,13 +121,3 @@ def test_response_hook_expired_token(monkeypatch, mock_get_shortlived_token_200)
     monkeypatch.setattr(
         os, "environ", {"NUCLEI_TOKEN": mock_valid_jwt(key="user_token")}
     )
-
-    # Mock a Response object with an expired shortlived-jwt token in its request
-    r_exp = Response()
-    r_exp.request = Request(headers={"Authorization": f"Bearer {mock_expired_jwt()}"})
-
-    # Create a session and run its response-hook on the expired response
-    session = api.create_session()
-    r_after_hook = dispatch_hook("response", session.hooks, r_exp)
-
-    assert r_after_hook.request.headers["Authorization"] == f"Bearer {mock_valid_jwt()}"
