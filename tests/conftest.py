@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import uuid
+from typing import Any
 
 import jwt
 import pytest
@@ -56,7 +57,7 @@ def mock_invalid_jwt(key: str = "") -> str:
 def mock_get_shortlived_token_200(monkeypatch):
     real_request = requests.get
 
-    def get_shortlived_token(url, data=None) -> Response:
+    def get_shortlived_token(url, data=None, *args: Any, **kwargs: Any) -> Response:
         if url == "https://nuclei.cemsbv.io/v1/shortlived-access-token":
             r = Response()
             r.status_code = 200
@@ -70,7 +71,7 @@ def mock_get_shortlived_token_200(monkeypatch):
 
 @pytest.fixture
 def mock_get_shortlived_token_400(monkeypatch):
-    def get_shortlived_token(url, data) -> Response:
+    def get_shortlived_token(url, data, *args: Any, **kwargs: Any) -> Response:
         if url == "https://nuclei.cemsbv.io/v1/shortlived-access-token":
             r = Response()
             r.status_code = 400
@@ -83,7 +84,7 @@ def mock_get_shortlived_token_400(monkeypatch):
 
 @pytest.fixture
 def mock_get_shortlived_token_500(monkeypatch):
-    def get_shortlived_token(url, data) -> Response:
+    def get_shortlived_token(url, data, *args: Any, **kwargs: Any) -> Response:
         if url == "https://nuclei.cemsbv.io/v1/shortlived-access-token":
             r = Response()
             r.status_code = 500

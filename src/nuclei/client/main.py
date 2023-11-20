@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import base64
 from functools import lru_cache
 from typing import Any, List, Literal, Optional, Union
@@ -25,6 +27,8 @@ ROUTING = {
     "CPT Core": "https://crux-nuclei.com/api/cptcore/v1",
     "ShallowCore": "https://crux-nuclei.com/api/shallowcore/v1",
 }
+
+DEFAULT_REQUEST_TIMEOUT = 5
 
 
 class NucleiClient:
@@ -69,7 +73,7 @@ class NucleiClient:
         )
 
     @property
-    def user_permissions(self) -> List[str]:
+    def user_permissions(self) -> List[str | None]:
         """
         Provide the user permissions of your token.
 
@@ -82,7 +86,7 @@ class NucleiClient:
             self.session.headers["Authorization"].split(" ")[1],  # type: ignore
             algorithms=["HS256"],
             options={"verify_signature": False, "verify_exp": False},
-        )["permissions"]
+        ).get("permissions", [])
 
     @property
     def applications(self) -> List[str]:
@@ -110,7 +114,9 @@ class NucleiClient:
         -------
         dict
         """
-        response = requests.get(self.get_url(app) + "/openapi.json")
+        response = requests.get(
+            self.get_url(app) + "/openapi.json", timeout=DEFAULT_REQUEST_TIMEOUT
+        )
         if response.status_code != 200:
             raise ConnectionError(
                 "Unfortunately the application you are trying to reaches is unavailable (status code: "
@@ -236,11 +242,13 @@ class NucleiClient:
             response = self.session.get(
                 self.get_url(app) + endpoint,
                 params=utils.python_types_to_message(schema),
+                timeout=DEFAULT_REQUEST_TIMEOUT,
             )
         elif t.lower() == "post":
             response = self.session.post(
                 self.get_url(app) + endpoint,
                 json=utils.python_types_to_message(schema),
+                timeout=DEFAULT_REQUEST_TIMEOUT,
             )
         else:
             raise NotImplementedError(
@@ -253,10 +261,12 @@ class NucleiClient:
 
         if not response.ok:
             raise RuntimeError(
-                "An error was thrown during your reqeust. \n"
+                "An error was thrown during your reqeust. Please take a look at the response object for "
+                "more information. You can get the response object by setting the `return_response` attribute"
+                "to True. \n"
                 f"Request URL: {response.url} \n"
                 f"Status code: {response.status_code} \n"
-                f"Message:     {response.content!r}"
+                f"Message:     {response.content[:100]!r}"
             )
 
         content_type = response.headers["Content-Type"]
@@ -264,7 +274,7 @@ class NucleiClient:
             return Image(base64.b64decode(response.text))
         elif content_type == "image/png":
             return Image(response.content)
-        elif content_type == "application/json":
+        elif content_type.endswith("json"):
             return response.json()
         elif content_type.startswith("text/"):
             return response.text
