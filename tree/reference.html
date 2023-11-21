@@ -107,32 +107,7 @@ upon request or set as environment variable.</p>
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nuclei.client.main.</span></span><span class="sig-name descname"><span class="pre">NucleiClient</span></span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>NUCLEI Client.</p>
-<p>This class allows the user to interact with our APIs. API documentation can be
-found on our platform &gt; <a class="reference external" href="https://nuclei.cemsbv.io">https://nuclei.cemsbv.io</a>/#</p>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">session</span></span></dt>
-<dd><p>requests.Session with authorisation set</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Session</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">routing</span></span></dt>
-<dd><p>Routing table to all available API’s in the Nuclei landscape.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
+<dd><dl class="py property">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em></dt>
 <dd><p>Provide available API’s in the Nuclei landscape.</p>
@@ -255,16 +230,6 @@ Return the requests response instead of the parsed data object.</p></li>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">routing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'CPT</span> <span class="pre">Core':</span> <span class="pre">'https://crux-nuclei.com/api/cptcore/v1',</span> <span class="pre">'PileCore':</span> <span class="pre">'https://crux-nuclei.com/api/pilecore/v2',</span> <span class="pre">'ShallowCore':</span> <span class="pre">'https://crux-nuclei.com/api/shallowcore/v1',</span> <span class="pre">'VibraCore':</span> <span class="pre">'https://crux-nuclei.com/api/vibracore/v2'}</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">session</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;requests.sessions.Session</span> <span class="pre">object&gt;</span></em></dt>
-<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py">
