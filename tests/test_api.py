@@ -12,7 +12,7 @@ from nuclei.api import main as api
 from .conftest import mock_expired_jwt, mock_invalid_jwt, mock_valid_jwt
 
 
-def test_authenticate_stdin_valid(monkeypatch, mock_get_shortlived_token_200):
+def test_authenticate_stdin_valid(monkeypatch):
     """Tries to authenticate with a valid token through stdin,
     without the NUCLEI_TOKEN environmental variable set."""
 
@@ -22,7 +22,7 @@ def test_authenticate_stdin_valid(monkeypatch, mock_get_shortlived_token_200):
     api.authenticate()
 
 
-def test_authenticate_envvar_valid(monkeypatch, mock_get_shortlived_token_200):
+def test_authenticate_envvar_valid(monkeypatch):
     """Tries to authenticate with a valid NUCLEI_TOKEN environmental variable."""
     monkeypatch.setattr(
         os, "environ", {"NUCLEI_TOKEN": mock_valid_jwt(key="user_secret")}
@@ -31,7 +31,7 @@ def test_authenticate_envvar_valid(monkeypatch, mock_get_shortlived_token_200):
     api.authenticate()
 
 
-def test_authenticate_stdin_expired(monkeypatch, mock_get_shortlived_token_200):
+def test_authenticate_stdin_expired(monkeypatch):
     """Tries to authenticate with an expired token through stdin.
     Should raise a jwt.ExpiredSignatureError"""
 
@@ -42,7 +42,7 @@ def test_authenticate_stdin_expired(monkeypatch, mock_get_shortlived_token_200):
         api.authenticate()
 
 
-def test_authenticate_stdin_invalid(monkeypatch, mock_get_shortlived_token_200):
+def test_authenticate_stdin_invalid(monkeypatch):
     """Tries to authenticate with an expired token through stdin.
     Should raise a jwt.InvalidTokenError"""
 
@@ -53,23 +53,7 @@ def test_authenticate_stdin_invalid(monkeypatch, mock_get_shortlived_token_200):
         api.authenticate()
 
 
-def test_get_shortlived_token_error_400(monkeypatch, mock_get_shortlived_token_400):
-    """Tests if _get_valid_shortlived_token raises an Exception if the
-    shortlived-token call returns a 400"""
-
-    with pytest.raises(Exception):
-        api._get_valid_shortlived_token("")
-
-
-def test_get_shortlived_token_error_500(monkeypatch, mock_get_shortlived_token_500):
-    """Tests if _get_valid_shortlived_token raises an Exception if the
-    shortlived-token call returns a 500"""
-
-    with pytest.raises(Exception):
-        api._get_valid_shortlived_token("")
-
-
-def test_create_session(monkeypatch, mock_get_shortlived_token_200):
+def test_create_session(monkeypatch):
     """Tests if a requests.Session is created properly with the correct bearer token."""
 
     monkeypatch.setattr(
@@ -85,7 +69,7 @@ def test_create_session(monkeypatch, mock_get_shortlived_token_200):
     )
 
 
-def test_response_hook_valid_token(monkeypatch, mock_get_shortlived_token_200):
+def test_response_hook_valid_token(monkeypatch):
     """Tests the response-hook of the session when the request token was valid."""
 
     # Set a valid user token for authentication
@@ -104,7 +88,7 @@ def test_response_hook_valid_token(monkeypatch, mock_get_shortlived_token_200):
     assert r_after_hook.request.headers["Authorization"] == f"Bearer {mock_valid_jwt()}"
 
 
-def test_response_hook_expired_token(monkeypatch, mock_get_shortlived_token_200):
+def test_response_hook_expired_token(monkeypatch):
     """Tests the response-hook of the session when the request token was expired."""
 
     # Mock the Session.send call so it returns a valid response

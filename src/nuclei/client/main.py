@@ -32,26 +32,27 @@ DEFAULT_REQUEST_TIMEOUT = 5
 
 
 class NucleiClient:
-    """
-    NUCLEI Client.
+    def __init__(self) -> None:
+        """
+        NUCLEI Client.
 
-    This class allows the user to interact with our APIs. API documentation can be
-    found on our platform > https://nuclei.cemsbv.io/#
+        This class allows the user to interact with our APIs. API documentation can be
+        found on our platform > https://nuclei.cemsbv.io/#
 
-    Attributes
-    -----------
-    session: Session
-        requests.Session with authorisation set
-    routing: dict
-        Routing table to all available API's in the Nuclei landscape.
+        Attributes
+        -----------
+        session: Session
+            requests.Session with authorisation set
+        routing: dict
+            Routing table to all available API's in the Nuclei landscape.
 
-    """
+        """
 
-    # initialize session
-    session = create_session()
+        # initialize session
+        self.session = create_session()
 
-    # get routing table to application
-    routing = ROUTING
+        # get routing table to application
+        self.routing = ROUTING
 
     def get_url(self, app: str) -> str:
         """

@@ -11,7 +11,7 @@ from nuclei.client.main import NucleiClient
 from .conftest import mock_valid_jwt
 
 
-def test_client_env_vars(user_token_envvar, mock_get_shortlived_token_200):
+def test_client_env_vars(user_token_envvar):
     """Tests if a NucleiClient can be instantiated with correct token in env-var."""
 
     client = NucleiClient()
@@ -19,7 +19,7 @@ def test_client_env_vars(user_token_envvar, mock_get_shortlived_token_200):
     assert isinstance(client.session, requests.Session)
 
 
-def test_client_stdin(monkeypatch, mock_get_shortlived_token_200):
+def test_client_stdin(monkeypatch):
     """Tests if a NucleiClient can be instantiated after passing a token through stdin"""
 
     monkeypatch.setattr(os, "environ", {})
@@ -32,9 +32,7 @@ def test_client_stdin(monkeypatch, mock_get_shortlived_token_200):
 
 
 @pytest.mark.parametrize("app", ["PileCore", "VibraCore", "CPT Core"])
-def test_applications_to_endpoints(
-    app, mock_get_shortlived_token_200, user_token_envvar
-):
+def test_applications_to_endpoints(app, user_token_envvar):
     """Tests correct responses for a single application of four endpoints:
     - get_applications: Is the appname in the list?,
     - get_url: Is an url returned for the appname?,
@@ -65,7 +63,7 @@ def test_applications_to_endpoints(
 
 
 @pytest.mark.parametrize("app", ["pilecore", "vibracore", "CPTCore"])
-def test_get_wrong_url(mock_get_shortlived_token_200, user_token_envvar, app):
+def test_get_wrong_url(user_token_envvar, app):
     "Tests if a ValueError is raised after passing an erroneous appname"
 
     client = NucleiClient()
@@ -78,7 +76,7 @@ def test_get_wrong_url(mock_get_shortlived_token_200, user_token_envvar, app):
     )
 
 
-def test_get_userclaims(mock_get_shortlived_token_200, user_token_envvar):
+def test_get_userclaims(user_token_envvar):
     """Tests if the get_user_claims endpoint returns the correct claims for a free user"""
 
     client = NucleiClient()
@@ -86,7 +84,7 @@ def test_get_userclaims(mock_get_shortlived_token_200, user_token_envvar):
     assert client.user_permissions == ["read:users"]
 
 
-def test_wrong_endpoint_for_type(mock_get_shortlived_token_200, user_token_envvar):
+def test_wrong_endpoint_for_type(user_token_envvar):
     """Tests if a ValueError is raised after calling get_endpoint_type with an
     non-existing endpoint"""
 
@@ -102,7 +100,6 @@ def test_wrong_endpoint_for_type(mock_get_shortlived_token_200, user_token_envva
 
 def test_call_endpoint_post_returns_json(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_post,
     session_send_post_returns_json,
 ):
@@ -120,7 +117,6 @@ def test_call_endpoint_post_returns_json(
 
 def test_call_endpoint_get_returns_json(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_get,
     session_send_get_returns_json,
 ):
@@ -138,7 +134,6 @@ def test_call_endpoint_get_returns_json(
 
 def test_call_endpoint_string_schema_returns_json(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_post,
     session_send_post_returns_json,
 ):
@@ -158,7 +153,6 @@ def test_call_endpoint_string_schema_returns_json(
 
 def test_call_endpoint_return_response(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_post,
     session_send_post_returns_json,
 ):
@@ -180,7 +174,6 @@ def test_call_endpoint_return_response(
 
 def test_call_endpoint_invalid_method(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_invalid_method,
 ):
     """Test `call_endpoint`: Post endpoint usage with invalid method"""
@@ -199,7 +192,6 @@ def test_call_endpoint_invalid_method(
 
 def test_call_endpoint_post_returns_png(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_post,
     session_send_post_returns_png,
 ):
@@ -217,7 +209,6 @@ def test_call_endpoint_post_returns_png(
 
 def test_call_endpoint_post_returns_b64_png(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_post,
     session_send_post_returns_b64_png,
 ):
@@ -235,7 +226,6 @@ def test_call_endpoint_post_returns_b64_png(
 
 def test_call_endpoint_post_returns_json_with_parsing_error(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_post,
     session_send_post_returns_json,
     mock_message_to_python_parsing_error,
@@ -252,7 +242,6 @@ def test_call_endpoint_post_returns_json_with_parsing_error(
 
 def test_call_endpoint_post_returns_text(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_post,
     session_send_post_returns_text,
 ):
@@ -268,7 +257,6 @@ def test_call_endpoint_post_returns_text(
 
 def test_call_endpoint_version(
     user_token_envvar,
-    mock_get_shortlived_token_200,
     get_app_specification_version,
 ):
     """Test `get_application_version`"""

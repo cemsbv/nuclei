@@ -2,12 +2,10 @@ import base64
 import json
 import os
 import uuid
-from typing import Any
 
 import jwt
 import pytest
 import requests
-from requests import Response
 
 from nuclei.client.main import ROUTING as routing
 
@@ -51,49 +49,6 @@ def mock_expired_jwt(key: str = "") -> str:
 def mock_invalid_jwt(key: str = "") -> str:
     """Invalid JWT token. Generated with https://jwt.io/#encoded-jwt"""
     return mock_expired_jwt(key=key)[:-2]
-
-
-@pytest.fixture
-def mock_get_shortlived_token_200(monkeypatch):
-    real_request = requests.get
-
-    def get_shortlived_token(url, data=None, *args: Any, **kwargs: Any) -> Response:
-        if url == "https://nuclei.cemsbv.io/v1/shortlived-access-token":
-            r = Response()
-            r.status_code = 200
-            r._content = bytes(mock_valid_jwt(), "utf-8")
-            return r
-        else:
-            return real_request(url, data)
-
-    monkeypatch.setattr("requests.get", get_shortlived_token)
-
-
-@pytest.fixture
-def mock_get_shortlived_token_400(monkeypatch):
-    def get_shortlived_token(url, data, *args: Any, **kwargs: Any) -> Response:
-        if url == "https://nuclei.cemsbv.io/v1/shortlived-access-token":
-            r = Response()
-            r.status_code = 400
-            return r
-        else:
-            return requests.get(url, data)
-
-    monkeypatch.setattr("requests.get", get_shortlived_token)
-
-
-@pytest.fixture
-def mock_get_shortlived_token_500(monkeypatch):
-    def get_shortlived_token(url, data, *args: Any, **kwargs: Any) -> Response:
-        if url == "https://nuclei.cemsbv.io/v1/shortlived-access-token":
-            r = Response()
-            r.status_code = 500
-            r._content = b"{'msg':'Error'}"
-            return r
-        else:
-            return requests.get(url, data)
-
-    monkeypatch.setattr("requests.get", get_shortlived_token)
 
 
 @pytest.fixture
@@ -255,7 +210,7 @@ def get_app_specification_get(monkeypatch):
 
 
 @pytest.fixture
-def get_app_specification_invalid_method(monkeypatch, mock_get_shortlived_token_200):
+def get_app_specification_invalid_method(monkeypatch):
     def mock_get_app_specification(self, app: str) -> dict:
         if app == "PileCore":
             return {
@@ -286,7 +241,7 @@ def user_token_envvar(monkeypatch):
 
 
 @pytest.fixture
-def get_app_specification_version(monkeypatch, mock_get_shortlived_token_200):
+def get_app_specification_version(monkeypatch):
     def mock_get_app_specification(self, app: str) -> dict:
         if app == "PileCore":
             return {
