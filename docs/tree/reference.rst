@@ -15,6 +15,7 @@ Client
     :members:
     :inherited-members:
     :undoc-members:
+    :noindex:
 
 Utils
 ______
