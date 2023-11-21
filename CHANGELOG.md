@@ -2,10 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2023-11-21
+
+### Miscellaneous Tasks
+
+- Clean up tests
+- Remove __init__ definition of client class
+- Set timeout on all requests
+- Test multiple python-versions
+
+### Refactor
+
+- [**breaking**] Remove short-lived token
+
+### Documentation
+
+- Update installation instruction
+
+### Features
+
+- Get the application version
+- Let use set HTTP methode
+
 ## [0.4.0-beta.2] - 2023-10-26
 
 ### Build
 
+- Update release with token
 - Release wheel and source
 
 ## [0.4.0-beta.1] - 2023-10-26
