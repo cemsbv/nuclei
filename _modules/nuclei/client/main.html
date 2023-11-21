@@ -104,26 +104,26 @@
 
 
 <div class="viewcode-block" id="NucleiClient"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient">[docs]</a><span class="k">class</span> <span class="nc">NucleiClient</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        NUCLEI Client.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NUCLEI Client.</span>
 
-<span class="sd">        This class allows the user to interact with our APIs. API documentation can be</span>
-<span class="sd">        found on our platform &gt; https://nuclei.cemsbv.io/#</span>
+<span class="sd">    This class allows the user to interact with our APIs. API documentation can be</span>
+<span class="sd">    found on our platform &gt; https://nuclei.cemsbv.io/#</span>
 
-<span class="sd">        Attributes</span>
-<span class="sd">        -----------</span>
-<span class="sd">        session: Session</span>
-<span class="sd">            requests.Session with authorisation set</span>
-<span class="sd">        routing: dict</span>
-<span class="sd">            Routing table to all available API&#39;s in the Nuclei landscape.</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    session: Session</span>
+<span class="sd">        requests.Session with authorisation set</span>
+<span class="sd">    routing: dict</span>
+<span class="sd">        Routing table to all available API&#39;s in the Nuclei landscape.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># initialize session</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">create_session</span><span class="p">()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-        <span class="c1"># get routing table to application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">routing</span> <span class="o">=</span> <span class="n">ROUTING</span>
+    <span class="c1"># initialize session</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">create_session</span><span class="p">()</span>
+
+    <span class="c1"># get routing table to application</span>
+    <span class="n">routing</span> <span class="o">=</span> <span class="n">ROUTING</span>
 
 <div class="viewcode-block" id="NucleiClient.get_url"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

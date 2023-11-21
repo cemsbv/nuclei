@@ -111,8 +111,8 @@ for this token when necessary.</p>
 <section id="guided-usage">
 <h2>Guided usage<a class="headerlink" href="#guided-usage" title="Permalink to this heading"></a></h2>
 <p>If you’re not so comfortable with creating your own API calls, you can easily access
-the <cite>nuclei</cite> endpoints by creating a <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient" title="nuclei.client.main.NucleiClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code></a> object and using
-the <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient.call_endpoint" title="nuclei.client.main.NucleiClient.call_endpoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code></a> to handle the calls for you.</p>
+the <cite>nuclei</cite> endpoints by creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code> object and using
+the <code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code> to handle the calls for you.</p>
 <p>For instance, calling the <cite>healthcheck</cite> endpoint of the <cite>VibraCore</cite> application
 can be done as such:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">NucleiClient</span>
@@ -127,13 +127,13 @@ can be done as such:</p>
 <span class="gh">Out[3]: </span><span class="go">&#39;Service alive&#39;</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient.call_endpoint" title="nuclei.client.main.NucleiClient.call_endpoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code></a> automatically returns the unpacked response object. You
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code> automatically returns the unpacked response object. You
 can get the raw response by setting the <cite>return_response</cite> argument to <cite>True</cite>.</p>
 <p>If the endpoint requires a schema, it can be passed as a Python dictionary to the
-<cite>schema</cite> argument of <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient.call_endpoint" title="nuclei.client.main.NucleiClient.call_endpoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code></a>. The schema is automatically parsed
+<cite>schema</cite> argument of <code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code>. The schema is automatically parsed
 with the <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a> function (see below) so in most cases
 you won’t have to worry about passing the correct types.</p>
-<p>The <a class="reference internal" href="reference.html#nuclei.client.main.NucleiClient" title="nuclei.client.main.NucleiClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code></a> can provide you with a list of <cite>Nuclei</cite> applications:</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code> can provide you with a list of <cite>Nuclei</cite> applications:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">applications</span><span class="p">)</span>
 <span class="go">[&#39;PileCore&#39;, &#39;VibraCore&#39;, &#39;CPT Core&#39;, &#39;ShallowCore&#39;]</span>
 </pre></div>
@@ -158,7 +158,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f06258033d0&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f2597e03280&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
