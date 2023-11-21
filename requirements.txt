@@ -8,17 +8,15 @@ alabaster==0.7.13
     # via sphinx
 asteroid-sphinx-theme==0.0.3
     # via cems-nuclei (pyproject.toml)
-asttokens==2.4.0
+asttokens==2.4.1
     # via stack-data
 babel==2.13.1
     # via sphinx
-backcall==0.2.0
-    # via ipython
-black==23.10.1
+black==23.11.0
     # via cems-nuclei (pyproject.toml)
-certifi==2023.7.22
+certifi==2023.11.17
     # via requests
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via black
@@ -35,11 +33,11 @@ docutils==0.18.1
     #   m2r2
     #   sphinx
     #   sphinx-rtd-theme
-exceptiongroup==1.1.3
+exceptiongroup==1.2.0
     # via
     #   ipython
     #   pytest
-executing==2.0.0
+executing==2.0.1
     # via stack-data
 idna==3.4
     # via requests
@@ -49,7 +47,7 @@ importlib-metadata==6.8.0
     # via sphinx
 iniconfig==2.0.0
     # via pytest
-ipython==8.16.1
+ipython==8.17.2
     # via cems-nuclei (pyproject.toml)
 isort==5.12.0
     # via cems-nuclei (pyproject.toml)
@@ -67,7 +65,7 @@ mistune==0.8.4
     # via m2r2
 mypy-extensions==1.0.0
     # via black
-numpy==1.26.1
+numpy==1.26.2
     # via cems-nuclei (pyproject.toml)
 packaging==23.2
     # via
@@ -80,19 +78,17 @@ pathspec==0.11.2
     # via black
 pexpect==4.8.0
     # via ipython
-pickleshare==0.7.5
-    # via ipython
-platformdirs==3.11.0
+platformdirs==4.0.0
     # via black
 pluggy==1.3.0
     # via pytest
-prompt-toolkit==3.0.39
+prompt-toolkit==3.0.41
     # via ipython
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
-pygments==2.16.1
+pygments==2.17.1
     # via
     #   ipython
     #   sphinx
@@ -145,7 +141,7 @@ tomli==2.0.1
     # via
     #   black
     #   pytest
-traitlets==5.12.0
+traitlets==5.13.0
     # via
     #   ipython
     #   matplotlib-inline
@@ -153,9 +149,9 @@ typing-extensions==4.8.0
     # via
     #   black
     #   ipython
-urllib3==2.0.7
+urllib3==2.1.0
     # via requests
-wcwidth==0.2.8
+wcwidth==0.2.11
     # via prompt-toolkit
 zipp==3.17.0
     # via importlib-metadata
