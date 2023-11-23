@@ -70,13 +70,15 @@ def mock_text_response():
 
 
 @pytest.fixture
-def mock_message_to_python_parsing_error(monkeypatch):
-    """Raise an arbitrary exception on any nuclei.client.utils.python_types_to_message call"""
+def mock_serialize_json_bytes_parsing_error(monkeypatch):
+    """Raise an arbitrary exception on any nuclei.client.utils.serialize_json_bytes call"""
 
-    def mock_mtpt(*args):
+    def mock_serialize_error(*args):
         raise Exception
 
-    monkeypatch.setattr("nuclei.client.utils.python_types_to_message", mock_mtpt)
+    monkeypatch.setattr(
+        "nuclei.client.utils.serialize_json_bytes", mock_serialize_error
+    )
 
 
 @pytest.fixture
