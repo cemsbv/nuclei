@@ -6,10 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "cems-nuclei"
 version = "0.4.0"
 description = "Python wrapper around NUCLEI's functionality."
-dependencies = [
-    "requests>=2.25.1",
-    "pyjwt==2.6.0",
-]
+dependencies = ["requests>=2.25.1", "pyjwt==2.6.0"]
 requires-python = ">=3.9"
 license = { file = "LICENSE.txt" }
 readme = "README.md"
@@ -19,14 +16,8 @@ keywords = ["API"]
 repository = "https://github.com/cemsbv/nuclei"
 
 [project.optional-dependencies]
-client = [
-    "ipython>=7.3.0",
-    "numpy>=1.19.4,<2.0",
-]
-test = [
-    "coveralls",
-    "pytest"
-]
+client = ["ipython>=7.3.0", "numpy>=1.19.4,<2.0", "orjson>=3,<4"]
+test = ["coveralls", "pytest"]
 docs = [
     "Sphinx==6.1.3",
     "sphinx-autodoc-typehints==1.22.0",
@@ -34,10 +25,7 @@ docs = [
     "sphinx_rtd_theme==1.2.0",
     "m2r2==0.3.2",
 ]
-lint = [
-    "black",
-    "isort",
-]
+lint = ["black", "isort"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
@@ -70,13 +58,7 @@ no_implicit_reexport = true
 strict_equality = true
 
 [[tool.mypy.overrides]]
-module = [
-    "numpy.*",
-    "pytest.*",
-    "setuptools.*",
-    "jwt.*",
-    "IPython.*"
-]
+module = ["numpy.*", "pytest.*", "setuptools.*", "jwt.*", "IPython.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
