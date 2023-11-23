@@ -19,5 +19,9 @@ Client
 
 Utils
 ______
-.. autofunction:: nuclei.client.utils.python_types_to_message
+.. autofunction:: nuclei.client.utils.serialize_jsonifyable_object
+
+.. autofunction:: nuclei.client.utils.serialize_json_string
+
+.. autofunction:: nuclei.client.utils.serialize_json_bytes
 

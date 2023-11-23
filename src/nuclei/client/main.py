@@ -242,13 +242,13 @@ class NucleiClient:
         if t.lower() == "get":
             response = self.session.get(
                 self.get_url(app) + endpoint,
-                params=utils.python_types_to_message(schema),
+                params=utils.serialize_jsonifyable_object(schema),
                 timeout=DEFAULT_REQUEST_TIMEOUT,
             )
         elif t.lower() == "post":
             response = self.session.post(
                 self.get_url(app) + endpoint,
-                json=utils.python_types_to_message(schema),
+                json=utils.serialize_json_string(schema),
                 timeout=DEFAULT_REQUEST_TIMEOUT,
             )
         else:
