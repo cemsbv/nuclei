@@ -1,15 +1,7 @@
-import json
-
 import numpy as np
-import orjson
 import pytest
 
-from nuclei.client.utils import (
-    python_types_to_message,
-    serialize_json_bytes,
-    serialize_json_string,
-    serialize_jsonifyable_object,
-)
+from nuclei.client.utils import python_types_to_message, serialize_jsonifyable_object
 
 
 @pytest.mark.parametrize(

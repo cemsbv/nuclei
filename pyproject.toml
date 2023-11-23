@@ -58,7 +58,14 @@ no_implicit_reexport = true
 strict_equality = true
 
 [[tool.mypy.overrides]]
-module = ["numpy.*", "pytest.*", "setuptools.*", "jwt.*", "IPython.*"]
+module = [
+    "numpy.*",
+    "pytest.*",
+    "setuptools.*",
+    "jwt.*",
+    "IPython.*",
+    "orjson.*",
+]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
