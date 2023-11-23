@@ -1,6 +1,10 @@
+from __future__ import annotations
+
 import json
 from collections.abc import Collection, Mapping
-from typing import Any, Union
+from typing import Any
+
+import orjson
 
 try:
     import numpy as np
@@ -13,6 +17,93 @@ except ImportError:
 
 def to_json(data: str) -> dict:
     return json.loads(data.replace("'", '"'))
+
+
+def serialize_json_bytes(obj: Any) -> bytes:
+    """
+    Takes an object and converts it to a JSON-bytes-string. Uses orjson.dumps()
+    to do the heavy lifting.
+
+    Serializable objects are (amongst others):
+    - python natives
+    - dataclasses
+    - datetime objects
+    - numpy objects
+
+    Some known objects that are not serializable:
+    - numpy.float16
+    - numpy.float128
+
+    Parameters
+    ----------
+    obj: Any
+        The object to serialize
+
+    Returns
+    -------
+    json-string: bytes
+        a JSON bytes-string
+    """
+    return orjson.dumps(obj, option=orjson.OPT_SERIALIZE_NUMPY)
+
+
+def serialize_json_string(obj: Any) -> str:
+    """
+    Takes an object and converts it to a JSON-string. Uses orjson.dumps()
+    to do the heavy lifting.
+
+    Serializable objects are (amongst others):
+    - python natives
+    - dataclasses
+    - datetime objects
+    - numpy objects
+
+    Some known objects that are not serializable:
+    - numpy.float16
+    - numpy.float128
+
+    Parameters
+    ----------
+    obj: Any
+        The object to serialize
+
+    Returns
+    -------
+    json-string: str
+        a JSON string
+    """
+    return serialize_json_bytes(obj).decode("utf-8")
+
+
+def serialize_jsonifyable_object(
+    schema: dict | np.ndarray | list | str | float | int | bool,
+) -> Any:
+    """
+    Takes an object and converts it to a JSON-serializable object. Uses orjson.dumps()
+    to do the heavy lifting.
+
+    Serializable objects are (amongst others):
+    - python natives
+    - dataclasses
+    - datetime objects
+    - numpy objects
+
+    Some known objects that are not serializable:
+    - numpy.float16
+    - numpy.float128
+
+
+    Parameters
+    ----------
+    obj: Any
+        The object to serialize
+
+    Returns
+    -------
+    json-string: str
+        a JSON string
+    """
+    return orjson.loads(serialize_json_bytes(schema))
 
 
 def python_types_to_message(
