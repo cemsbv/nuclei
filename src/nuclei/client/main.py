@@ -16,7 +16,7 @@ try:
     from nuclei.client import utils
 except ImportError as e:
     raise ImportError(
-        "Could not import one of dependencies [numpy, ipython]. "
+        "Could not import one of dependencies [numpy, orjson, ipython]. "
         "You must install nuclei[client] in order to use NucleiClient \n"
         rf"Traceback: {e}"
     )
@@ -188,6 +188,12 @@ class NucleiClient:
         """
         Calls an API in the nuclei landscape.
 
+        Note
+        --------
+        The provided `schema` is serialized by the `utils.serialize_jsonifyable_object`. For get request the
+        payload is passed to the `params` parameter of `request.get` function. For post request the payload
+        is passed to the `json`  parameter of `request.post` function. This has an effect on the request content type.
+
         Parameters
         ----------
         app: str
@@ -248,7 +254,7 @@ class NucleiClient:
         elif t.lower() == "post":
             response = self.session.post(
                 self.get_url(app) + endpoint,
-                json=utils.serialize_json_string(schema),
+                json=utils.serialize_jsonifyable_object(schema),
                 timeout=DEFAULT_REQUEST_TIMEOUT,
             )
         else:
