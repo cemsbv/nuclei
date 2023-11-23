@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import warnings
 from collections.abc import Collection, Mapping
 from typing import Any
 
@@ -107,18 +108,12 @@ def serialize_jsonifyable_object(
 
 
 def python_types_to_message(
-    schema: Union[
-        dict,
-        np.ndarray,
-        list,
-        str,
-        float,
-        int,
-        bool,
-    ],
+    schema: dict | np.ndarray | list | str | float | int | bool,
 ) -> Any:
     """
     Cast python types to jsonifyable message.
+
+    DEPRECATED since 0.5.0
 
     Parameters
     ----------
@@ -129,6 +124,12 @@ def python_types_to_message(
     message
         jsonifyable message.
     """
+    warnings.warn(
+        "This function has been deprecated and will be removed in the future. It is "
+        "recommended to use `nuclei.client.utils.serialize_jsonifyable_object` instead.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     if isinstance(schema, np.ndarray):
         # no NaN in array
         if all(isinstance(x, (np.floating, np.integer)) for x in schema.flatten()):
