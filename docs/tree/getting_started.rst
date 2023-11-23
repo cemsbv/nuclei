@@ -63,7 +63,7 @@ can get the raw response by setting the `return_response` argument to `True`.
 
 If the endpoint requires a schema, it can be passed as a Python dictionary to the
 `schema` argument of :meth:`~.call_endpoint`. The schema is automatically parsed
-with the :func:`~.python_types_to_message` function (see below) so in most cases 
+with the :func:`~.serialize_jsonifyable_object` function (see below) so in most cases 
 you won't have to worry about passing the correct types.
 
 The :class:`~.NucleiClient` can provide you with a list of `Nuclei` applications:
@@ -104,10 +104,10 @@ covers authentication for you.
 Schema serialization
 --------------------
 The automatic schema serialization tools are also available to advanced users by
-calling the :func:`~.python_types_to_message` function directly.
+calling the :func:`~.serialize_jsonifyable_object` function directly.
 
 The following code-block shows the mechanism behind these functions. First we
-create a `numpy.array` and transforms it to a serialized list with :func:`~.python_types_to_message`.
+create a `numpy.array` and transforms it to a serialized list with :func:`~.serialize_jsonifyable_object`.
 
 .. ipython:: python
 
@@ -116,5 +116,5 @@ create a `numpy.array` and transforms it to a serialized list with :func:`~.pyth
     from nuclei.client import utils
 
     schema = np.array([[np.int16(1), 2.0], [np.nan, np.float32(4)]])
-    message = utils.python_types_to_message(schema)
+    message = utils.serialize_jsonifyable_object(schema)
     print(message)
