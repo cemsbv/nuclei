@@ -228,7 +228,7 @@ def test_call_endpoint_post_returns_json_with_parsing_error(
     user_token_envvar,
     get_app_specification_post,
     session_send_post_returns_json,
-    mock_message_to_python_parsing_error,
+    mock_serialize_json_bytes_parsing_error,
 ):
     client = NucleiClient()
 
