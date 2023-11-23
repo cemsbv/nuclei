@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.1] - 2023-11-23
+
+### Features
+
+- Resolve #211 activate option OPT_UTC_Z and OPT_NAIVE_UTC
+
+### Bug Fixes
+
+- Use serialize_jsonifyable_object in post request
+
+### Documentation
+
+- Update reference page
+
 ## [0.5.0] - 2023-11-23
 
 ### Miscellaneous Tasks
