@@ -5,13 +5,12 @@ import warnings
 from collections.abc import Collection, Mapping
 from typing import Any
 
-import orjson
-
 try:
     import numpy as np
+    import orjson
 except ImportError:
     raise ImportError(
-        "Could not import one of dependencies [numpy]. "
+        "Could not import one of dependencies [numpy, orjson]. "
         "Must install nuclei[client] in order to use the utils functions"
     )
 
@@ -26,14 +25,20 @@ def serialize_json_bytes(obj: Any) -> bytes:
     to do the heavy lifting.
 
     Serializable objects are (amongst others):
-    - python natives
-    - dataclasses
-    - datetime objects
-    - numpy objects
+        - python natives
+        - dataclasses
+        - datetime objects
+        - numpy objects
 
     Some known objects that are not serializable:
-    - numpy.float16
-    - numpy.float128
+        - numpy.float16
+        - numpy.float128
+
+    Options:
+        - Serialize datetime.datetime objects without a tzinfo as UTC. This has no effect
+          on datetime.datetime objects that have tzinfo set.
+        - Serialize a UTC timezone on datetime.datetime instances as Z instead of +00:00
+        - Serialize numpy.ndarray instances. For more, see numpy.
 
     Parameters
     ----------
@@ -45,7 +50,9 @@ def serialize_json_bytes(obj: Any) -> bytes:
     json-string: bytes
         a JSON bytes-string
     """
-    return orjson.dumps(obj, option=orjson.OPT_SERIALIZE_NUMPY)
+    return orjson.dumps(
+        obj, option=orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_NAIVE_UTC | orjson.OPT_UTC_Z
+    )
 
 
 def serialize_json_string(obj: Any) -> str:
@@ -54,14 +61,14 @@ def serialize_json_string(obj: Any) -> str:
     to do the heavy lifting.
 
     Serializable objects are (amongst others):
-    - python natives
-    - dataclasses
-    - datetime objects
-    - numpy objects
+        - python natives
+        - dataclasses
+        - datetime objects
+        - numpy objects
 
     Some known objects that are not serializable:
-    - numpy.float16
-    - numpy.float128
+        - numpy.float16
+        - numpy.float128
 
     Parameters
     ----------
@@ -77,21 +84,21 @@ def serialize_json_string(obj: Any) -> str:
 
 
 def serialize_jsonifyable_object(
-    schema: dict | np.ndarray | list | str | float | int | bool,
+    obj: dict | np.ndarray | list | str | float | int | bool,
 ) -> Any:
     """
     Takes an object and converts it to a JSON-serializable object. Uses orjson.dumps()
     to do the heavy lifting.
 
     Serializable objects are (amongst others):
-    - python natives
-    - dataclasses
-    - datetime objects
-    - numpy objects
+        - python natives
+        - dataclasses
+        - datetime objects
+        - numpy objects
 
     Some known objects that are not serializable:
-    - numpy.float16
-    - numpy.float128
+        - numpy.float16
+        - numpy.float128
 
 
     Parameters
@@ -104,7 +111,7 @@ def serialize_jsonifyable_object(
     json-string: str
         a JSON string
     """
-    return orjson.loads(serialize_json_bytes(schema))
+    return orjson.loads(serialize_json_bytes(obj))
 
 
 def python_types_to_message(
