@@ -18,7 +18,8 @@ Client
     :noindex:
 
 Utils
-______
+-------
+
 .. autofunction:: nuclei.client.utils.serialize_jsonifyable_object
 
 .. autofunction:: nuclei.client.utils.serialize_json_string

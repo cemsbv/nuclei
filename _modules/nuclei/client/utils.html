@@ -77,13 +77,12 @@
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">import</span> <span class="nn">orjson</span>
-
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">orjson</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-        <span class="s2">&quot;Could not import one of dependencies [numpy]. &quot;</span>
+        <span class="s2">&quot;Could not import one of dependencies [numpy, orjson]. &quot;</span>
         <span class="s2">&quot;Must install nuclei[client] in order to use the utils functions&quot;</span>
     <span class="p">)</span>
 
@@ -98,14 +97,20 @@
 <span class="sd">    to do the heavy lifting.</span>
 
 <span class="sd">    Serializable objects are (amongst others):</span>
-<span class="sd">    - python natives</span>
-<span class="sd">    - dataclasses</span>
-<span class="sd">    - datetime objects</span>
-<span class="sd">    - numpy objects</span>
+<span class="sd">        - python natives</span>
+<span class="sd">        - dataclasses</span>
+<span class="sd">        - datetime objects</span>
+<span class="sd">        - numpy objects</span>
 
 <span class="sd">    Some known objects that are not serializable:</span>
-<span class="sd">    - numpy.float16</span>
-<span class="sd">    - numpy.float128</span>
+<span class="sd">        - numpy.float16</span>
+<span class="sd">        - numpy.float128</span>
+
+<span class="sd">    Options:</span>
+<span class="sd">        - Serialize datetime.datetime objects without a tzinfo as UTC. This has no effect</span>
+<span class="sd">          on datetime.datetime objects that have tzinfo set.</span>
+<span class="sd">        - Serialize a UTC timezone on datetime.datetime instances as Z instead of +00:00</span>
+<span class="sd">        - Serialize numpy.ndarray instances. For more, see numpy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -117,7 +122,9 @@
 <span class="sd">    json-string: bytes</span>
 <span class="sd">        a JSON bytes-string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">orjson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">orjson</span><span class="o">.</span><span class="n">OPT_SERIALIZE_NUMPY</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">orjson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+        <span class="n">obj</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">orjson</span><span class="o">.</span><span class="n">OPT_SERIALIZE_NUMPY</span> <span class="o">|</span> <span class="n">orjson</span><span class="o">.</span><span class="n">OPT_NAIVE_UTC</span> <span class="o">|</span> <span class="n">orjson</span><span class="o">.</span><span class="n">OPT_UTC_Z</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="serialize_json_string"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.utils.serialize_json_string">[docs]</a><span class="k">def</span> <span class="nf">serialize_json_string</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -126,14 +133,14 @@
 <span class="sd">    to do the heavy lifting.</span>
 
 <span class="sd">    Serializable objects are (amongst others):</span>
-<span class="sd">    - python natives</span>
-<span class="sd">    - dataclasses</span>
-<span class="sd">    - datetime objects</span>
-<span class="sd">    - numpy objects</span>
+<span class="sd">        - python natives</span>
+<span class="sd">        - dataclasses</span>
+<span class="sd">        - datetime objects</span>
+<span class="sd">        - numpy objects</span>
 
 <span class="sd">    Some known objects that are not serializable:</span>
-<span class="sd">    - numpy.float16</span>
-<span class="sd">    - numpy.float128</span>
+<span class="sd">        - numpy.float16</span>
+<span class="sd">        - numpy.float128</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -149,21 +156,21 @@
 
 
 <div class="viewcode-block" id="serialize_jsonifyable_object"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.utils.serialize_jsonifyable_object">[docs]</a><span class="k">def</span> <span class="nf">serialize_jsonifyable_object</span><span class="p">(</span>
-    <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Takes an object and converts it to a JSON-serializable object. Uses orjson.dumps()</span>
 <span class="sd">    to do the heavy lifting.</span>
 
 <span class="sd">    Serializable objects are (amongst others):</span>
-<span class="sd">    - python natives</span>
-<span class="sd">    - dataclasses</span>
-<span class="sd">    - datetime objects</span>
-<span class="sd">    - numpy objects</span>
+<span class="sd">        - python natives</span>
+<span class="sd">        - dataclasses</span>
+<span class="sd">        - datetime objects</span>
+<span class="sd">        - numpy objects</span>
 
 <span class="sd">    Some known objects that are not serializable:</span>
-<span class="sd">    - numpy.float16</span>
-<span class="sd">    - numpy.float128</span>
+<span class="sd">        - numpy.float16</span>
+<span class="sd">        - numpy.float128</span>
 
 
 <span class="sd">    Parameters</span>
@@ -176,7 +183,7 @@
 <span class="sd">    json-string: str</span>
 <span class="sd">        a JSON string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">orjson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">serialize_json_bytes</span><span class="p">(</span><span class="n">schema</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">orjson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">serialize_json_bytes</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span></div>
 
 
 <span class="k">def</span> <span class="nf">python_types_to_message</span><span class="p">(</span>

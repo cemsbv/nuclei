@@ -88,7 +88,7 @@
     <span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">utils</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-        <span class="s2">&quot;Could not import one of dependencies [numpy, ipython]. &quot;</span>
+        <span class="s2">&quot;Could not import one of dependencies [numpy, orjson, ipython]. &quot;</span>
         <span class="s2">&quot;You must install nuclei[client] in order to use NucleiClient </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="sa">rf</span><span class="s2">&quot;Traceback: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
@@ -260,6 +260,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calls an API in the nuclei landscape.</span>
 
+<span class="sd">        Note</span>
+<span class="sd">        --------</span>
+<span class="sd">        The provided `schema` is serialized by the `utils.serialize_jsonifyable_object`. For get request the</span>
+<span class="sd">        payload is passed to the `params` parameter of `request.get` function. For post request the payload</span>
+<span class="sd">        is passed to the `json`  parameter of `request.post` function. This has an effect on the request content type.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        app: str</span>
@@ -320,7 +326,7 @@
         <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;post&quot;</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
-                <span class="n">json</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_json_string</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
                 <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_REQUEST_TIMEOUT</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>

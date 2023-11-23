@@ -49,13 +49,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#nuclei.api.main.create_session"><code class="docutils literal notranslate"><span class="pre">create_session()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#client">Client</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#utils">Utils</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.utils.serialize_jsonifyable_object"><code class="docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.utils.serialize_json_string"><code class="docutils literal notranslate"><span class="pre">serialize_json_string()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nuclei.client.utils.serialize_json_bytes"><code class="docutils literal notranslate"><span class="pre">serialize_json_bytes()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#client">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utils">Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.client.utils.serialize_jsonifyable_object"><code class="docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.client.utils.serialize_json_string"><code class="docutils literal notranslate"><span class="pre">serialize_json_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.client.utils.serialize_json_bytes"><code class="docutils literal notranslate"><span class="pre">serialize_json_bytes()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -127,6 +125,12 @@ upon request or set as environment variable.</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">call_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient.call_endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Calls an API in the nuclei landscape.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The provided <cite>schema</cite> is serialized by the <cite>utils.serialize_jsonifyable_object</cite>. For get request the
+payload is passed to the <cite>params</cite> parameter of <cite>request.get</cite> function. For post request the payload
+is passed to the <cite>json</cite>  parameter of <cite>request.post</cite> function. This has an effect on the request content type.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -249,21 +253,28 @@ Return the requests response instead of the parsed data object.</p></li>
 
 </dd></dl>
 
+</section>
 <section id="utils">
-<h3>Utils<a class="headerlink" href="#utils" title="Permalink to this heading"></a></h3>
+<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="nuclei.client.utils.serialize_jsonifyable_object">
-<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_jsonifyable_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_jsonifyable_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_jsonifyable_object" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_jsonifyable_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_jsonifyable_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_jsonifyable_object" title="Permalink to this definition"></a></dt>
 <dd><p>Takes an object and converts it to a JSON-serializable object. Uses orjson.dumps()
 to do the heavy lifting.</p>
-<p>Serializable objects are (amongst others):
-- python natives
-- dataclasses
-- datetime objects
-- numpy objects</p>
-<p>Some known objects that are not serializable:
-- numpy.float16
-- numpy.float128</p>
+<dl class="simple">
+<dt>Serializable objects are (amongst others):</dt><dd><ul class="simple">
+<li><p>python natives</p></li>
+<li><p>dataclasses</p></li>
+<li><p>datetime objects</p></li>
+<li><p>numpy objects</p></li>
+</ul>
+</dd>
+<dt>Some known objects that are not serializable:</dt><dd><ul class="simple">
+<li><p>numpy.float16</p></li>
+<li><p>numpy.float128</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>obj</strong> (<em>Any</em>) – The object to serialize</p>
@@ -282,14 +293,20 @@ to do the heavy lifting.</p>
 <span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_json_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_json_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_json_string" title="Permalink to this definition"></a></dt>
 <dd><p>Takes an object and converts it to a JSON-string. Uses orjson.dumps()
 to do the heavy lifting.</p>
-<p>Serializable objects are (amongst others):
-- python natives
-- dataclasses
-- datetime objects
-- numpy objects</p>
-<p>Some known objects that are not serializable:
-- numpy.float16
-- numpy.float128</p>
+<dl class="simple">
+<dt>Serializable objects are (amongst others):</dt><dd><ul class="simple">
+<li><p>python natives</p></li>
+<li><p>dataclasses</p></li>
+<li><p>datetime objects</p></li>
+<li><p>numpy objects</p></li>
+</ul>
+</dd>
+<dt>Some known objects that are not serializable:</dt><dd><ul class="simple">
+<li><p>numpy.float16</p></li>
+<li><p>numpy.float128</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>obj</strong> (<em>Any</em>) – The object to serialize</p>
@@ -308,14 +325,27 @@ to do the heavy lifting.</p>
 <span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_json_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_json_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_json_bytes" title="Permalink to this definition"></a></dt>
 <dd><p>Takes an object and converts it to a JSON-bytes-string. Uses orjson.dumps()
 to do the heavy lifting.</p>
-<p>Serializable objects are (amongst others):
-- python natives
-- dataclasses
-- datetime objects
-- numpy objects</p>
-<p>Some known objects that are not serializable:
-- numpy.float16
-- numpy.float128</p>
+<dl class="simple">
+<dt>Serializable objects are (amongst others):</dt><dd><ul class="simple">
+<li><p>python natives</p></li>
+<li><p>dataclasses</p></li>
+<li><p>datetime objects</p></li>
+<li><p>numpy objects</p></li>
+</ul>
+</dd>
+<dt>Some known objects that are not serializable:</dt><dd><ul class="simple">
+<li><p>numpy.float16</p></li>
+<li><p>numpy.float128</p></li>
+</ul>
+</dd>
+<dt>Options:</dt><dd><ul class="simple">
+<li><p>Serialize datetime.datetime objects without a tzinfo as UTC. This has no effect
+on datetime.datetime objects that have tzinfo set.</p></li>
+<li><p>Serialize a UTC timezone on datetime.datetime instances as Z instead of +00:00</p></li>
+<li><p>Serialize numpy.ndarray instances. For more, see numpy.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>obj</strong> (<em>Any</em>) – The object to serialize</p>
@@ -329,7 +359,6 @@ to do the heavy lifting.</p>
 </dl>
 </dd></dl>
 
-</section>
 </section>
 </section>
 
