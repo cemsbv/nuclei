@@ -131,7 +131,7 @@ can be done as such:</p>
 can get the raw response by setting the <cite>return_response</cite> argument to <cite>True</cite>.</p>
 <p>If the endpoint requires a schema, it can be passed as a Python dictionary to the
 <cite>schema</cite> argument of <code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code>. The schema is automatically parsed
-with the <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a> function (see below) so in most cases
+with the <a class="reference internal" href="reference.html#nuclei.client.utils.serialize_jsonifyable_object" title="nuclei.client.utils.serialize_jsonifyable_object"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a> function (see below) so in most cases
 you won’t have to worry about passing the correct types.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code> can provide you with a list of <cite>Nuclei</cite> applications:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">applications</span><span class="p">)</span>
@@ -158,7 +158,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f554ff36340&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f9685e673d0&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
@@ -167,16 +167,16 @@ covers authentication for you.</p>
 <section id="schema-serialization">
 <h2>Schema serialization<a class="headerlink" href="#schema-serialization" title="Permalink to this heading"></a></h2>
 <p>The automatic schema serialization tools are also available to advanced users by
-calling the <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a> function directly.</p>
+calling the <a class="reference internal" href="reference.html#nuclei.client.utils.serialize_jsonifyable_object" title="nuclei.client.utils.serialize_jsonifyable_object"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a> function directly.</p>
 <p>The following code-block shows the mechanism behind these functions. First we
-create a <cite>numpy.array</cite> and transforms it to a serialized list with <a class="reference internal" href="reference.html#nuclei.client.utils.python_types_to_message" title="nuclei.client.utils.python_types_to_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">python_types_to_message()</span></code></a>.</p>
+create a <cite>numpy.array</cite> and transforms it to a serialized list with <a class="reference internal" href="reference.html#nuclei.client.utils.serialize_jsonifyable_object" title="nuclei.client.utils.serialize_jsonifyable_object"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a>.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="gp">In [10]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">utils</span>
 
 <span class="gp">In [11]: </span><span class="n">schema</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
 
-<span class="gp">In [12]: </span><span class="n">message</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">python_types_to_message</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="gp">In [12]: </span><span class="n">message</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
 
 <span class="gp">In [13]: </span><span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 <span class="go">[[1.0, 2.0], [None, 4.0]]</span>
