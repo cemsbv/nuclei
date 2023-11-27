@@ -45,7 +45,6 @@ class NucleiClient:
             requests.Session with authorisation set
         routing: dict
             Routing table to all available API's in the Nuclei landscape.
-
         """
 
         # initialize session
@@ -66,7 +65,19 @@ class NucleiClient:
         Returns
         -------
         url : str
+
+        Raises
+        -------
+        TypeError:
+            Wrong type for `app` argument
+        ValueError:
+            Wrong value for `app` argument
         """
+        if not isinstance(app, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
+            )
+
         if app in self.applications:
             return self.routing[app]
         raise ValueError(
@@ -114,7 +125,21 @@ class NucleiClient:
         Returns
         -------
         dict
+
+        Raises
+        -------
+        ConnectionError:
+            Application not available
+        TypeError:
+            Wrong type for `app` argument
+        ValueError:
+            Wrong value for `app` argument
         """
+        if not isinstance(app, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
+            )
+
         response = requests.get(
             self.get_url(app) + "/openapi.json", timeout=DEFAULT_REQUEST_TIMEOUT
         )
@@ -139,7 +164,21 @@ class NucleiClient:
         -------
         out : str
             Semantic Version of the API
+
+        Raises
+        -------
+        ConnectionError:
+            Application not available
+        TypeError:
+            Wrong type for `app` argument
+        ValueError:
+            Wrong value for `app` argument
         """
+        if not isinstance(app, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
+            )
+
         return self._get_app_specification(app)["info"]["version"]
 
     def get_endpoints(self, app: str) -> List[str]:
@@ -155,7 +194,21 @@ class NucleiClient:
         -------
         out : list[str]
             Endpoint urls.
+
+        Raises
+        -------
+        ConnectionError:
+            Application not available
+        TypeError:
+            Wrong type for `app` argument
+        ValueError:
+            Wrong value for `app` argument
         """
+        if not isinstance(app, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
+            )
+
         return list(self._get_app_specification(app)["paths"].keys())
 
     def get_endpoint_type(self, app: str, endpoint: str) -> str:
@@ -169,7 +222,25 @@ class NucleiClient:
         Returns
         -------
         "get" | "post"
+
+        Raises
+        -------
+        ConnectionError:
+            Application not available
+        TypeError:
+            Wrong type for an argument
+        ValueError:
+            Wrong value for an argument
         """
+        if not isinstance(app, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
+            )
+
+        if not isinstance(endpoint, str):
+            raise TypeError(
+                f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
+            )
 
         if endpoint in self.get_endpoints(app):
             return list(self._get_app_specification(app)["paths"][endpoint].keys())[0]
@@ -204,7 +275,7 @@ class NucleiClient:
             default  is auto
             HTTP methode used to call endpoint. When auto methode is selected the HTTP methode is
             obtained from the openapi docs.
-        schema: dict, optional
+        schema: dict or json-string, optional
             Default is None
             The parameter schema for the API. Take a look at the API documentation.
         return_response: bool, optional
@@ -231,11 +302,41 @@ class NucleiClient:
             there was a client error or a server error.
         NotImplementedError:
             HTTP methode not get or post request
-        ValueError:
-            Endpoint does not exist in the API landscape
         ConnectionError:
             Application not available
+        TypeError:
+            Wrong type for an argument
+        ValueError:
+            Wrong value for an argument
         """
+        if not isinstance(app, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
+            )
+
+        if not isinstance(endpoint, str):
+            raise TypeError(
+                f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
+            )
+
+        if not isinstance(methode, str):
+            raise TypeError(
+                f"Expected keyword-argument `methode` to be of type <class 'str'>, but got type: {type(methode)}"
+            )
+        if methode not in ["auto", "get", "post"]:
+            raise ValueError(
+                f'Expected value of keyword-argument `methode` to be one of ["auto", "get", "post"] , but got: {methode}'
+            )
+
+        if not (schema is None or isinstance(schema, (str, dict))):
+            raise TypeError(
+                f"Expected keyword-argument `schema` to be of type <class 'dict'> or <class 'str'>, but got type: {type(schema)}"
+            )
+
+        if not isinstance(return_response, bool):
+            raise TypeError(
+                f"Expected keyword-argument `return_response` to be of type <class 'bool'>, but got type: {type(return_response)}"
+            )
 
         if methode == "auto":
             t = self.get_endpoint_type(app, endpoint)
