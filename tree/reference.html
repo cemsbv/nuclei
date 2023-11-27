@@ -139,7 +139,7 @@ is passed to the <cite>json</cite>  parameter of <cite>request.post</cite> funct
 <li><p><strong>methode</strong> (<em>str</em>) – default  is auto
 HTTP methode used to call endpoint. When auto methode is selected the HTTP methode is
 obtained from the openapi docs.</p></li>
-<li><p><strong>schema</strong> (<em>dict</em><em>, </em><em>optional</em>) – Default is None
+<li><p><strong>schema</strong> (<em>dict</em><em> or </em><em>json-string</em><em>, </em><em>optional</em>) – Default is None
 The parameter schema for the API. Take a look at the API documentation.</p></li>
 <li><p><strong>return_response</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is False
 Return the requests response instead of the parsed data object.</p></li>
@@ -163,8 +163,9 @@ Return the requests response instead of the parsed data object.</p></li>
 <li><p><strong>RuntimeError:</strong> – Thrown when response is between 400 and 600 to see if
     there was a client error or a server error.</p></li>
 <li><p><strong>NotImplementedError:</strong> – HTTP methode not get or post request</p></li>
-<li><p><strong>ValueError:</strong> – Endpoint does not exist in the API landscape</p></li>
 <li><p><strong>ConnectionError:</strong> – Application not available</p></li>
+<li><p><strong>TypeError:</strong> – Wrong type for an argument</p></li>
+<li><p><strong>ValueError:</strong> – Wrong value for an argument</p></li>
 </ul>
 </dd>
 </dl>
@@ -184,6 +185,13 @@ Return the requests response instead of the parsed data object.</p></li>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ConnectionError:</strong> – Application not available</p></li>
+<li><p><strong>TypeError:</strong> – Wrong type for <cite>app</cite> argument</p></li>
+<li><p><strong>ValueError:</strong> – Wrong value for <cite>app</cite> argument</p></li>
+</ul>
+</dd>
 </dl>
 </dd></dl>
 
@@ -199,6 +207,13 @@ Return the requests response instead of the parsed data object.</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>“get” | “post”</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ConnectionError:</strong> – Application not available</p></li>
+<li><p><strong>TypeError:</strong> – Wrong type for an argument</p></li>
+<li><p><strong>ValueError:</strong> – Wrong value for an argument</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -217,6 +232,13 @@ Return the requests response instead of the parsed data object.</p></li>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[str]</p>
 </dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ConnectionError:</strong> – Application not available</p></li>
+<li><p><strong>TypeError:</strong> – Wrong type for <cite>app</cite> argument</p></li>
+<li><p><strong>ValueError:</strong> – Wrong value for <cite>app</cite> argument</p></li>
+</ul>
+</dd>
 </dl>
 </dd></dl>
 
@@ -233,6 +255,12 @@ Return the requests response instead of the parsed data object.</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError:</strong> – Wrong type for <cite>app</cite> argument</p></li>
+<li><p><strong>ValueError:</strong> – Wrong value for <cite>app</cite> argument</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
