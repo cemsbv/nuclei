@@ -268,7 +268,7 @@ class NucleiClient:
 
         if not response.ok:
             raise RuntimeError(
-                "An error was thrown during your reqeust. Please take a look at the response object for "
+                "An error was thrown during your request. Please take a look at the response object for "
                 "more information. You can get the response object by setting the `return_response` attribute"
                 "to True. \n"
                 f"Request URL: {response.url} \n"
