@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.2] - 2023-11-28
+
+### Bug Fixes
+
+- Throw TypeError or ValueError when passing incorrect type or value to arguments of nuclei.client functions
+
+### Miscellaneous Tasks
+
+- Fix typo in Errormessage
+
 ## [0.5.1] - 2023-11-23
 
 ### Features
