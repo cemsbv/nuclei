@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.3] - 2023-12-14
+
+### Features
+
+- Set timeout as attribute of client
+
 ## [0.5.2] - 2023-11-28
 
 ### Bug Fixes
@@ -93,23 +99,23 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 - Raise a user-friendly error when server is offline (#203)
+- *(ci)* Remove dependency from release on test
 
 ## [0.3.0] - 2023-03-21
-
-### Bug Fixes
-
-- *(ci)* Remove dependency from release on test
-- Add deploy docs to github workflow (#189)
-- *(docs)* Resolve #185 update pygef (#187)
-- *(naming)* Remove _get from properties (#184)
-- *(ci)* Update workflows
-- *(ci)* Release to pypi trigger (#176)
 
 ### Miscellaneous Tasks
 
 - Release 0.3.0
 - Release 0.3.0a2 (#175)
 - *(project)* Update name
+
+### Bug Fixes
+
+- Add deploy docs to github workflow (#189)
+- *(docs)* Resolve #185 update pygef (#187)
+- *(naming)* Remove _get from properties (#184)
+- *(ci)* Update workflows
+- *(ci)* Release to pypi trigger (#176)
 
 ### Dep
 
