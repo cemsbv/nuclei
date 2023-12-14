@@ -117,6 +117,8 @@
 <span class="sd">            requests.Session with authorisation set</span>
 <span class="sd">        routing: dict</span>
 <span class="sd">            Routing table to all available API&#39;s in the Nuclei landscape.</span>
+<span class="sd">        timeout: int</span>
+<span class="sd">            The connect timeout is the number of seconds. Default is 5 seconds</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># initialize session</span>
@@ -124,6 +126,9 @@
 
         <span class="c1"># get routing table to application</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">routing</span> <span class="o">=</span> <span class="n">ROUTING</span>
+
+        <span class="c1"># set default timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">DEFAULT_REQUEST_TIMEOUT</span>
 
 <div class="viewcode-block" id="NucleiClient.get_url"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -213,7 +218,7 @@
             <span class="p">)</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/openapi.json&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_REQUEST_TIMEOUT</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/openapi.json&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
@@ -422,13 +427,13 @@
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
-                <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_REQUEST_TIMEOUT</span><span class="p">,</span>
+                <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;post&quot;</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
-                <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_REQUEST_TIMEOUT</span><span class="p">,</span>
+                <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
