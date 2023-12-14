@@ -45,6 +45,8 @@ class NucleiClient:
             requests.Session with authorisation set
         routing: dict
             Routing table to all available API's in the Nuclei landscape.
+        timeout: int
+            The connect timeout is the number of seconds. Default is 5 seconds
         """
 
         # initialize session
@@ -52,6 +54,9 @@ class NucleiClient:
 
         # get routing table to application
         self.routing = ROUTING
+
+        # set default timeout
+        self.timeout = DEFAULT_REQUEST_TIMEOUT
 
     def get_url(self, app: str) -> str:
         """
@@ -141,7 +146,7 @@ class NucleiClient:
             )
 
         response = requests.get(
-            self.get_url(app) + "/openapi.json", timeout=DEFAULT_REQUEST_TIMEOUT
+            self.get_url(app) + "/openapi.json", timeout=self.timeout
         )
         if response.status_code != 200:
             raise ConnectionError(
@@ -350,13 +355,13 @@ class NucleiClient:
             response = self.session.get(
                 self.get_url(app) + endpoint,
                 params=utils.serialize_jsonifyable_object(schema),
-                timeout=DEFAULT_REQUEST_TIMEOUT,
+                timeout=self.timeout,
             )
         elif t.lower() == "post":
             response = self.session.post(
                 self.get_url(app) + endpoint,
                 json=utils.serialize_jsonifyable_object(schema),
-                timeout=DEFAULT_REQUEST_TIMEOUT,
+                timeout=self.timeout,
             )
         else:
             raise NotImplementedError(
