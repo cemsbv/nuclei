@@ -124,7 +124,7 @@ can be done as such:</p>
 <span class="gp">   ...: </span>    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;/healthcheck&quot;</span><span class="p">,</span>
 <span class="gp">   ...: </span><span class="p">)</span>
 <span class="gp">   ...: </span>
-<span class="gh">Out[3]: </span><span class="go">&#39;Service alive&#39;</span>
+<span class="gh">Out[3]: </span><span class="go">&#39;server alive&#39;</span>
 </pre></div>
 </div>
 <p><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code> automatically returns the unpacked response object. You
@@ -158,7 +158,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
 
 <span class="gp">In [8]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7fc1cc2da370&gt;</span>
+<span class="gh">Out[8]: </span><span class="go">&lt;requests.sessions.Session at 0x7f38b589c370&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that

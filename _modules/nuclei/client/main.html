@@ -73,6 +73,7 @@
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
@@ -101,6 +102,7 @@
 <span class="p">}</span>
 
 <span class="n">DEFAULT_REQUEST_TIMEOUT</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">MAX_RETRIES</span> <span class="o">=</span> <span class="mi">10</span>
 
 
 <div class="viewcode-block" id="NucleiClient"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient">[docs]</a><span class="k">class</span> <span class="nc">NucleiClient</span><span class="p">:</span>
@@ -423,23 +425,41 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">schema</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;get&quot;</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
-                <span class="n">params</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
-                <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;post&quot;</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
-                <span class="n">json</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
-                <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;post&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
                 <span class="s2">&quot;Not a valid HTTP request methode. Only GET or POST requests are supported. &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;Use the session attribute to get full control of your request. Provided methode: </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
+
+        <span class="n">execution_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># We enter a retry-loop for the execution of the main call, with a MAX_RETRIES</span>
+        <span class="c1"># being the maximum number of retires</span>
+        <span class="k">while</span> <span class="n">execution_count</span> <span class="o">&lt;</span> <span class="n">MAX_RETRIES</span><span class="p">:</span>
+            <span class="n">execution_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;get&quot;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
+                    <span class="n">params</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_REQUEST_TIMEOUT</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;post&quot;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
+                    <span class="n">json</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_REQUEST_TIMEOUT</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">status_codes_that_trigger_retry</span> <span class="o">=</span> <span class="p">[</span><span class="mi">429</span><span class="p">,</span> <span class="mi">502</span><span class="p">,</span> <span class="mi">503</span><span class="p">,</span> <span class="mi">504</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="n">status_codes_that_trigger_retry</span><span class="p">:</span>
+                <span class="c1"># If the call failed, and retry is a viable option, we sleep for a</span>
+                <span class="c1"># little while and execute another call</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># We break the retry loop by default</span>
+            <span class="k">break</span>
 
         <span class="k">if</span> <span class="n">return_response</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">response</span>
