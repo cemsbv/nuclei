@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import time
 from functools import lru_cache
 from typing import Any, List, Literal, Optional, Union
 
@@ -29,6 +30,7 @@ ROUTING = {
 }
 
 DEFAULT_REQUEST_TIMEOUT = 5
+MAX_RETRIES = 10
 
 
 class NucleiClient:
@@ -351,23 +353,41 @@ class NucleiClient:
         if isinstance(schema, str):
             schema = utils.to_json(schema)
 
-        if t.lower() == "get":
-            response = self.session.get(
-                self.get_url(app) + endpoint,
-                params=utils.serialize_jsonifyable_object(schema),
-                timeout=self.timeout,
-            )
-        elif t.lower() == "post":
-            response = self.session.post(
-                self.get_url(app) + endpoint,
-                json=utils.serialize_jsonifyable_object(schema),
-                timeout=self.timeout,
-            )
-        else:
+        if t.lower() not in ["get", "post"]:
             raise NotImplementedError(
                 "Not a valid HTTP request methode. Only GET or POST requests are supported. "
                 f"Use the session attribute to get full control of your request. Provided methode: {t}"
             )
+
+        execution_count = 0
+
+        # We enter a retry-loop for the execution of the main call, with a MAX_RETRIES
+        # being the maximum number of retires
+        while execution_count < MAX_RETRIES:
+            execution_count += 1
+
+            if t.lower() == "get":
+                response = self.session.get(
+                    self.get_url(app) + endpoint,
+                    params=utils.serialize_jsonifyable_object(schema),
+                    timeout=DEFAULT_REQUEST_TIMEOUT,
+                )
+            elif t.lower() == "post":
+                response = self.session.post(
+                    self.get_url(app) + endpoint,
+                    json=utils.serialize_jsonifyable_object(schema),
+                    timeout=DEFAULT_REQUEST_TIMEOUT,
+                )
+
+            status_codes_that_trigger_retry = [429, 502, 503, 504]
+            if response.status_code in status_codes_that_trigger_retry:
+                # If the call failed, and retry is a viable option, we sleep for a
+                # little while and execute another call
+                time.sleep(1)
+                continue
+
+            # We break the retry loop by default
+            break
 
         if return_response:
             return response
