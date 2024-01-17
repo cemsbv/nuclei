@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.5] - 2024-01-17
+
+### Bug Fixes
+
+- Use self.timout instead of DEFAULT_REQUEST_TIMEOUT
+
 ## [0.5.4] - 2024-01-17
 
 ### Features
