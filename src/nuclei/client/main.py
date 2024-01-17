@@ -370,13 +370,13 @@ class NucleiClient:
                 response = self.session.get(
                     self.get_url(app) + endpoint,
                     params=utils.serialize_jsonifyable_object(schema),
-                    timeout=DEFAULT_REQUEST_TIMEOUT,
+                    timeout=self.timeout,
                 )
             elif t.lower() == "post":
                 response = self.session.post(
                     self.get_url(app) + endpoint,
                     json=utils.serialize_jsonifyable_object(schema),
-                    timeout=DEFAULT_REQUEST_TIMEOUT,
+                    timeout=self.timeout,
                 )
 
             status_codes_that_trigger_retry = [429, 502, 503, 504]
