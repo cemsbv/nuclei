@@ -152,8 +152,8 @@ class NucleiClient:
         )
         if response.status_code != 200:
             raise ConnectionError(
-                "Unfortunately the application you are trying to reaches is unavailable (status code: "
-                f"{response.status_code}). Please check you connection. If the problem persist contact "
+                "Unfortunately the application you are trying to reach is unavailable (status code: "
+                f"{response.status_code}). Please check you connection. If the problem persists contact "
                 "CEMS at info@cemsbv.nl"
             )
         return response.json()
