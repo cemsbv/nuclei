@@ -224,8 +224,8 @@
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
-                <span class="s2">&quot;Unfortunately the application you are trying to reaches is unavailable (status code: &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">). Please check you connection. If the problem persist contact &quot;</span>
+                <span class="s2">&quot;Unfortunately the application you are trying to reach is unavailable (status code: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">). Please check you connection. If the problem persists contact &quot;</span>
                 <span class="s2">&quot;CEMS at info@cemsbv.nl&quot;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
