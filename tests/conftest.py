@@ -178,7 +178,7 @@ def session_send_post_returns_text(monkeypatch, mock_text_response):
 
 @pytest.fixture
 def get_app_specification_post(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "paths": {
@@ -197,7 +197,7 @@ def get_app_specification_post(monkeypatch):
 
 @pytest.fixture
 def get_app_specification_get(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "paths": {
@@ -216,7 +216,7 @@ def get_app_specification_get(monkeypatch):
 
 @pytest.fixture
 def get_app_specification_invalid_method(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "paths": {
@@ -247,7 +247,7 @@ def user_token_envvar(monkeypatch):
 
 @pytest.fixture
 def get_app_specification_version(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "info": {

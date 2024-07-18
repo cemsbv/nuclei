@@ -48,16 +48,18 @@ def test_applications_to_endpoints(app, user_token_envvar):
     assert app in apps
 
     # Test get_url
-    assert isinstance(client.get_url(app), str)
+    assert isinstance(client.get_url(app, version="latest"), str)
 
     # Test get_endpoints. Assumes pulic openapi docs for all APIs.
-    endpoints = client.get_endpoints(app)
+    endpoints = client.get_endpoints(app, version="latest")
 
     for endpoint in endpoints:
         assert isinstance(endpoint, str)
         assert endpoint[0] == r"/"
 
-        endpoint_type = client.get_endpoint_type(app, endpoint)
+        endpoint_type = client.get_endpoint_type(
+            app, version="latest", endpoint=endpoint
+        )[0]
 
         assert endpoint_type in ("get", "post")
 
@@ -69,7 +71,7 @@ def test_get_wrong_url(user_token_envvar, app):
     client = NucleiClient()
 
     with pytest.raises(ValueError) as err:
-        client.get_url(app)
+        client.get_url(app, version="latest")
 
     assert str(err.value).startswith(
         "Application not available, please select one of the following valid applications"
@@ -91,7 +93,9 @@ def test_wrong_endpoint_for_type(user_token_envvar):
     client = NucleiClient()
 
     with pytest.raises(ValueError) as err:
-        client.get_endpoint_type("PileCore", "/some/invalid/endpoint")
+        client.get_endpoint_type(
+            "PileCore", version="latest", endpoint="/some/invalid/endpoint"
+        )
 
     assert str(err.value).startswith(
         "Endpoint name not valid, please select on of the following valid endpoints"
@@ -263,4 +267,7 @@ def test_call_endpoint_version(
 
     client = NucleiClient()
 
-    assert client.get_application_version(app="PileCore") == "0.1.0-beta.1"
+    assert (
+        client.get_application_version(app="PileCore", version="latest")
+        == "0.1.0-beta.1"
+    )
