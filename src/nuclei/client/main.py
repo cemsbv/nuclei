@@ -6,7 +6,6 @@ from functools import lru_cache
 from typing import Any, List, Literal, Optional, Union
 
 import jwt
-import requests
 
 from nuclei import create_session
 
@@ -23,10 +22,23 @@ except ImportError as e:
     )
 
 ROUTING = {
-    "PileCore": "https://crux-nuclei.com/api/pilecore/v2",
-    "VibraCore": "https://crux-nuclei.com/api/vibracore/v2",
-    "CPT Core": "https://crux-nuclei.com/api/cptcore/v1",
-    "ShallowCore": "https://crux-nuclei.com/api/shallowcore/v1",
+    "PileCore": {
+        "v2": "https://crux-nuclei.com/api/pilecore/v2",
+        "v3": "https://crux-nuclei.com/api/pilecore/v3",
+        "latest": "https://crux-nuclei.com/api/pilecore/v3",
+    },
+    "VibraCore": {
+        "v2": "https://crux-nuclei.com/api/vibracore/v2",
+        "latest": "https://crux-nuclei.com/api/vibracore/v2",
+    },
+    "CPT Core": {
+        "v1": "https://crux-nuclei.com/api/cptcore/v1",
+        "latest": "https://crux-nuclei.com/api/cptcore/v1",
+    },
+    "ShallowCore": {
+        "v1": "https://crux-nuclei.com/api/shallowcore/v1",
+        "latest": "https://crux-nuclei.com/api/shallowcore/v1",
+    },
 }
 
 DEFAULT_REQUEST_TIMEOUT = 5
@@ -60,7 +72,7 @@ class NucleiClient:
         # set default timeout
         self.timeout = DEFAULT_REQUEST_TIMEOUT
 
-    def get_url(self, app: str) -> str:
+    def get_url(self, app: str, version: str) -> str:
         """
         Get API's url
 
@@ -68,6 +80,8 @@ class NucleiClient:
         ----------
         app : str
             Application name
+        version : str
+            Application version
 
         Returns
         -------
@@ -76,20 +90,27 @@ class NucleiClient:
         Raises
         -------
         TypeError:
-            Wrong type for `app` argument
+            Wrong type for `app` or `version` argument
         ValueError:
-            Wrong value for `app` argument
+            Wrong value for `app` or `version` argument
         """
         if not isinstance(app, str):
             raise TypeError(
                 f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
             )
-
-        if app in self.applications:
-            return self.routing[app]
-        raise ValueError(
-            f"Application not available, please select one of the following valid applications {self.applications}"
-        )
+        if not isinstance(version, str):
+            raise TypeError(
+                f"Expected positional argument `version` to be of type <class 'str'>, but got type: {type(version)}"
+            )
+        if app not in self.applications:
+            raise ValueError(
+                f"Application not available, please select one of the following valid applications {self.applications}"
+            )
+        if version not in self.get_versions(app):
+            raise ValueError(
+                f"Application version not available, please select one of the following valid versions {self.get_versions(app)}"
+            )
+        return self.routing[app][version]
 
     @property
     def user_permissions(self) -> List[str | None]:
@@ -119,8 +140,29 @@ class NucleiClient:
         """
         return list(self.routing.keys())
 
+    def get_versions(self, app: str) -> List[str]:
+        """
+        Provide available API's versions in the Nuclei landscape.
+
+        Parameters
+        ----------
+        app : str
+            Application name
+
+        Returns
+        -------
+        out : list[str]
+            Versions of the API's
+        """
+        if not isinstance(app, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
+            )
+
+        return list(self.routing[app].keys())
+
     @lru_cache(16)
-    def _get_app_specification(self, app: str) -> dict:
+    def _get_app_specification(self, app: str, version: str) -> dict:
         """
         Private methode to get the JSON schema of the API documentation.
 
@@ -128,6 +170,8 @@ class NucleiClient:
         ----------
         app : str
             Name of the API.
+        version : str
+            Application version
 
         Returns
         -------
@@ -138,17 +182,22 @@ class NucleiClient:
         ConnectionError:
             Application not available
         TypeError:
-            Wrong type for `app` argument
+            Wrong type for `app` or `version` argument
         ValueError:
-            Wrong value for `app` argument
+            Wrong value for `app` or `version` argument
         """
         if not isinstance(app, str):
             raise TypeError(
                 f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
             )
 
-        response = requests.get(
-            self.get_url(app) + "/openapi.json", timeout=self.timeout
+        if not isinstance(version, str):
+            raise TypeError(
+                f"Expected positional argument `version` to be of type <class 'str'>, but got type: {type(version)}"
+            )
+
+        response = self.session.get(
+            self.get_url(app, version) + "/openapi.json", timeout=self.timeout
         )
         if response.status_code != 200:
             raise ConnectionError(
@@ -158,7 +207,7 @@ class NucleiClient:
             )
         return response.json()
 
-    def get_application_version(self, app: str) -> str:
+    def get_application_version(self, app: str, version: str) -> str:
         """
         Provide version of the API in the Nuclei landscape.
 
@@ -166,6 +215,8 @@ class NucleiClient:
         ----------
         app : str
             Name of the API.
+        version : str
+            Application version
 
         Returns
         -------
@@ -177,18 +228,23 @@ class NucleiClient:
         ConnectionError:
             Application not available
         TypeError:
-            Wrong type for `app` argument
+            Wrong type for `app` or `version` argument
         ValueError:
-            Wrong value for `app` argument
+            Wrong value for `app` or `version` argument
         """
         if not isinstance(app, str):
             raise TypeError(
                 f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
             )
 
-        return self._get_app_specification(app)["info"]["version"]
+        if not isinstance(version, str):
+            raise TypeError(
+                f"Expected positional argument `version` to be of type <class 'str'>, but got type: {type(version)}"
+            )
 
-    def get_endpoints(self, app: str) -> List[str]:
+        return self._get_app_specification(app, version)["info"]["version"]
+
+    def get_endpoints(self, app: str, version: str) -> List[str]:
         """
         Get available endpoints of single API.
 
@@ -196,6 +252,8 @@ class NucleiClient:
         ----------
         app : str
             Name of the API.
+        version : str
+            Application version
 
         Returns
         -------
@@ -207,28 +265,33 @@ class NucleiClient:
         ConnectionError:
             Application not available
         TypeError:
-            Wrong type for `app` argument
+            Wrong type for `app` or `version` argument
         ValueError:
-            Wrong value for `app` argument
+            Wrong value for `app` or `version` argument
         """
         if not isinstance(app, str):
             raise TypeError(
                 f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
             )
 
-        return list(self._get_app_specification(app)["paths"].keys())
+        return list(self._get_app_specification(app, version)["paths"].keys())
 
-    def get_endpoint_type(self, app: str, endpoint: str) -> str:
+    def get_endpoint_type(self, app: str, version: str, endpoint: str) -> List[str]:
         """
+        Get HTTP methode used in endpoint.
+
         Parameters
         ----------
         app
             name of the app
+        version : str
+            Application version
         endpoint
             url of the endpoint.
+
         Returns
         -------
-        "get" | "post"
+        List[str]
 
         Raises
         -------
@@ -244,15 +307,22 @@ class NucleiClient:
                 f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
             )
 
+        if not isinstance(version, str):
+            raise TypeError(
+                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(version)}"
+            )
+
         if not isinstance(endpoint, str):
             raise TypeError(
                 f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
             )
 
-        if endpoint in self.get_endpoints(app):
-            return list(self._get_app_specification(app)["paths"][endpoint].keys())[0]
+        if endpoint in self.get_endpoints(app, version):
+            return list(
+                self._get_app_specification(app, version)["paths"][endpoint].keys()
+            )
         raise ValueError(
-            f"Endpoint name not valid, please select on of the following valid endpoints {self.get_endpoints(app)}"
+            f"Endpoint name not valid, please select on of the following valid endpoints {self.get_endpoints(app, version)}"
         )
 
     def call_endpoint(
@@ -260,6 +330,7 @@ class NucleiClient:
         app: str,
         endpoint: str,
         methode: Literal["auto", "get", "post"] = "auto",
+        version: str = "latest",
         schema: Optional[Union[dict, str]] = None,
         return_response: bool = False,
     ) -> Any:
@@ -275,13 +346,17 @@ class NucleiClient:
         Parameters
         ----------
         app: str
-            Name of the API. call `get_applications` to obtain a list with all applications.
+            Name of the API. call `applications` to obtain a list with all applications.
         endpoint: str
             Name of the API's endpoint. call `get_endpoints` to obtain a list with all applications for a given API.
         methode: str
-            default  is auto
+            default is auto
             HTTP methode used to call endpoint. When auto methode is selected the HTTP methode is
-            obtained from the openapi docs.
+            obtained from the openapi docs. Please note that this is the first one. call `get_endpoint_type`
+            to obtain list with all methods related to the endpoint.
+        version: str
+            default is latest
+            API version used. call `get_versions` to obtain a list with all version of a specific application.
         schema: dict or json-string, optional
             Default is None
             The parameter schema for the API. Take a look at the API documentation.
@@ -321,9 +396,19 @@ class NucleiClient:
                 f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
             )
 
+        if app not in self.applications:
+            raise ValueError(
+                f"Application not available, please select one of the following valid applications {self.applications}"
+            )
+
         if not isinstance(endpoint, str):
             raise TypeError(
                 f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
+            )
+
+        if endpoint not in self.get_endpoints(app, version):
+            raise ValueError(
+                f"Endpoint name not valid, please select on of the following valid endpoints {self.get_endpoints(app, version)}"
             )
 
         if not isinstance(methode, str):
@@ -333,6 +418,15 @@ class NucleiClient:
         if methode not in ["auto", "get", "post"]:
             raise ValueError(
                 f'Expected value of keyword-argument `methode` to be one of ["auto", "get", "post"] , but got: {methode}'
+            )
+        if not isinstance(version, str):
+            raise TypeError(
+                f"Expected keyword-argument `version` to be of type <class 'str'>, but got type: {type(version)}"
+            )
+
+        if version not in self.get_versions(app):
+            raise ValueError(
+                f"Application version not available, please select one of the following valid versions {self.get_versions(app)}"
             )
 
         if not (schema is None or isinstance(schema, (str, dict))):
@@ -346,7 +440,7 @@ class NucleiClient:
             )
 
         if methode == "auto":
-            t = self.get_endpoint_type(app, endpoint)
+            t = self.get_endpoint_type(app=app, version=version, endpoint=endpoint)[0]
         else:
             t = methode
 
@@ -368,13 +462,13 @@ class NucleiClient:
 
             if t.lower() == "get":
                 response = self.session.get(
-                    self.get_url(app) + endpoint,
+                    self.get_url(app=app, version=version) + endpoint,
                     params=utils.serialize_jsonifyable_object(schema),
                     timeout=self.timeout,
                 )
             elif t.lower() == "post":
                 response = self.session.post(
-                    self.get_url(app) + endpoint,
+                    self.get_url(app=app, version=version) + endpoint,
                     json=utils.serialize_jsonifyable_object(schema),
                     timeout=self.timeout,
                 )
