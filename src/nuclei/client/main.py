@@ -95,17 +95,9 @@ class NucleiClient:
         ValueError:
             Wrong value for `app` or `version` argument
         """
-        if not isinstance(app, str):
-            raise TypeError(
-                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
-            )
         if not isinstance(version, str):
             raise TypeError(
                 f"Expected positional argument `version` to be of type <class 'str'>, but got type: {type(version)}"
-            )
-        if app not in self.applications:
-            raise ValueError(
-                f"Application not available, please select one of the following valid applications {self.applications}"
             )
         if version not in self.get_versions(app):
             raise ValueError(
@@ -154,12 +146,22 @@ class NucleiClient:
         -------
         out : list[str]
             Versions of the API.
+
+        Raises
+        -------
+        TypeError:
+            Wrong type for `app` argument
+        ValueError:
+            Wrong value for `app` argument
         """
         if not isinstance(app, str):
             raise TypeError(
                 f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
             )
-
+        if app not in self.applications:
+            raise ValueError(
+                f"Application not available, please select one of the following valid applications {self.applications}"
+            )
         return list(self.routing[app].keys())
 
     @lru_cache(16)
@@ -188,16 +190,6 @@ class NucleiClient:
         ValueError:
             Wrong value for `app` or `version` argument
         """
-        if not isinstance(app, str):
-            raise TypeError(
-                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
-            )
-
-        if not isinstance(version, str):
-            raise TypeError(
-                f"Expected positional argument `version` to be of type <class 'str'>, but got type: {type(version)}"
-            )
-
         response = self.session.get(
             self.get_url(app, version) + "/openapi.json", timeout=self.timeout
         )
@@ -235,16 +227,6 @@ class NucleiClient:
         ValueError:
             Wrong value for `app` or `version` argument
         """
-        if not isinstance(app, str):
-            raise TypeError(
-                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
-            )
-
-        if not isinstance(version, str):
-            raise TypeError(
-                f"Expected positional argument `version` to be of type <class 'str'>, but got type: {type(version)}"
-            )
-
         return self._get_app_specification(app, version)["info"]["version"]
 
     def get_endpoints(self, app: str, version: str = "latest") -> List[str]:
@@ -261,7 +243,7 @@ class NucleiClient:
 
         Returns
         -------
-        out : list[str]
+        endpoints : list[str]
             Endpoint urls.
 
         Raises
@@ -273,18 +255,13 @@ class NucleiClient:
         ValueError:
             Wrong value for `app` or `version` argument
         """
-        if not isinstance(app, str):
-            raise TypeError(
-                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
-            )
-
         return list(self._get_app_specification(app, version)["paths"].keys())
 
     def get_endpoint_type(
         self, app: str, endpoint: str, version: str = "latest"
     ) -> List[str]:
         """
-        Get HTTP methode used in endpoint.
+        Get a list of HTTP methods used for this endpoint.
 
         Parameters
         ----------
@@ -298,7 +275,8 @@ class NucleiClient:
 
         Returns
         -------
-        List[str]
+        methods: List[str]
+            List of HTTP methods used for endpoint
 
         Raises
         -------
@@ -309,16 +287,6 @@ class NucleiClient:
         ValueError:
             Wrong value for an argument
         """
-        if not isinstance(app, str):
-            raise TypeError(
-                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
-            )
-
-        if not isinstance(version, str):
-            raise TypeError(
-                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(version)}"
-            )
-
         if not isinstance(endpoint, str):
             raise TypeError(
                 f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
@@ -398,26 +366,6 @@ class NucleiClient:
         ValueError:
             Wrong value for an argument
         """
-        if not isinstance(app, str):
-            raise TypeError(
-                f"Expected positional argument `app` to be of type <class 'str'>, but got type: {type(app)}"
-            )
-
-        if app not in self.applications:
-            raise ValueError(
-                f"Application not available, please select one of the following valid applications {self.applications}"
-            )
-
-        if not isinstance(version, str):
-            raise TypeError(
-                f"Expected keyword-argument `version` to be of type <class 'str'>, but got type: {type(version)}"
-            )
-
-        if version not in self.get_versions(app):
-            raise ValueError(
-                f"Application version not available, please select one of the following valid versions {self.get_versions(app)}"
-            )
-
         if not isinstance(endpoint, str):
             raise TypeError(
                 f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
