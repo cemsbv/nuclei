@@ -111,7 +111,7 @@ def mock_png_response(test_png):
 @pytest.fixture
 def session_send_post_returns_json(monkeypatch, mock_json_response):
     def mock_session_send(self, request: requests.models.PreparedRequest, **kwargs):
-        if request.url == routing["PileCore"] + "/MockPostEndpoint":
+        if request.url == routing["PileCore"]["latest"] + "/MockPostEndpoint":
             return mock_json_response
 
         raise ValueError(
@@ -124,7 +124,10 @@ def session_send_post_returns_json(monkeypatch, mock_json_response):
 @pytest.fixture
 def session_send_get_returns_json(monkeypatch, mock_json_response):
     def mock_session_send(self, request: requests.models.PreparedRequest, **kwargs):
-        if request.url == routing["PileCore"] + "/MockGetEndpoint?somekey=somevalue":
+        if (
+            request.url
+            == routing["PileCore"]["latest"] + "/MockGetEndpoint?somekey=somevalue"
+        ):
             return mock_json_response
 
         raise ValueError(
@@ -137,7 +140,7 @@ def session_send_get_returns_json(monkeypatch, mock_json_response):
 @pytest.fixture
 def session_send_post_returns_b64_png(monkeypatch, mock_png_b64_response):
     def mock_session_send(self, request: requests.models.PreparedRequest, **kwargs):
-        if request.url == routing["PileCore"] + "/MockPostEndpoint":
+        if request.url == routing["PileCore"]["latest"] + "/MockPostEndpoint":
             return mock_png_b64_response
 
         raise ValueError(
@@ -150,7 +153,7 @@ def session_send_post_returns_b64_png(monkeypatch, mock_png_b64_response):
 @pytest.fixture
 def session_send_post_returns_png(monkeypatch, mock_png_response):
     def mock_session_send(self, request: requests.models.PreparedRequest, **kwargs):
-        if request.url == routing["PileCore"] + "/MockPostEndpoint":
+        if request.url == routing["PileCore"]["latest"] + "/MockPostEndpoint":
             return mock_png_response
 
         raise ValueError(
@@ -163,7 +166,7 @@ def session_send_post_returns_png(monkeypatch, mock_png_response):
 @pytest.fixture
 def session_send_post_returns_text(monkeypatch, mock_text_response):
     def mock_session_send(self, request: requests.models.PreparedRequest, **kwargs):
-        if request.url == routing["PileCore"] + "/MockPostEndpoint":
+        if request.url == routing["PileCore"]["latest"] + "/MockPostEndpoint":
             return mock_text_response
 
         raise ValueError(
@@ -175,7 +178,7 @@ def session_send_post_returns_text(monkeypatch, mock_text_response):
 
 @pytest.fixture
 def get_app_specification_post(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "paths": {
@@ -194,7 +197,7 @@ def get_app_specification_post(monkeypatch):
 
 @pytest.fixture
 def get_app_specification_get(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "paths": {
@@ -213,7 +216,7 @@ def get_app_specification_get(monkeypatch):
 
 @pytest.fixture
 def get_app_specification_invalid_method(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "paths": {
@@ -244,7 +247,7 @@ def user_token_envvar(monkeypatch):
 
 @pytest.fixture
 def get_app_specification_version(monkeypatch):
-    def mock_get_app_specification(self, app: str) -> dict:
+    def mock_get_app_specification(self, app: str, version: str) -> dict:
         if app == "PileCore":
             return {
                 "info": {

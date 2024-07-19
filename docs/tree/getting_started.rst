@@ -72,17 +72,23 @@ The :class:`~.NucleiClient` can provide you with a list of `Nuclei` applications
 
     print(client.applications)
 
+And can also fetch the available versions for an application for you:
+
+.. ipython:: python
+
+    versions = print(client.get_versions(app="PileCore"))
+
 And can also fetch the available endpoints for an application for you:
 
 .. ipython:: python
 
-    endpoints = print(client.get_endpoints("PileCore"))
+    endpoints = print(client.get_endpoints(app="PileCore", version="latest"))
 
 You can also check the applications to which you have full access:
 
 .. ipython:: python
 
-    endpoints = print(client.user_permissions)
+    permissions = print(client.user_permissions)
 
 If an application is not listed here, your usage of the app is limited. Check the
 documentation of the specific apps to see the limitations.
