@@ -79,10 +79,10 @@ class NucleiClient:
         Parameters
         ----------
         app: str
-            Name of the API. call `applications` to obtain a list with all applications.
-        version: str
-            default is latest
-            API version used. call `get_versions` to obtain a list with all version of a specific application.
+            Name of the API. Call `applications` to obtain a list with all applications.
+        version: str, optional
+            default is latest.
+            API version used. Call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -148,12 +148,12 @@ class NucleiClient:
         Parameters
         ----------
         app: str
-            Name of the API. call `applications` to obtain a list with all applications.
+            Name of the API. Call `applications` to obtain a list with all applications.
 
         Returns
         -------
         out : list[str]
-            Versions of the API's
+            Versions of the API.
         """
         if not isinstance(app, str):
             raise TypeError(
@@ -170,10 +170,10 @@ class NucleiClient:
         Parameters
         ----------
         app: str
-            Name of the API. call `applications` to obtain a list with all applications.
-        version: str
-            default is latest
-            API version used. call `get_versions` to obtain a list with all version of a specific application.
+            Name of the API. Call `applications` to obtain a list with all applications.
+        version: str, optional
+            default is latest.
+            API version used. Call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -211,15 +211,15 @@ class NucleiClient:
 
     def get_application_version(self, app: str, version: str = "latest") -> str:
         """
-        Provide version of the API in the Nuclei landscape.
+        Provide the semanctic version of the API in the Nuclei landscape.
 
         Parameters
         ----------
         app: str
-            Name of the API. call `applications` to obtain a list with all applications.
-        version: str
-            default is latest
-            API version used. call `get_versions` to obtain a list with all version of a specific application.
+            Name of the API. Call `applications` to obtain a list with all applications.
+        version: str, optional
+            default is latest.
+            API version used. Call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -254,10 +254,10 @@ class NucleiClient:
         Parameters
         ----------
         app: str
-            Name of the API. call `applications` to obtain a list with all applications.
-        version: str
+            Name of the API. Call `applications` to obtain a list with all applications.
+        version: str, optional
             default is latest
-            API version used. call `get_versions` to obtain a list with all version of a specific application.
+            API version used. Call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -289,12 +289,12 @@ class NucleiClient:
         Parameters
         ----------
         app: str
-            Name of the API. call `applications` to obtain a list with all applications.
+            Name of the API. Call `applications` to obtain a list with all applications.
         endpoint
             url of the endpoint.
-        version: str
-            default is latest
-            API version used. call `get_versions` to obtain a list with all version of a specific application.
+        version: str, optional
+            default is latest.
+            API version used. Call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -353,7 +353,7 @@ class NucleiClient:
         Parameters
         ----------
         app: str
-            Name of the API. call `applications` to obtain a list with all applications.
+            Name of the API. Call `applications` to obtain a list with all applications.
         endpoint: str
             Name of the API's endpoint. call `get_endpoints` to obtain a list with all applications for a given API.
         methode: str
@@ -361,9 +361,9 @@ class NucleiClient:
             HTTP methode used to call endpoint. When auto methode is selected the HTTP methode is
             obtained from the openapi docs. Please note that this is the first one. call `get_endpoint_type`
             to obtain list with all methods related to the endpoint.
-        version: str
-            default is latest
-            API version used. call `get_versions` to obtain a list with all version of a specific application.
+        version: str, optional
+            default is latest.
+            API version used. Call `get_versions` to obtain a list with all versions of a specific application.
         schema: dict or json-string, optional
             Default is None
             The parameter schema for the API. Take a look at the API documentation.
