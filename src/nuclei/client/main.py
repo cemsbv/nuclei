@@ -408,6 +408,16 @@ class NucleiClient:
                 f"Application not available, please select one of the following valid applications {self.applications}"
             )
 
+        if not isinstance(version, str):
+            raise TypeError(
+                f"Expected keyword-argument `version` to be of type <class 'str'>, but got type: {type(version)}"
+            )
+
+        if version not in self.get_versions(app):
+            raise ValueError(
+                f"Application version not available, please select one of the following valid versions {self.get_versions(app)}"
+            )
+
         if not isinstance(endpoint, str):
             raise TypeError(
                 f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
@@ -425,15 +435,6 @@ class NucleiClient:
         if methode not in ["auto", "get", "post"]:
             raise ValueError(
                 f'Expected value of keyword-argument `methode` to be one of ["auto", "get", "post"] , but got: {methode}'
-            )
-        if not isinstance(version, str):
-            raise TypeError(
-                f"Expected keyword-argument `version` to be of type <class 'str'>, but got type: {type(version)}"
-            )
-
-        if version not in self.get_versions(app):
-            raise ValueError(
-                f"Application version not available, please select one of the following valid versions {self.get_versions(app)}"
             )
 
         if not (schema is None or isinstance(schema, (str, dict))):
