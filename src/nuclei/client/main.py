@@ -72,16 +72,17 @@ class NucleiClient:
         # set default timeout
         self.timeout = DEFAULT_REQUEST_TIMEOUT
 
-    def get_url(self, app: str, version: str) -> str:
+    def get_url(self, app: str, version: str = "latest") -> str:
         """
         Get API's url
 
         Parameters
         ----------
-        app : str
-            Application name
-        version : str
-            Application version
+        app: str
+            Name of the API. call `applications` to obtain a list with all applications.
+        version: str
+            default is latest
+            API version used. call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -146,8 +147,8 @@ class NucleiClient:
 
         Parameters
         ----------
-        app : str
-            Application name
+        app: str
+            Name of the API. call `applications` to obtain a list with all applications.
 
         Returns
         -------
@@ -162,16 +163,17 @@ class NucleiClient:
         return list(self.routing[app].keys())
 
     @lru_cache(16)
-    def _get_app_specification(self, app: str, version: str) -> dict:
+    def _get_app_specification(self, app: str, version: str = "latest") -> dict:
         """
         Private methode to get the JSON schema of the API documentation.
 
         Parameters
         ----------
-        app : str
-            Name of the API.
-        version : str
-            Application version
+        app: str
+            Name of the API. call `applications` to obtain a list with all applications.
+        version: str
+            default is latest
+            API version used. call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -207,16 +209,17 @@ class NucleiClient:
             )
         return response.json()
 
-    def get_application_version(self, app: str, version: str) -> str:
+    def get_application_version(self, app: str, version: str = "latest") -> str:
         """
         Provide version of the API in the Nuclei landscape.
 
         Parameters
         ----------
-        app : str
-            Name of the API.
-        version : str
-            Application version
+        app: str
+            Name of the API. call `applications` to obtain a list with all applications.
+        version: str
+            default is latest
+            API version used. call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -244,16 +247,17 @@ class NucleiClient:
 
         return self._get_app_specification(app, version)["info"]["version"]
 
-    def get_endpoints(self, app: str, version: str) -> List[str]:
+    def get_endpoints(self, app: str, version: str = "latest") -> List[str]:
         """
         Get available endpoints of single API.
 
         Parameters
         ----------
-        app : str
-            Name of the API.
-        version : str
-            Application version
+        app: str
+            Name of the API. call `applications` to obtain a list with all applications.
+        version: str
+            default is latest
+            API version used. call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -276,18 +280,21 @@ class NucleiClient:
 
         return list(self._get_app_specification(app, version)["paths"].keys())
 
-    def get_endpoint_type(self, app: str, version: str, endpoint: str) -> List[str]:
+    def get_endpoint_type(
+        self, app: str, endpoint: str, version: str = "latest"
+    ) -> List[str]:
         """
         Get HTTP methode used in endpoint.
 
         Parameters
         ----------
-        app
-            name of the app
-        version : str
-            Application version
+        app: str
+            Name of the API. call `applications` to obtain a list with all applications.
         endpoint
             url of the endpoint.
+        version: str
+            default is latest
+            API version used. call `get_versions` to obtain a list with all version of a specific application.
 
         Returns
         -------
@@ -473,6 +480,11 @@ class NucleiClient:
                     timeout=self.timeout,
                 )
 
+            # If the response contains one of the following statuses, retry the request.
+            #   429 Too Many Requests
+            #   502 Bad Gateway
+            #   503 Service Unavailable
+            #   504 Gateway Timeout
             status_codes_that_trigger_retry = [429, 502, 503, 504]
             if response.status_code in status_codes_that_trigger_retry:
                 # If the call failed, and retry is a viable option, we sleep for a
