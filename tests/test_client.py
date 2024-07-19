@@ -78,6 +78,20 @@ def test_get_wrong_url(user_token_envvar, app):
     )
 
 
+@pytest.mark.parametrize("version", ["v0"])
+def test_get_wrong_version(user_token_envvar, version):
+    "Tests if a ValueError is raised after passing an erroneous app version"
+
+    client = NucleiClient()
+
+    with pytest.raises(ValueError) as err:
+        client.get_url("PileCore", version=version)
+
+    assert str(err.value).startswith(
+        "Application version not available, please select one of the following valid versions"
+    )
+
+
 def test_get_userclaims(user_token_envvar):
     """Tests if the get_user_claims endpoint returns the correct claims for a free user"""
 
