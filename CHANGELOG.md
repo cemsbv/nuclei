@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2024-07-22
+
+### Bug Fixes
+
+- Typos in ConnectionError message
+- *(ci)* Use PyPi tokenless authentication
+
+### Miscellaneous Tasks
+
+- !feat: allow multiple versions of one application (#215)
+- * feat: allow multiple versions of one application
+- * test: update test, add version in mock functions
+- * !chore: remove deprecated code
+- * chore(deps): update dependecies
+- * chore: make version optional
+- * chore: reorder parameters checks
+- * docs: update doc strings
+- PabloVasconez <pvascon@hotmail.com>
+- * chore: remove redundant type checks
+- * test(client): test valid version error
+- ---------
+- PabloVasconez <pvascon@hotmail.com>
+
 ## [0.5.5] - 2024-01-17
 
 ### Bug Fixes
@@ -101,12 +124,27 @@ All notable changes to this project will be documented in this file.
 ### Refactor
 
 - [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+- [**breaking**] Client utils remove deserialization (#206)
+
+## [0.3.2] - 2023-10-05
+
+### Miscellaneous Tasks
+
+- Merge pull request #204 from cemsbv/update-dependencies
 
 ## [0.3.1] - 2023-09-22
 
 ### Bug Fixes
 
 - Raise a user-friendly error when server is offline (#203)
+- *(ci)* Remove dependency from release on test
 
 ### Miscellaneous Tasks
 
@@ -116,21 +154,22 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 
-- *(ci)* Remove dependency from release on test
 - Add deploy docs to github workflow (#189)
 - *(docs)* Resolve #185 update pygef (#187)
 - *(naming)* Remove _get from properties (#184)
 - *(ci)* Update workflows
 - *(ci)* Release to pypi trigger (#176)
 
-### Co-authored-by
-
-- Thijs Lukkezen <t.lukkezen@cemsbv.io>
-
 ### Miscellaneous Tasks
 
 - Release 0.3.0
+- Merge pull request #178 from cemsbv/fix-ci
+- Update ci workflows
 - Release 0.3.0a2 (#175)
+- Thijs Lukkezen <t.lukkezen@cemsbv.io>
+- Merge pull request #172 from cemsbv/update-dependencies
+- Update dependencies
+- Update dependencies: nuclei, polars, pandas, geopandas
 - *(project)* Update name
 
 ### Dep
@@ -146,40 +185,287 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous Tasks
 
 - *(setuptools)* Add pyproject.toml and linting (#169)
+- 136 - Explicitly assign lint config-file pyproject.toml in workflow job
+- Add user claims to client, update dependencies
+
+### Refactor
+
+- Refactor authentication
+
+## [0.2.0] - 2022-11-29
+
+### Miscellaneous Tasks
+
+- New user token (#119)
+- * WIP new user token
+- * update input text, add example
+- * update docs
+- * update setup move dependencies extras_require
+- * update documentation
+- * raise ImportError when dependencies are not installed
+- * WIP new user token
+- * update input text, add example
+- * update docs
+- * update setup move dependencies extras_require
+- * update documentation
+- * raise ImportError when dependencies are not installed
+- * create Client class and update docs
+- * fix linter errors
 
 ## [0.1.2] - 2022-06-23
 
-### Co-authored-by
+### Bug Fixes
 
+- Fix ipython version
+
+### Miscellaneous Tasks
+
+- Fix ci and pin dependecies (#50)
+- * pin all (sub) dependencies with pip-tools
+- * Fix ci, use pytest
+- * Use python 3.7 for pip tools
+- * pin all (sub) dependencies with pip-tools
+- * Fix ci, use pytest
+- * Use python 3.7 for pip tools
+- * mock authenticate call
+- * lint file
+- * pin all (sub) dependencies with pip-tools
+- * Fix ci, use pytest
+- * Use python 3.7 for pip tools
+- * mock authenticate call
+- * lint file
+- * bump polars version to 0.13.0
+- * use `to_json` to serialize polars DataFrame
 - Thomas Versteeg <t@versteeg.email>
-
-### Signed-off-by
-
+- Update polars[pyarrow] requirement from ~=0.13.32 to ~=0.13.34
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.32...py-polars-v0.13.34)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.31 to ~=0.13.32
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.31...py-polars-v0.13.32)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.29 to ~=0.13.31
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.29...py-polars-v0.13.31)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.17 to ~=0.13.29
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.17...py-polars-v0.13.29)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.16 to ~=0.13.17
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.16...py-polars-v0.13.17)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.13 to ~=0.13.16
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.13...py-polars-v0.13.16)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.12 to ~=0.13.13
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.12...py-polars-v0.13.13)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.9 to ~=0.13.12
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.9...py-polars-v0.13.12)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.8 to ~=0.13.9
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.8...py-polars-v0.13.9)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.7 to ~=0.13.8
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.7...py-polars-v0.13.8)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Bump actions/checkout from 2 to 3
+- Bumps [actions/checkout](https://github.com/actions/checkout) from 2 to 3.
+- - [Release notes](https://github.com/actions/checkout/releases)
+- - [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)
+- - [Commits](https://github.com/actions/checkout/compare/v2...v3)
+- ---
+- Updated-dependencies:
+- - dependency-name: actions/checkout
+-   dependency-type: direct:production
+-   update-type: version-update:semver-major
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars requirement from <0.13.0,>=0.9.12 to >=0.9.12,<0.14.0
+- Updates the requirements on [polars](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.9.12...py-polars-v0.13.0)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.3 to ~=0.13.7
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.3...py-polars-v0.13.7)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Bump actions/setup-python from 2 to 3
+- Bumps [actions/setup-python](https://github.com/actions/setup-python) from 2 to 3.
+- - [Release notes](https://github.com/actions/setup-python/releases)
+- - [Commits](https://github.com/actions/setup-python/compare/v2...v3)
+- ---
+- Updated-dependencies:
+- - dependency-name: actions/setup-python
+-   dependency-type: direct:production
+-   update-type: version-update:semver-major
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.13.1 to ~=0.13.3
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.13.1...py-polars-v0.13.3)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.12.23 to ~=0.13.1
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.12.23...py-polars-v0.13.1)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.12.22 to ~=0.12.23
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.12.22...py-polars-v0.12.23)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.12.20 to ~=0.12.22
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.12.20...py-polars-v0.12.22)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.12.19 to ~=0.12.20
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.12.19...py-polars-v0.12.20)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Update polars[pyarrow] requirement from ~=0.12.17 to ~=0.12.19
+- Updates the requirements on [polars[pyarrow]](https://github.com/pola-rs/polars) to permit the latest version.
+- - [Release notes](https://github.com/pola-rs/polars/releases)
+- - [Changelog](https://github.com/pola-rs/polars/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/pola-rs/polars/compare/py-polars-v0.12.17...py-polars-v0.12.19)
+- ---
+- Updated-dependencies:
+- - dependency-name: polars[pyarrow]
+-   dependency-type: direct:production
+- ...
 - Dependabot[bot] <support@github.com>
+- Add range to dependencies
 
 ## [0.1.1] - 2022-01-26
 
 ### Co-authored-by
 
 - Robin Wimmers <r.wimmers@cemsbv.io>
+
+## [0.1.0] - 2022-01-25
 
 <!-- CEMS BV. -->
