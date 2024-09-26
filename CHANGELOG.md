@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2024-09-26
+
+### Testing
+
+- *(ci)* Test Python 3.12 in CI
+
 ## [1.0.0] - 2024-07-22
 
 ### Bug Fixes
@@ -144,7 +150,6 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 - Raise a user-friendly error when server is offline (#203)
-- *(ci)* Remove dependency from release on test
 
 ### Miscellaneous Tasks
 
@@ -154,6 +159,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 
+- *(ci)* Remove dependency from release on test
 - Add deploy docs to github workflow (#189)
 - *(docs)* Resolve #185 update pygef (#187)
 - *(naming)* Remove _get from properties (#184)
