@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2024-12-12
+
+### Features
+
+- *(timeout)* Set DEFAULT_REQUEST_TIMETOUT to 10 seconds
+
 ## [1.0.1] - 2024-09-26
 
 ### Testing
