@@ -70,14 +70,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nuclei.api.main</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">jwt</span>
-<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 
-<div class="viewcode-block" id="create_session"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.create_session">[docs]</a><span class="k">def</span> <span class="nf">create_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">:</span>
+<div class="viewcode-block" id="create_session"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.create_session">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialising session object to call the NUCLEI endpoints.</span>
 <span class="sd">    Provide the user token from https://nuclei.cemsbv.io/#/personal-access-tokens to</span>
@@ -97,7 +97,7 @@
     <span class="k">return</span> <span class="n">_session</span></div>
 
 
-<span class="k">def</span> <span class="nf">authenticate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a validated JWT token from backend.</span>
 
@@ -112,7 +112,7 @@
     <span class="k">return</span> <span class="n">user_token</span>
 
 
-<span class="k">def</span> <span class="nf">_get_valid_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_valid_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Obtains the user-token from the env-vars or stdin and returns it.</span>
 <span class="sd">    If the token is valid, it is stored as env-var &quot;NUCLEI_TOKEN&quot; as a side-effect.</span>
@@ -138,7 +138,7 @@
     <span class="k">return</span> <span class="n">token</span>
 
 
-<span class="k">def</span> <span class="nf">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a JWT User-token by trying to decode it.</span>
 
 <span class="sd">    Parameters</span>

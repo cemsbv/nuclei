@@ -115,7 +115,7 @@ the <cite>nuclei</cite> endpoints by creating a <code class="xref py py-class do
 the <code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code> to handle the calls for you.</p>
 <p>For instance, calling the <cite>healthcheck</cite> endpoint of the <cite>VibraCore</cite> application
 can be done as such:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">NucleiClient</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">nuclei.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">NucleiClient</span>
 
 <span class="gp">In [2]: </span><span class="n">client</span> <span class="o">=</span> <span class="n">NucleiClient</span><span class="p">()</span>
 
@@ -145,7 +145,7 @@ you won’t have to worry about passing the correct types.</p>
 </div>
 <p>And can also fetch the available endpoints for an application for you:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s2">&quot;PileCore&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">))</span>
-<span class="go">[&#39;/healthcheck&#39;, &#39;/compression/single-cpt/plot-bearing-capacity&#39;, &#39;/compression/single-cpt/results&#39;, &#39;/compression/single-cpt/report&#39;, &#39;/grouper/generate_grouper_report&#39;, &#39;/get-task-result&#39;, &#39;/get-task-status&#39;, &#39;/compression/multiple-cpts/results&#39;, &#39;/compression/multiple-cpts/plot-bearing-capacity&#39;, &#39;/compression/multiple-cpts/report&#39;, &#39;/pile_properties/shape&#39;, &#39;/pile_properties/type&#39;, &#39;/friction-ranges/lower-bound&#39;, &#39;/grouper/group_cpts&#39;, &#39;/grouper/optimize_groups&#39;, &#39;/grouper/group_metrics&#39;]</span>
+<span class="go">[&#39;/healthcheck&#39;, &#39;/compression/single-cpt/plot-bearing-capacity&#39;, &#39;/compression/single-cpt/results&#39;, &#39;/compression/single-cpt/report&#39;, &#39;/grouper/generate_grouper_report&#39;, &#39;/get-task-result&#39;, &#39;/get-task-status&#39;, &#39;/compression/multiple-cpts/results&#39;, &#39;/compression/multiple-cpts/plot-bearing-capacity&#39;, &#39;/compression/multiple-cpts/report&#39;, &#39;/pile_properties/shape&#39;, &#39;/pile_properties/type&#39;, &#39;/friction-ranges/lower-bound&#39;, &#39;/grouper/group_cpts&#39;, &#39;/grouper/optimize_groups&#39;, &#39;/grouper/group_metrics&#39;, &#39;/tension/nen/single-cpt/results&#39;, &#39;/tension/nen/single-cpt/report&#39;, &#39;/tension/cur/single-cpt/results&#39;, &#39;/tension/cur/single-cpt/report&#39;, &#39;/tension/nen/multiple-cpt/results&#39;, &#39;/tension/cur/multiple-cpt/results&#39;, &#39;/tension/nen/multiple-cpt/report&#39;, &#39;/tension/cur/multiple-cpt/report&#39;]</span>
 </pre></div>
 </div>
 <p>You can also check the applications to which you have full access:</p>
@@ -160,10 +160,10 @@ documentation of the specific apps to see the limitations.</p>
 <h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this heading"></a></h2>
 <p>If you want to have full control and create your own API calls
 with the <cite>requests</cite> package, you can do so by calling <a class="reference internal" href="reference.html#nuclei.api.main.create_session" title="nuclei.api.main.create_session"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_session()</span></code></a>.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [8]: </span><span class="kn">import</span> <span class="nn">nuclei</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [8]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">nuclei</span>
 
 <span class="gp">In [9]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;requests.sessions.Session at 0x7f5a33f1e220&gt;</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;requests.sessions.Session at 0x7f5343370430&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
@@ -175,9 +175,9 @@ covers authentication for you.</p>
 calling the <a class="reference internal" href="reference.html#nuclei.client.utils.serialize_jsonifyable_object" title="nuclei.client.utils.serialize_jsonifyable_object"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a> function directly.</p>
 <p>The following code-block shows the mechanism behind these functions. First we
 create a <cite>numpy.array</cite> and transforms it to a serialized list with <a class="reference internal" href="reference.html#nuclei.client.utils.serialize_jsonifyable_object" title="nuclei.client.utils.serialize_jsonifyable_object"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a>.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="gp">In [11]: </span><span class="kn">from</span> <span class="nn">nuclei.client</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="gp">In [11]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">nuclei.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
 
 <span class="gp">In [12]: </span><span class="n">schema</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mi">4</span><span class="p">)]])</span>
 
