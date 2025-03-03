@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3] - 2025-03-03
+
+### Bug Fixes
+
+- *(deps)* Unpin pyjwt and refresh all requirements
+
 ## [1.0.2] - 2024-12-12
 
 ### Features

@@ -62,3 +62,4 @@ commit_parsers = [
 ]
 # Glob pattern for matching git tags
 tag_pattern = "[0-9]*"
+
