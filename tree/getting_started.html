@@ -1,20 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Getting started &mdash; NUCLEI 1.0.3 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/index.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/index.css?v=a925da5d" />
+
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -80,14 +82,14 @@
            <div itemprop="articleBody">
              
   <section id="getting-started">
-<span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
 <p>New to <cite>Nuclei</cite> in <cite>Python</cite>? Don’t worry, you’ve found the perfect place to get started!</p>
 <p>Full documentation of the <cite>Nuclei</cite> APIs can be found by logging in to on the <a class="reference external" href="https://nuclei.cemsbv.io/#">nuclei</a> website.</p>
 <p>If you don’t yet have a <cite>Nuclei</cite> account you can create one for free(!)
 from the <cite>Sign Up</cite> tab after clicking <cite>Log In</cite> on the <a class="reference external" href="https://nuclei.cemsbv.io/#">nuclei</a>
 website.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>To install this package, including the <cite>NucleiClient</cite> library and its dependencies, run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cems</span><span class="o">-</span><span class="n">nuclei</span><span class="p">[</span><span class="n">client</span><span class="p">]</span>
 </pre></div>
@@ -98,7 +100,7 @@ website.</p>
 </div>
 </section>
 <section id="user-token">
-<h2>User Token<a class="headerlink" href="#user-token" title="Permalink to this heading"></a></h2>
+<h2>User Token<a class="headerlink" href="#user-token" title="Link to this heading"></a></h2>
 <p>To connect to <cite>Nuclei</cite> you’ll first need a user token. You can obtain
 this token by signing in to the <a class="reference external" href="https://nuclei.cemsbv.io/#">nuclei</a>
 website and navigate to the
@@ -109,7 +111,7 @@ NUCLEI_TOKEN in your <cite>Python</cite> environment. Else you will be prompted
 for this token when necessary.</p>
 </section>
 <section id="guided-usage">
-<h2>Guided usage<a class="headerlink" href="#guided-usage" title="Permalink to this heading"></a></h2>
+<h2>Guided usage<a class="headerlink" href="#guided-usage" title="Link to this heading"></a></h2>
 <p>If you’re not so comfortable with creating your own API calls, you can easily access
 the <cite>nuclei</cite> endpoints by creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code> object and using
 the <code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code> to handle the calls for you.</p>
@@ -157,20 +159,20 @@ you won’t have to worry about passing the correct types.</p>
 documentation of the specific apps to see the limitations.</p>
 </section>
 <section id="advanced-usage">
-<h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this heading"></a></h2>
+<h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Link to this heading"></a></h2>
 <p>If you want to have full control and create your own API calls
 with the <cite>requests</cite> package, you can do so by calling <a class="reference internal" href="reference.html#nuclei.api.main.create_session" title="nuclei.api.main.create_session"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_session()</span></code></a>.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [8]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">nuclei</span>
 
 <span class="gp">In [9]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;requests.sessions.Session at 0x7f4b6c97b490&gt;</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;requests.sessions.Session at 0x7fa1360bc6d0&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
 covers authentication for you.</p>
 </section>
 <section id="schema-serialization">
-<h2>Schema serialization<a class="headerlink" href="#schema-serialization" title="Permalink to this heading"></a></h2>
+<h2>Schema serialization<a class="headerlink" href="#schema-serialization" title="Link to this heading"></a></h2>
 <p>The automatic schema serialization tools are also available to advanced users by
 calling the <a class="reference internal" href="reference.html#nuclei.client.utils.serialize_jsonifyable_object" title="nuclei.client.utils.serialize_jsonifyable_object"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a> function directly.</p>
 <p>The following code-block shows the mechanism behind these functions. First we

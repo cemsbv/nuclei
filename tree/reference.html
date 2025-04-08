@@ -1,20 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reference &mdash; NUCLEI 1.0.3 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/index.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/index.css?v=a925da5d" />
+
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -85,12 +87,12 @@
            <div itemprop="articleBody">
              
   <section id="reference">
-<span id="id1"></span><h1>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h1>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="nuclei.api.main.create_session">
-<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">create_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#create_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.create_session" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">create_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#create_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.create_session" title="Link to this definition"></a></dt>
 <dd><p>Initialising session object to call the NUCLEI endpoints.
 Provide the user token from <a class="reference external" href="https://nuclei.cemsbv.io/#/personal-access-tokens">https://nuclei.cemsbv.io/#/personal-access-tokens</a> to
 upon request or set as environment variable.</p>
@@ -103,13 +105,13 @@ upon request or set as environment variable.</p>
 
 </section>
 <section id="client">
-<h2>Client<a class="headerlink" href="#client" title="Permalink to this heading"></a></h2>
+<h2>Client<a class="headerlink" href="#client" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nuclei.client.main.</span></span><span class="sig-name descname"><span class="pre">NucleiClient</span></span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nuclei.client.main.</span></span><span class="sig-name descname"><span class="pre">NucleiClient</span></span><a class="reference internal" href="../_modules/nuclei/client/main.html#NucleiClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="py property">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em></dt>
 <dd><p>Provide available API’s in the Nuclei landscape.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -149,7 +151,7 @@ Return the requests response instead of the parsed data object.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
@@ -210,7 +212,7 @@ API version used. Call <cite>get_versions</cite> to obtain a list with all versi
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>app</strong> (<em>str</em>) – Name of the API. Call <cite>applications</cite> to obtain a list with all applications.</p></li>
-<li><p><strong>endpoint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – url of the endpoint.</p></li>
+<li><p><strong>endpoint</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – url of the endpoint.</p></li>
 <li><p><strong>version</strong> (<em>str</em><em>, </em><em>optional</em>) – default is latest.
 API version used. Call <cite>get_versions</cite> to obtain a list with all version of a specific application.</p></li>
 </ul>
@@ -311,7 +313,7 @@ API version used. Call <cite>get_versions</cite> to obtain a list with all versi
 
 <dl class="py property">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_permissions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_permissions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em></dt>
 <dd><p>Provide the user permissions of your token.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -327,10 +329,10 @@ API version used. Call <cite>get_versions</cite> to obtain a list with all versi
 
 </section>
 <section id="utils">
-<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this heading"></a></h2>
+<h2>Utils<a class="headerlink" href="#utils" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="nuclei.client.utils.serialize_jsonifyable_object">
-<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_jsonifyable_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_jsonifyable_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_jsonifyable_object" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_jsonifyable_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_jsonifyable_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_jsonifyable_object" title="Link to this definition"></a></dt>
 <dd><p>Takes an object and converts it to a JSON-serializable object. Uses orjson.dumps()
 to do the heavy lifting.</p>
 <dl class="simple">
@@ -362,7 +364,7 @@ to do the heavy lifting.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nuclei.client.utils.serialize_json_string">
-<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_json_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_json_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_json_string" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_json_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_json_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_json_string" title="Link to this definition"></a></dt>
 <dd><p>Takes an object and converts it to a JSON-string. Uses orjson.dumps()
 to do the heavy lifting.</p>
 <dl class="simple">
@@ -394,7 +396,7 @@ to do the heavy lifting.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nuclei.client.utils.serialize_json_bytes">
-<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_json_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_json_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_json_bytes" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nuclei.client.utils.</span></span><span class="sig-name descname"><span class="pre">serialize_json_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/client/utils.html#serialize_json_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.client.utils.serialize_json_bytes" title="Link to this definition"></a></dt>
 <dd><p>Takes an object and converts it to a JSON-bytes-string. Uses orjson.dumps()
 to do the heavy lifting.</p>
 <dl class="simple">

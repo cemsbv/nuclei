@@ -1,19 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>nuclei.client.main &mdash; NUCLEI 1.0.3 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/index.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/index.css?v=a925da5d" />
+
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -117,7 +119,9 @@
 <span class="n">MAX_RETRIES</span> <span class="o">=</span> <span class="mi">10</span>
 
 
-<div class="viewcode-block" id="NucleiClient"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NucleiClient</span><span class="p">:</span>
+<div class="viewcode-block" id="NucleiClient">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NucleiClient</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        NUCLEI Client.</span>
@@ -144,7 +148,9 @@
         <span class="c1"># set default timeout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">DEFAULT_REQUEST_TIMEOUT</span>
 
-<div class="viewcode-block" id="NucleiClient.get_url"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_url">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="NucleiClient.get_url">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_url">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get API&#39;s url</span>
 
@@ -177,6 +183,7 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="p">[</span><span class="n">app</span><span class="p">][</span><span class="n">version</span><span class="p">]</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">user_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -205,7 +212,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-<div class="viewcode-block" id="NucleiClient.get_versions"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_versions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="NucleiClient.get_versions">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_versions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provide available API&#39;s versions in the Nuclei landscape.</span>
 
@@ -235,6 +244,7 @@
                 <span class="sa">f</span><span class="s2">&quot;Application not available, please select one of the following valid applications </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">applications</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="p">[</span><span class="n">app</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
 
     <span class="nd">@lru_cache</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_app_specification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -273,7 +283,9 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-<div class="viewcode-block" id="NucleiClient.get_application_version"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_application_version">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_application_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="NucleiClient.get_application_version">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_application_version">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_application_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provide the semanctic version of the API in the Nuclei landscape.</span>
 
@@ -301,7 +313,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">&quot;info&quot;</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="NucleiClient.get_endpoints"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoints">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="NucleiClient.get_endpoints">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoints">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get available endpoints of single API.</span>
 
@@ -329,7 +344,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">&quot;paths&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="NucleiClient.get_endpoint_type"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoint_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_endpoint_type</span><span class="p">(</span>
+
+<div class="viewcode-block" id="NucleiClient.get_endpoint_type">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoint_type">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_endpoint_type</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -372,7 +390,10 @@
             <span class="sa">f</span><span class="s2">&quot;Endpoint name not valid, please select on of the following valid endpoints </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="NucleiClient.call_endpoint"><a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.call_endpoint">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call_endpoint</span><span class="p">(</span>
+
+<div class="viewcode-block" id="NucleiClient.call_endpoint">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.call_endpoint">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">call_endpoint</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -538,7 +559,9 @@
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;text/&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
-        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span></div></div>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span></div>
+</div>
+
 </pre></div>
 
            </div>
