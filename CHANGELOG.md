@@ -2,11 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2025-04-08
+
+### Bug Fixes
+
+- *(deps)* Use correct dependencies for documentation
+- *(deps)* Pin dependencies and update linting dependencies
+
+### Refactor
+
+- *(python)* [**breaking**] Bump minimum supported Python version to 3.11
+
 ## [1.0.3] - 2025-03-03
 
 ### Bug Fixes
 
 - *(deps)* Unpin pyjwt and refresh all requirements
+
+### Miscellaneous Tasks
+
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- *(deps)* Bump actions/upload-artifact from 3 to 4
+- Dependabot[bot] <support@github.com>
 
 ## [1.0.2] - 2024-12-12
 
