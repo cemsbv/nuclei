@@ -2,6 +2,8 @@
 #    uv pip compile --extra=client --extra=docs --extra=lint --extra=test --output-file=requirements.txt pyproject.toml
 alabaster==1.0.0
     # via sphinx
+anywidget==0.9.18
+    # via cems-nuclei (pyproject.toml)
 asteroid-sphinx-theme==0.0.3
     # via cems-nuclei (pyproject.toml)
 asttokens==3.0.0
@@ -16,6 +18,8 @@ charset-normalizer==3.4.1
     # via requests
 click==8.1.8
     # via black
+comm==0.2.2
+    # via ipywidgets
 coverage==6.5.0
     # via coveralls
 coveralls==3.3.1
@@ -26,8 +30,8 @@ docopt==0.6.2
     # via coveralls
 docutils==0.21.2
     # via
-    #   m2r2
     #   sphinx
+    #   sphinx-rtd-theme
 executing==2.2.0
     # via stack-data
 idna==3.10
@@ -37,25 +41,29 @@ imagesize==1.4.1
 iniconfig==2.1.0
     # via pytest
 ipython==9.1.0
-    # via cems-nuclei (pyproject.toml)
+    # via
+    #   cems-nuclei (pyproject.toml)
+    #   ipywidgets
 ipython-pygments-lexers==1.1.1
     # via ipython
+ipywidgets==8.1.5
+    # via anywidget
 isort==6.0.1
     # via cems-nuclei (pyproject.toml)
 jedi==0.19.2
     # via ipython
 jinja2==3.1.6
     # via sphinx
-m2r2==0.3.2
-    # via cems-nuclei (pyproject.toml)
+jupyterlab-widgets==3.0.13
+    # via ipywidgets
 markupsafe==3.0.2
     # via jinja2
 matplotlib-inline==0.1.7
     # via ipython
-mistune==0.8.4
-    # via m2r2
 mypy-extensions==1.0.0
     # via black
+numpy==2.2.4
+    # via cems-nuclei (pyproject.toml)
 orjson==3.10.16
     # via cems-nuclei (pyproject.toml)
 packaging==24.2
@@ -75,6 +83,8 @@ pluggy==1.5.0
     # via pytest
 prompt-toolkit==3.0.50
     # via ipython
+psygnal==0.12.0
+    # via anywidget
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
@@ -102,7 +112,11 @@ sphinx==8.2.3
     #   cems-nuclei (pyproject.toml)
     #   asteroid-sphinx-theme
     #   sphinx-autodoc-typehints
+    #   sphinx-rtd-theme
+    #   sphinxcontrib-jquery
 sphinx-autodoc-typehints==3.1.0
+    # via cems-nuclei (pyproject.toml)
+sphinx-rtd-theme==3.0.2
     # via cems-nuclei (pyproject.toml)
 sphinxcontrib-applehelp==2.0.0
     # via sphinx
@@ -110,6 +124,8 @@ sphinxcontrib-devhelp==2.0.0
     # via sphinx
 sphinxcontrib-htmlhelp==2.1.0
     # via sphinx
+sphinxcontrib-jquery==4.1
+    # via sphinx-rtd-theme
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
 sphinxcontrib-qthelp==2.0.0
@@ -120,9 +136,15 @@ stack-data==0.6.3
     # via ipython
 traitlets==5.14.3
     # via
+    #   comm
     #   ipython
+    #   ipywidgets
     #   matplotlib-inline
+typing-extensions==4.13.1
+    # via anywidget
 urllib3==2.3.0
     # via requests
 wcwidth==0.2.13
     # via prompt-toolkit
+widgetsnbextension==4.0.13
+    # via ipywidgets
