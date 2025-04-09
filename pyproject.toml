@@ -16,7 +16,7 @@ keywords = ["API"]
 repository = "https://github.com/cemsbv/nuclei"
 
 [project.optional-dependencies]
-client = ["orjson>=3,<4"]
+client = ["ipython>=9.1.0,<10", "orjson>=3,<4"]
 test = ["coveralls", "pytest"]
 docs = [
   "Sphinx==8.2.3",
