@@ -8,7 +8,18 @@ from typing import Any, List, Literal, Optional, Union
 import jwt
 
 from nuclei import create_session
-from nuclei.client import utils
+
+# try import serialize functions
+try:
+    from IPython.display import Image
+
+    from nuclei.client import utils
+except ImportError as e:
+    raise ImportError(
+        "Could not import one of dependencies [numpy, orjson, ipython]. "
+        "You must install nuclei[client] in order to use NucleiClient \n"
+        rf"Traceback: {e}"
+    )
 
 ROUTING = {
     "PileCore": {
@@ -51,9 +62,6 @@ class NucleiClient:
         timeout: int
             The connect timeout is the number of seconds. Default is 5 seconds
         """
-
-        # initialize session
-        self.session = create_session()
 
         # get routing table to application
         self.routing = ROUTING
@@ -104,11 +112,12 @@ class NucleiClient:
         out : list[str]
             Names of the API's
         """
-        return jwt.decode(
-            self.session.headers["Authorization"].split(" ")[1],  # type: ignore
-            algorithms=["HS256"],
-            options={"verify_signature": False, "verify_exp": False},
-        ).get("permissions", [])
+        with create_session() as session:
+            return jwt.decode(
+                session.headers["Authorization"].split(" ")[1],  # type: ignore
+                algorithms=["HS256"],
+                options={"verify_signature": False, "verify_exp": False},
+            ).get("permissions", [])
 
     @property
     def applications(self) -> List[str]:
@@ -154,7 +163,7 @@ class NucleiClient:
         return list(self.routing[app].keys())
 
     @lru_cache(16)
-    def _get_app_specification(self, app: str, version: str = "latest") -> dict:
+    async def _get_app_specification(self, app: str, version: str = "latest") -> dict:
         """
         Private methode to get the JSON schema of the API documentation.
 
@@ -179,16 +188,17 @@ class NucleiClient:
         ValueError:
             Wrong value for `app` or `version` argument
         """
-        response = self.session.get(
-            self.get_url(app, version) + "/openapi.json", timeout=self.timeout
-        )
-        if response.status_code != 200:
-            raise ConnectionError(
-                "Unfortunately the application you are trying to reach is unavailable (status code: "
-                f"{response.status_code}). Please check you connection. If the problem persists contact "
-                "CEMS at info@cemsbv.nl"
-            )
-        return response.json()
+        async with create_session() as session:
+            async with session.get(
+                self.get_url(app, version) + "/openapi.json", timeout=self.timeout
+            ) as response:
+                if response.status_code != 200:
+                    raise ConnectionError(
+                        "Unfortunately the application you are trying to reach is unavailable (status code: "
+                        f"{response.status_code}). Please check you connection. If the problem persists contact "
+                        "CEMS at info@cemsbv.nl"
+                    )
+                return await response.json()
 
     def get_application_version(self, app: str, version: str = "latest") -> str:
         """
@@ -338,8 +348,8 @@ class NucleiClient:
             content response
         out : Response
             requests response object
-        figure: bytes
-             PNG bytes, can be saved directly to a .png file
+        figure: Image
+             IPython display Image object
 
         Raises
         -------
@@ -448,7 +458,9 @@ class NucleiClient:
 
         content_type = response.headers["Content-Type"]
         if content_type == "image/png;base64":
-            return base64.b64decode(response.text)
+            return Image(base64.b64decode(response.text))
+        elif content_type == "image/png":
+            return Image(response.content)
         elif content_type.endswith("json"):
             return response.json()
         elif content_type.startswith("text/"):

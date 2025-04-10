@@ -2,10 +2,10 @@ import logging
 import os
 
 import jwt
-import requests
+import aiohttp
 
 
-def create_session() -> requests.Session:
+def create_session() -> aiohttp.ClientSession:
     """
     Initialising session object to call the NUCLEI endpoints.
     Provide the user token from https://nuclei.cemsbv.io/#/personal-access-tokens to
@@ -16,28 +16,10 @@ def create_session() -> requests.Session:
     Session
     """
 
-    # initialising session
-    _session = requests.Session()
-
     # set bearer token
-    _session.headers.update({"Authorization": f"Bearer {authenticate()}"})
+    headers = {"Authorization": f"Bearer {_get_valid_user_token()}"}
 
-    return _session
-
-
-def authenticate() -> str:
-    """
-    Returns a validated JWT token from backend.
-
-    Prompt the user for a user-token if it is not stored as an environmental variable
-    "NUCLEI_TOKEN". A prompted user token will be stored as env-var after validation.
-
-    Will throw an exception when authentication fails.
-    """
-
-    user_token = _get_valid_user_token()
-
-    return user_token
+    return aiohttp.ClientSession(headers=headers)
 
 
 def _get_valid_user_token() -> str:
@@ -45,6 +27,11 @@ def _get_valid_user_token() -> str:
     Obtains the user-token from the env-vars or stdin and returns it.
     If the token is valid, it is stored as env-var "NUCLEI_TOKEN" as a side-effect.
     """
+
+    global USER_TOKEN
+
+    if USER_TOKEN:
+        return USER_TOKEN
 
     # check if User Token is in environment variables
     if "NUCLEI_TOKEN" in os.environ:
@@ -63,7 +50,10 @@ def _get_valid_user_token() -> str:
         os.environ["NUCLEI_TOKEN"] = token
         logging.info("user token set in environment")
 
-    return token
+    USER_TOKEN = token
+
+    if USER_TOKEN:
+        return USER_TOKEN
 
 
 def _validate_user_token(token: str) -> None:
