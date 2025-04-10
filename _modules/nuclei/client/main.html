@@ -82,18 +82,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">nuclei</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_session</span>
-
-<span class="c1"># try import serialize functions</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
-
-    <span class="kn">from</span><span class="w"> </span><span class="nn">nuclei.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
-<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-        <span class="s2">&quot;Could not import one of dependencies [numpy, orjson, ipython]. &quot;</span>
-        <span class="s2">&quot;You must install nuclei[client] in order to use NucleiClient </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="sa">rf</span><span class="s2">&quot;Traceback: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nuclei.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
 
 <span class="n">ROUTING</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;PileCore&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -442,8 +431,8 @@
 <span class="sd">            content response</span>
 <span class="sd">        out : Response</span>
 <span class="sd">            requests response object</span>
-<span class="sd">        figure: Image</span>
-<span class="sd">             IPython display Image object</span>
+<span class="sd">        figure: bytes</span>
+<span class="sd">             PNG bytes, can be saved directly to a .png file</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        -------</span>
@@ -552,9 +541,7 @@
 
         <span class="n">content_type</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s2">&quot;image/png;base64&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s2">&quot;image/png&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;text/&quot;</span><span class="p">):</span>
