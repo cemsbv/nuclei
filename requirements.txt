@@ -54,7 +54,7 @@ jedi==0.19.2
     # via ipython
 jinja2==3.1.6
     # via sphinx
-jupyterlab-widgets==3.0.13
+jupyterlab-widgets==3.0.14
     # via ipywidgets
 markupsafe==3.0.2
     # via jinja2
