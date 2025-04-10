@@ -4,7 +4,6 @@ import os
 
 import pytest
 import requests
-from IPython.display import Image
 
 from nuclei.client.main import NucleiClient
 
@@ -222,7 +221,7 @@ def test_call_endpoint_post_returns_png(
         app="PileCore", endpoint="/MockPostEndpoint", schema={"somekey": "somevalue"}
     )
 
-    assert isinstance(response, Image)
+    assert isinstance(response, bytes)
 
 
 def test_call_endpoint_post_returns_b64_png(
@@ -239,7 +238,7 @@ def test_call_endpoint_post_returns_b64_png(
         app="PileCore", endpoint="/MockPostEndpoint", schema={"somekey": "somevalue"}
     )
 
-    assert isinstance(response, Image)
+    assert isinstance(response, bytes)
 
 
 def test_call_endpoint_post_returns_json_with_parsing_error(

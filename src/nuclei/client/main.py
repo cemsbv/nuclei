@@ -8,18 +8,7 @@ from typing import Any, List, Literal, Optional, Union
 import jwt
 
 from nuclei import create_session
-
-# try import serialize functions
-try:
-    from IPython.display import Image
-
-    from nuclei.client import utils
-except ImportError as e:
-    raise ImportError(
-        "Could not import one of dependencies [numpy, orjson, ipython]. "
-        "You must install nuclei[client] in order to use NucleiClient \n"
-        rf"Traceback: {e}"
-    )
+from nuclei.client import utils
 
 ROUTING = {
     "PileCore": {
@@ -349,8 +338,8 @@ class NucleiClient:
             content response
         out : Response
             requests response object
-        figure: Image
-             IPython display Image object
+        figure: bytes
+             PNG bytes, can be saved directly to a .png file
 
         Raises
         -------
@@ -459,9 +448,7 @@ class NucleiClient:
 
         content_type = response.headers["Content-Type"]
         if content_type == "image/png;base64":
-            return Image(base64.b64decode(response.text))
-        elif content_type == "image/png":
-            return Image(response.content)
+            return base64.b64decode(response.text)
         elif content_type.endswith("json"):
             return response.json()
         elif content_type.startswith("text/"):
