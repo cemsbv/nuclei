@@ -172,8 +172,8 @@ class NucleiClient:
 
         Raises
         -------
-        ConnectionError:
-            Application not available
+        RuntimeError:
+            Error while trying to get the API specification
         TypeError:
             Wrong type for `app` or `version` argument
         ValueError:
@@ -183,11 +183,18 @@ class NucleiClient:
             self.get_url(app, version) + "/openapi.json", timeout=self.timeout
         )
         if response.status_code != 200:
-            raise ConnectionError(
-                "Unfortunately the application you are trying to reach is unavailable (status code: "
-                f"{response.status_code}). Please check you connection. If the problem persists contact "
-                "CEMS at info@cemsbv.nl"
+            error_message = (
+                f"Failed to get the API specification for {app} version {version}.\n"
+                + f"Status code: {response.status_code}. Response: {response.text}"
             )
+            if response.status_code < 500:
+                raise RuntimeError(error_message)
+            else:
+                raise RuntimeError(
+                    error_message
+                    + "\nIf the problem persists, please contact CEMS at info@cemsbv.nl"
+                )
+
         return response.json()
 
     def get_application_version(self, app: str, version: str = "latest") -> str:
@@ -237,8 +244,8 @@ class NucleiClient:
 
         Raises
         -------
-        ConnectionError:
-            Application not available
+        RuntimeError:
+            Error while trying to get the API specification
         TypeError:
             Wrong type for `app` or `version` argument
         ValueError:
@@ -269,8 +276,8 @@ class NucleiClient:
 
         Raises
         -------
-        ConnectionError:
-            Application not available
+        RuntimeError:
+            Error while trying to get the API specification
         TypeError:
             Wrong type for an argument
         ValueError:
@@ -348,8 +355,6 @@ class NucleiClient:
             there was a client error or a server error.
         NotImplementedError:
             HTTP methode not get or post request
-        ConnectionError:
-            Application not available
         TypeError:
             Wrong type for an argument
         ValueError:
@@ -360,7 +365,13 @@ class NucleiClient:
                 f"Expected positional argument `endpoint` to be of type <class 'str'>, but got type: {type(endpoint)}"
             )
 
-        if endpoint not in self.get_endpoints(app, version):
+        # Check if endpoint is valid (only if API specification is available, otherwise is skipped)
+        try:
+            endpoints = self.get_endpoints(app, version)
+        except RuntimeError:
+            endpoints = None
+
+        if endpoints is not None and endpoint not in self.get_endpoints(app, version):
             raise ValueError(
                 f"Endpoint name not valid, please select on of the following valid endpoints {self.get_endpoints(app, version)}"
             )
