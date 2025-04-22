@@ -168,7 +168,6 @@ Return the requests response instead of the parsed data object.</p></li>
 <li><p><strong>RuntimeError:</strong> – Thrown when response is between 400 and 600 to see if
     there was a client error or a server error.</p></li>
 <li><p><strong>NotImplementedError:</strong> – HTTP methode not get or post request</p></li>
-<li><p><strong>ConnectionError:</strong> – Application not available</p></li>
 <li><p><strong>TypeError:</strong> – Wrong type for an argument</p></li>
 <li><p><strong>ValueError:</strong> – Wrong value for an argument</p></li>
 </ul>
@@ -225,7 +224,7 @@ API version used. Call <cite>get_versions</cite> to obtain a list with all versi
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ConnectionError:</strong> – Application not available</p></li>
+<li><p><strong>RuntimeError:</strong> – Error while trying to get the API specification</p></li>
 <li><p><strong>TypeError:</strong> – Wrong type for an argument</p></li>
 <li><p><strong>ValueError:</strong> – Wrong value for an argument</p></li>
 </ul>
@@ -253,7 +252,7 @@ API version used. Call <cite>get_versions</cite> to obtain a list with all versi
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ConnectionError:</strong> – Application not available</p></li>
+<li><p><strong>RuntimeError:</strong> – Error while trying to get the API specification</p></li>
 <li><p><strong>TypeError:</strong> – Wrong type for <cite>app</cite> or <cite>version</cite> argument</p></li>
 <li><p><strong>ValueError:</strong> – Wrong value for <cite>app</cite> or <cite>version</cite> argument</p></li>
 </ul>
