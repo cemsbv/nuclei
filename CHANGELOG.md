@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1] - 2025-04-22
+
+### Bug Fixes
+
+#### Call_endpoint
+
+- Apply suggestions from code review
+- Skip check of available endpoints when get API specification fails
+
+#### Ci
+
+- Use ubuntu-latest for docs CI
+
+
 ## [3.0.0] - 2025-04-10
 
 ### Documentation
@@ -160,6 +174,10 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 
+#### Ci
+
+- Remove dependency from release on test
+
 
 ### Miscellaneous Tasks
 
@@ -170,7 +188,6 @@ All notable changes to this project will be documented in this file.
 
 #### Ci
 
-- Remove dependency from release on test
 - Release to pypi trigger (#176)
 
 #### Docs
