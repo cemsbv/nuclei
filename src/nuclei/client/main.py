@@ -182,7 +182,7 @@ class NucleiClient:
         response = self.session.get(
             self.get_url(app, version) + "/openapi.json", timeout=self.timeout
         )
-        if response.status_code != 200:
+        if response.status_code >= 400:
             error_message = (
                 f"Failed to get the API specification for {app} version {version}.\n"
                 + f"Status code: {response.status_code}. Response: {response.text}"
@@ -371,9 +371,9 @@ class NucleiClient:
         except RuntimeError:
             endpoints = None
 
-        if endpoints is not None and endpoint not in self.get_endpoints(app, version):
+        if endpoints is not None and endpoint not in endpoints:
             raise ValueError(
-                f"Endpoint name not valid, please select on of the following valid endpoints {self.get_endpoints(app, version)}"
+                f"Endpoint name not valid, please select on of the following valid endpoints {endpoints}"
             )
 
         if not isinstance(methode, str):
