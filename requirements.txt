@@ -66,7 +66,7 @@ numpy==2.2.4
     # via cems-nuclei (pyproject.toml)
 orjson==3.10.16
     # via cems-nuclei (pyproject.toml)
-packaging==24.2
+packaging==25.0
     # via
     #   black
     #   pytest
