@@ -12,9 +12,9 @@ babel==2.17.0
     # via sphinx
 black==25.1.0
     # via cems-nuclei (pyproject.toml)
-certifi==2025.1.31
+certifi==2025.4.26
     # via requests
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
 click==8.1.8
     # via black
@@ -40,13 +40,13 @@ imagesize==1.4.1
     # via sphinx
 iniconfig==2.1.0
     # via pytest
-ipython==9.1.0
+ipython==9.2.0
     # via
     #   cems-nuclei (pyproject.toml)
     #   ipywidgets
 ipython-pygments-lexers==1.1.1
     # via ipython
-ipywidgets==8.1.5
+ipywidgets==8.1.6
     # via anywidget
 isort==6.0.1
     # via cems-nuclei (pyproject.toml)
@@ -54,17 +54,17 @@ jedi==0.19.2
     # via ipython
 jinja2==3.1.6
     # via sphinx
-jupyterlab-widgets==3.0.13
+jupyterlab-widgets==3.0.14
     # via ipywidgets
 markupsafe==3.0.2
     # via jinja2
 matplotlib-inline==0.1.7
     # via ipython
-mypy-extensions==1.0.0
+mypy-extensions==1.1.0
     # via black
-numpy==2.2.4
+numpy==2.2.5
     # via cems-nuclei (pyproject.toml)
-orjson==3.10.16
+orjson==3.10.18
     # via cems-nuclei (pyproject.toml)
 packaging==24.2
     # via
@@ -81,7 +81,7 @@ platformdirs==4.3.7
     # via black
 pluggy==1.5.0
     # via pytest
-prompt-toolkit==3.0.50
+prompt-toolkit==3.0.51
     # via ipython
 psygnal==0.12.0
     # via anywidget
@@ -114,7 +114,7 @@ sphinx==8.2.3
     #   sphinx-autodoc-typehints
     #   sphinx-rtd-theme
     #   sphinxcontrib-jquery
-sphinx-autodoc-typehints==3.1.0
+sphinx-autodoc-typehints==3.2.0
     # via cems-nuclei (pyproject.toml)
 sphinx-rtd-theme==3.0.2
     # via cems-nuclei (pyproject.toml)
@@ -140,11 +140,11 @@ traitlets==5.14.3
     #   ipython
     #   ipywidgets
     #   matplotlib-inline
-typing-extensions==4.13.1
+typing-extensions==4.13.2
     # via anywidget
-urllib3==2.3.0
+urllib3==2.4.0
     # via requests
 wcwidth==0.2.13
     # via prompt-toolkit
-widgetsnbextension==4.0.13
+widgetsnbextension==4.0.14
     # via ipywidgets
