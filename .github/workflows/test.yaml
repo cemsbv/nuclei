@@ -9,7 +9,8 @@ on:
     paths-ignore:
       - "docs/**"
       - "**.md"
-  workflow_call:
+
+permissions: read-all
 
 jobs:
   test:
