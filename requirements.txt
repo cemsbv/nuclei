@@ -46,7 +46,7 @@ ipython==9.2.0
     #   ipywidgets
 ipython-pygments-lexers==1.1.1
     # via ipython
-ipywidgets==8.1.6
+ipywidgets==8.1.7
     # via anywidget
 isort==6.0.1
     # via cems-nuclei (pyproject.toml)
@@ -54,7 +54,7 @@ jedi==0.19.2
     # via ipython
 jinja2==3.1.6
     # via sphinx
-jupyterlab-widgets==3.0.14
+jupyterlab-widgets==3.0.15
     # via ipywidgets
 markupsafe==3.0.2
     # via jinja2
@@ -83,7 +83,7 @@ pluggy==1.5.0
     # via pytest
 prompt-toolkit==3.0.51
     # via ipython
-psygnal==0.12.0
+psygnal==0.13.0
     # via anywidget
 ptyprocess==0.7.0
     # via pexpect
