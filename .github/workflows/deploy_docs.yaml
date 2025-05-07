@@ -11,6 +11,7 @@ jobs:
   deploy_docs:
     name: Deploy docs
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: actions/checkout@v4
 
