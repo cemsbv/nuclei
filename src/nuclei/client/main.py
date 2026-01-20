@@ -15,7 +15,7 @@ ROUTING = {
         "v2": "https://crux-nuclei.com/api/pilecore/v2",
         "v3": "https://crux-nuclei.com/api/pilecore/v3",
         "v4": "https://crux-nuclei.com/api/pilecore/v4",
-        "latest": "https://crux-nuclei.com/api/pilecore/v3",
+        "latest": "https://crux-nuclei.com/api/pilecore/v4",
     },
     "VibraCore": {
         "v2": "https://crux-nuclei.com/api/vibracore/v2",
