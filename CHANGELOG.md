@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.0] - 2026-01-20
+
+### Features
+- Set PileCore version "v4" as latest
+
 ## [3.1.0] - 2026-01-14
 
 ### Bug Fixes
@@ -181,7 +186,5 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous Tasks
 - *Setuptools*: Add pyproject.toml and linting (#169)
-
-## [0.1.0] - 2022-01-25
 
 <!-- CEMS BV. -->
