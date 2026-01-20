@@ -98,7 +98,7 @@ pyjwt==2.10.1
     # via cems-nuclei (pyproject.toml)
 pytest==8.3.5
     # via cems-nuclei (pyproject.toml)
-requests==2.32.3
+requests==2.32.4
     # via
     #   cems-nuclei (pyproject.toml)
     #   coveralls
