@@ -48,7 +48,7 @@ ipython-pygments-lexers==1.1.1
     # via ipython
 ipywidgets==8.1.7
     # via anywidget
-isort==6.0.1
+isort==7.0.0
     # via cems-nuclei (pyproject.toml)
 jedi==0.19.2
     # via ipython
