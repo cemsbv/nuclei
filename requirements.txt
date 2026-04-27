@@ -96,7 +96,7 @@ pygments==2.19.1
     #   sphinx
 pyjwt==2.10.1
     # via cems-nuclei (pyproject.toml)
-pytest==8.3.5
+pytest==9.0.3
     # via cems-nuclei (pyproject.toml)
 requests==2.32.3
     # via
