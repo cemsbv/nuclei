@@ -64,7 +64,7 @@ mypy-extensions==1.1.0
     # via black
 numpy==2.2.5
     # via cems-nuclei (pyproject.toml)
-orjson==3.10.18
+orjson==3.11.6
     # via cems-nuclei (pyproject.toml)
 packaging==25.0
     # via
