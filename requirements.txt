@@ -36,7 +36,7 @@ executing==2.2.0
     # via stack-data
 idna==3.10
     # via requests
-imagesize==1.4.1
+imagesize==2.0.1
     # via sphinx
 iniconfig==2.1.0
     # via pytest
