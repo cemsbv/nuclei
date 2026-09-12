@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.1] - 2026-09-12
+
+### Bug Fixes
+- *Tests*: Use a non-empty default JWT signing key
+- Use typing_extensions for deprecated decorators
+
+### Documentation
+- Fix getting-started example and links
+
+### Styling
+- *Tests*: Add missing blank line before function
+
+### Build
+- Migrate dependency management to uv
+
 ## [3.2.0] - 2026-01-20
 
 ### Features
@@ -51,8 +66,8 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 - *Deps*:
-    - Use correct dependencies for documentation
     - Pin dependencies and update linting dependencies
+    - Use correct dependencies for documentation
 
 ### Refactor
 - *Python*:  [**BREAKING**]Bump minimum supported Python version to 3.11
