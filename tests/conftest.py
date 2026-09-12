@@ -12,7 +12,7 @@ from nuclei.client.main import ROUTING as routing
 unique_key = str(uuid.uuid4())
 
 
-def mock_valid_jwt(key: str = "") -> str:
+def mock_valid_jwt(key: str = "default_secret") -> str:
     """valid JWT token."""
     return jwt.encode(
         payload={
@@ -29,7 +29,7 @@ def mock_valid_jwt(key: str = "") -> str:
     )
 
 
-def mock_expired_jwt(key: str = "") -> str:
+def mock_expired_jwt(key: str = "default_secret") -> str:
     """Expired JWT token. Generated with https://jwt.io/#encoded-jwt"""
     return jwt.encode(
         payload={
@@ -46,7 +46,7 @@ def mock_expired_jwt(key: str = "") -> str:
     )
 
 
-def mock_invalid_jwt(key: str = "") -> str:
+def mock_invalid_jwt(key: str = "default_secret") -> str:
     """Invalid JWT token. Generated with https://jwt.io/#encoded-jwt"""
     return mock_expired_jwt(key=key)[:-2]
 
