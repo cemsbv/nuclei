@@ -5,10 +5,10 @@ Getting started
 
 New to `Nuclei` in `Python`? Don’t worry, you’ve found the perfect place to get started!
 
-Full documentation of the `Nuclei` APIs can be found by logging in to on the `nuclei <https://nuclei.cemsbv.io/#>`_ website.
+Full documentation of the `Nuclei` APIs can be found by logging in to on the `nuclei <https://nuclei.cemsbv.io/#>`__ website.
 
 If you don't yet have a `Nuclei` account you can create one for free(!)
-from the `Sign Up` tab after clicking `Log In` on the `nuclei <https://nuclei.cemsbv.io/#>`_
+from the `Sign Up` tab after clicking `Log In` on the `nuclei <https://nuclei.cemsbv.io/#>`__
 website.
 
 Installation
@@ -29,9 +29,9 @@ To skip the installation of the `NucleiClient` library, in case you do not need 
 User Token
 ------------
 To connect to `Nuclei` you'll first need a user token. You can obtain
-this token by signing in to the `nuclei <https://nuclei.cemsbv.io/#>`_
+this token by signing in to the `nuclei <https://nuclei.cemsbv.io/>`_
 website and navigate to the 
-`API Access Tokens <https://nuclei.cemsbv.io/#/personal-access-tokens>`_ 
+`API Access Tokens <https://nuclei.cemsbv.io/admin/access-token>`_
 section. Here you can create new tokens and copy the `User Token`.
 
 It is recommended to store this token as the environmental variable 
@@ -44,19 +44,13 @@ If you're not so comfortable with creating your own API calls, you can easily ac
 the `nuclei` endpoints by creating a :class:`~.NucleiClient` object and using
 the :meth:`~.call_endpoint` to handle the calls for you.
 
-For instance, calling the `healthcheck` endpoint of the `VibraCore` application
-can be done as such:
-
 .. ipython:: python
 
+    import os
     from nuclei.client import NucleiClient
 
+    os.environ["NUCLEI_TOKEN"] = "7Z2gwXqqaciApI3jg8hxKLu"
     client = NucleiClient()
-
-    client.call_endpoint(
-        app="VibraCore",
-        endpoint="/healthcheck",
-    )
 
 :meth:`~.call_endpoint` automatically returns the unpacked response object. You
 can get the raw response by setting the `return_response` argument to `True`.
@@ -83,15 +77,6 @@ And can also fetch the available endpoints for an application for you:
 .. ipython:: python
 
     endpoints = print(client.get_endpoints(app="PileCore", version="latest"))
-
-You can also check the applications to which you have full access:
-
-.. ipython:: python
-
-    permissions = print(client.user_permissions)
-
-If an application is not listed here, your usage of the app is limited. Check the
-documentation of the specific apps to see the limitations.
 
 Advanced usage
 --------------
