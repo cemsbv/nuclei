@@ -30,6 +30,7 @@ def test_authenticate_envvar_valid(monkeypatch):
 
     api.authenticate()
 
+
 def test_validate_user_token_expired():
     """_validate_user_token is deprecated but, when called directly, should
     still raise a jwt.ExpiredSignatureError for an expired token."""
