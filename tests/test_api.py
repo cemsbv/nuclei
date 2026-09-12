@@ -30,27 +30,20 @@ def test_authenticate_envvar_valid(monkeypatch):
 
     api.authenticate()
 
+def test_validate_user_token_expired():
+    """_validate_user_token is deprecated but, when called directly, should
+    still raise a jwt.ExpiredSignatureError for an expired token."""
 
-def test_authenticate_stdin_expired(monkeypatch):
-    """Tries to authenticate with an expired token through stdin.
-    Should raise a jwt.ExpiredSignatureError"""
-
-    monkeypatch.setattr(os, "environ", {})
-    monkeypatch.setattr("sys.stdin", io.StringIO(mock_expired_jwt(key="user_secret")))
-
-    with pytest.raises(jwt.ExpiredSignatureError):
-        api.authenticate()
+    with pytest.warns(DeprecationWarning), pytest.raises(jwt.ExpiredSignatureError):
+        api._validate_user_token(mock_expired_jwt(key="user_secret"))
 
 
-def test_authenticate_stdin_invalid(monkeypatch):
-    """Tries to authenticate with an expired token through stdin.
-    Should raise a jwt.InvalidTokenError"""
+def test_validate_user_token_invalid():
+    """_validate_user_token is deprecated but, when called directly, should
+    still raise a jwt.InvalidTokenError for an invalid token."""
 
-    monkeypatch.setattr(os, "environ", {})
-    monkeypatch.setattr("sys.stdin", io.StringIO(mock_invalid_jwt(key="user_secret")))
-
-    with pytest.raises(jwt.InvalidTokenError):
-        api.authenticate()
+    with pytest.warns(DeprecationWarning), pytest.raises(jwt.InvalidTokenError):
+        api._validate_user_token(mock_invalid_jwt(key="user_secret"))
 
 
 def test_create_session(monkeypatch):

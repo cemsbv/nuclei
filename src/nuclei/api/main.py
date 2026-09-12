@@ -3,6 +3,7 @@ import os
 
 import jwt
 import requests
+from typing_extensions import deprecated
 
 
 def create_session() -> requests.Session:
@@ -50,22 +51,21 @@ def _get_valid_user_token() -> str:
     if "NUCLEI_TOKEN" in os.environ:
         logging.info("user token found in environment")
         token = os.environ["NUCLEI_TOKEN"]
-        _validate_user_token(token)
 
     # ask user for user token
     else:
         token = input(
             "Authentication is needed! Please provide your NUCLEI User Token. "
-            "You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens."
+            "You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/admin/access-token."
         )
 
-        _validate_user_token(token)
         os.environ["NUCLEI_TOKEN"] = token
         logging.info("user token set in environment")
 
     return token
 
 
+@deprecated("With the use of the new NUCLEI token, we don't use a JWT format anymore.")
 def _validate_user_token(token: str) -> None:
     """Validate a JWT User-token by trying to decode it.
 

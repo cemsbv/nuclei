@@ -5,7 +5,7 @@ import time
 from functools import lru_cache
 from typing import Any, List, Literal, Optional, Union
 
-import jwt
+from typing_extensions import deprecated
 
 from nuclei import create_session
 from nuclei.client import utils
@@ -96,6 +96,10 @@ class NucleiClient:
         return self.routing[app][version]
 
     @property
+    @deprecated(
+        "With the use of the new NUCLEI token, no permissions are set in the "
+        "Authorization headers."
+    )
     def user_permissions(self) -> List[str | None]:
         """
         Provide the user permissions of your token.
@@ -105,11 +109,7 @@ class NucleiClient:
         out : list[str]
             Names of the API's
         """
-        return jwt.decode(
-            self.session.headers["Authorization"].split(" ")[1],  # type: ignore
-            algorithms=["HS256"],
-            options={"verify_signature": False, "verify_exp": False},
-        ).get("permissions", [])
+        return []
 
     @property
     def applications(self) -> List[str]:

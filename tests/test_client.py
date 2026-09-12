@@ -92,11 +92,13 @@ def test_get_wrong_version(user_token_envvar, version):
 
 
 def test_get_userclaims(user_token_envvar):
-    """Tests if the get_user_claims endpoint returns the correct claims for a free user"""
+    """user_permissions is deprecated: the new NUCLEI token carries no
+    permissions in the Authorization header, so it always returns an empty list."""
 
     client = NucleiClient()
 
-    assert client.user_permissions == ["read:users"]
+    with pytest.warns(DeprecationWarning):
+        assert client.user_permissions == []
 
 
 def test_wrong_endpoint_for_type(user_token_envvar):
