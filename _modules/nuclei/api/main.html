@@ -5,15 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nuclei.api.main &mdash; NUCLEI 3.1.0 documentation</title>
+  <title>nuclei.api.main &mdash; NUCLEI 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/index.css?v=a925da5d" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="../../../_static/documentation_options.js?v=4f6ddb47"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -77,12 +77,13 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
 
 
 <div class="viewcode-block" id="create_session">
 <a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.create_session">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Initialising session object to call the NUCLEI endpoints.</span>
 <span class="sd">    Provide the user token from https://nuclei.cemsbv.io/#/personal-access-tokens to</span>
 <span class="sd">    upon request or set as environment variable.</span>
@@ -90,27 +91,27 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Session</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># initialising session</span>
     <span class="n">_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
     <span class="c1"># set bearer token</span>
-    <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">authenticate</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+    <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">authenticate</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">_session</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Returns a validated JWT token from backend.</span>
 
 <span class="sd">    Prompt the user for a user-token if it is not stored as an environmental variable</span>
-<span class="sd">    &quot;NUCLEI_TOKEN&quot;. A prompted user token will be stored as env-var after validation.</span>
+<span class="sd">    "NUCLEI_TOKEN". A prompted user token will be stored as env-var after validation.</span>
 
 <span class="sd">    Will throw an exception when authentication fails.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">user_token</span> <span class="o">=</span> <span class="n">_get_valid_user_token</span><span class="p">()</span>
 
@@ -118,57 +119,56 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_valid_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Obtains the user-token from the env-vars or stdin and returns it.</span>
-<span class="sd">    If the token is valid, it is stored as env-var &quot;NUCLEI_TOKEN&quot; as a side-effect.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    If the token is valid, it is stored as env-var "NUCLEI_TOKEN" as a side-effect.</span>
+<span class="sd">    """</span>
 
     <span class="c1"># check if User Token is in environment variables</span>
-    <span class="k">if</span> <span class="s2">&quot;NUCLEI_TOKEN&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;user token found in environment&quot;</span><span class="p">)</span>
-        <span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">]</span>
-        <span class="n">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"NUCLEI_TOKEN"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"user token found in environment"</span><span class="p">)</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"NUCLEI_TOKEN"</span><span class="p">]</span>
 
     <span class="c1"># ask user for user token</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">token</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
-            <span class="s2">&quot;Authentication is needed! Please provide your NUCLEI User Token. &quot;</span>
-            <span class="s2">&quot;You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/#/personal-access-tokens.&quot;</span>
+            <span class="s2">"Authentication is needed! Please provide your NUCLEI User Token. "</span>
+            <span class="s2">"You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/admin/access-token."</span>
         <span class="p">)</span>
 
-        <span class="n">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;NUCLEI_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;user token set in environment&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"NUCLEI_TOKEN"</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"user token set in environment"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">token</span>
 
 
+<span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"With the use of the new NUCLEI token, we don't use a JWT format anymore."</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a JWT User-token by trying to decode it.</span>
+<span class="w">    </span><span class="sd">"""Validate a JWT User-token by trying to decode it.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    token: str</span>
 <span class="sd">        The Nuclei User JWT.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
             <span class="n">token</span><span class="p">,</span>
-            <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">],</span>
-            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;verify_exp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+            <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">"HS256"</span><span class="p">],</span>
+            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">"verify_signature"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"verify_exp"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">(</span>
-            <span class="s2">&quot;Your NUCLEI User Token is expired. Please create a new token on &quot;</span>
-            <span class="s2">&quot;https://nuclei.cemsbv.io/#/personal-access-tokens.&quot;</span>
+            <span class="s2">"Your NUCLEI User Token is expired. Please create a new token on "</span>
+            <span class="s2">"https://nuclei.cemsbv.io/#/personal-access-tokens."</span>
         <span class="p">)</span>
 
     <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span><span class="p">(</span>
-            <span class="s2">&quot;Your NUCLEI User Token is invalid. Please copy your user token from &quot;</span>
-            <span class="s2">&quot;https://nuclei.cemsbv.io/#/personal-access-tokens. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;The following error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="s2">"Your NUCLEI User Token is invalid. Please copy your user token from "</span>
+            <span class="s2">"https://nuclei.cemsbv.io/#/personal-access-tokens. "</span>
+            <span class="sa">f</span><span class="s2">"The following error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 </pre></div>
 

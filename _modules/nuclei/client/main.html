@@ -5,15 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nuclei.client.main &mdash; NUCLEI 3.1.0 documentation</title>
+  <title>nuclei.client.main &mdash; NUCLEI 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/index.css?v=a925da5d" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="../../../_static/documentation_options.js?v=4f6ddb47"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -79,29 +79,29 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">nuclei</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_session</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nuclei.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
 
 <span class="n">ROUTING</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;PileCore&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;v2&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/pilecore/v2&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;v3&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/pilecore/v3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;v4&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/pilecore/v4&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;latest&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/pilecore/v3&quot;</span><span class="p">,</span>
+    <span class="s2">"PileCore"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"v2"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/pilecore/v2"</span><span class="p">,</span>
+        <span class="s2">"v3"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/pilecore/v3"</span><span class="p">,</span>
+        <span class="s2">"v4"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/pilecore/v4"</span><span class="p">,</span>
+        <span class="s2">"latest"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/pilecore/v4"</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;VibraCore&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;v2&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/vibracore/v2&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;latest&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/vibracore/v2&quot;</span><span class="p">,</span>
+    <span class="s2">"VibraCore"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"v2"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/vibracore/v2"</span><span class="p">,</span>
+        <span class="s2">"latest"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/vibracore/v2"</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;CPT Core&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;v1&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/cptcore/v1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;latest&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/cptcore/v1&quot;</span><span class="p">,</span>
+    <span class="s2">"CPT Core"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"v1"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/cptcore/v1"</span><span class="p">,</span>
+        <span class="s2">"latest"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/cptcore/v1"</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;ShallowCore&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;v1&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/shallowcore/v1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;latest&quot;</span><span class="p">:</span> <span class="s2">&quot;https://crux-nuclei.com/api/shallowcore/v1&quot;</span><span class="p">,</span>
+    <span class="s2">"ShallowCore"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"v1"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/shallowcore/v1"</span><span class="p">,</span>
+        <span class="s2">"latest"</span><span class="p">:</span> <span class="s2">"https://crux-nuclei.com/api/shallowcore/v1"</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">}</span>
 
@@ -113,7 +113,7 @@
 <a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NucleiClient</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        NUCLEI Client.</span>
 
 <span class="sd">        This class allows the user to interact with our APIs. API documentation can be</span>
@@ -124,10 +124,10 @@
 <span class="sd">        session: Session</span>
 <span class="sd">            requests.Session with authorisation set</span>
 <span class="sd">        routing: dict</span>
-<span class="sd">            Routing table to all available API&#39;s in the Nuclei landscape.</span>
+<span class="sd">            Routing table to all available API's in the Nuclei landscape.</span>
 <span class="sd">        timeout: int</span>
 <span class="sd">            The connect timeout is the number of seconds. Default is 5 seconds</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># initialize session</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">create_session</span><span class="p">()</span>
@@ -140,9 +140,9 @@
 
 <div class="viewcode-block" id="NucleiClient.get_url">
 <a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_url">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get API&#39;s url</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get API's url</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -162,51 +162,51 @@
 <span class="sd">            Wrong type for `app` or `version` argument</span>
 <span class="sd">        ValueError:</span>
 <span class="sd">            Wrong value for `app` or `version` argument</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected positional argument `version` to be of type &lt;class &#39;str&#39;&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">version</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected positional argument `version` to be of type &lt;class 'str'&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">version</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">version</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_versions</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Application version not available, please select one of the following valid versions </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_versions</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Application version not available, please select one of the following valid versions </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_versions</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="p">[</span><span class="n">app</span><span class="p">][</span><span class="n">version</span><span class="p">]</span></div>
 
 
     <span class="nd">@property</span>
+    <span class="nd">@deprecated</span><span class="p">(</span>
+        <span class="s2">"With the use of the new NUCLEI token, no permissions are set in the "</span>
+        <span class="s2">"Authorization headers."</span>
+    <span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">user_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Provide the user permissions of your token.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        out : list[str]</span>
-<span class="sd">            Names of the API&#39;s</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
-            <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">],</span>
-            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;verify_exp&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;permissions&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="sd">            Names of the API's</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">applications</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provide available API&#39;s in the Nuclei landscape.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Provide available API's in the Nuclei landscape.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        out : list[str]</span>
-<span class="sd">            Names of the API&#39;s</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Names of the API's</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
 <div class="viewcode-block" id="NucleiClient.get_versions">
 <a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_versions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provide available API&#39;s versions in the Nuclei landscape.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Provide available API's versions in the Nuclei landscape.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -224,21 +224,21 @@
 <span class="sd">            Wrong type for `app` argument</span>
 <span class="sd">        ValueError:</span>
 <span class="sd">            Wrong value for `app` argument</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected positional argument `app` to be of type &lt;class &#39;str&#39;&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected positional argument `app` to be of type &lt;class 'str'&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">app</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">applications</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Application not available, please select one of the following valid applications </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">applications</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Application not available, please select one of the following valid applications </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">applications</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routing</span><span class="p">[</span><span class="n">app</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 
     <span class="nd">@lru_cache</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_app_specification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_app_specification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Private methode to get the JSON schema of the API documentation.</span>
 
 <span class="sd">        Parameters</span>
@@ -261,29 +261,29 @@
 <span class="sd">            Wrong type for `app` or `version` argument</span>
 <span class="sd">        ValueError:</span>
 <span class="sd">            Wrong value for `app` or `version` argument</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/openapi.json&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"/openapi.json"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
             <span class="n">error_message</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Failed to get the API specification for </span><span class="si">{</span><span class="n">app</span><span class="si">}</span><span class="s2"> version </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">. Response: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Failed to get the API specification for </span><span class="si">{</span><span class="n">app</span><span class="si">}</span><span class="s2"> version </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">"Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">. Response: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                     <span class="n">error_message</span>
-                    <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">If the problem persists, please contact CEMS at info@cemsbv.nl&quot;</span>
+                    <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">If the problem persists, please contact CEMS at info@cemsbv.nl"</span>
                 <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
 <div class="viewcode-block" id="NucleiClient.get_application_version">
 <a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_application_version">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_application_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_application_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Provide the semanctic version of the API in the Nuclei landscape.</span>
 
 <span class="sd">        Parameters</span>
@@ -307,14 +307,14 @@
 <span class="sd">            Wrong type for `app` or `version` argument</span>
 <span class="sd">        ValueError:</span>
 <span class="sd">            Wrong value for `app` or `version` argument</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">&quot;info&quot;</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">"info"</span><span class="p">][</span><span class="s2">"version"</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="NucleiClient.get_endpoints">
 <a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoints">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get available endpoints of single API.</span>
 
 <span class="sd">        Parameters</span>
@@ -338,16 +338,16 @@
 <span class="sd">            Wrong type for `app` or `version` argument</span>
 <span class="sd">        ValueError:</span>
 <span class="sd">            Wrong value for `app` or `version` argument</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">&quot;paths&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">"paths"</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="NucleiClient.get_endpoint_type">
 <a class="viewcode-back" href="../../../tree/reference.html#nuclei.client.main.NucleiClient.get_endpoint_type">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_endpoint_type</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get a list of HTTP methods used for this endpoint.</span>
 
 <span class="sd">        Parameters</span>
@@ -373,18 +373,18 @@
 <span class="sd">            Wrong type for an argument</span>
 <span class="sd">        ValueError:</span>
 <span class="sd">            Wrong value for an argument</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected positional argument `endpoint` to be of type &lt;class &#39;str&#39;&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected positional argument `endpoint` to be of type &lt;class 'str'&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">&quot;paths&quot;</span><span class="p">][</span><span class="n">endpoint</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_app_specification</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="p">)[</span><span class="s2">"paths"</span><span class="p">][</span><span class="n">endpoint</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
             <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Endpoint name not valid, please select on of the following valid endpoints </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Endpoint name not valid, please select on of the following valid endpoints </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span></div>
 
 
@@ -394,12 +394,12 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">methode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;post&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-        <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span>
+        <span class="n">methode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"auto"</span><span class="p">,</span> <span class="s2">"get"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"auto"</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">return_response</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calls an API in the nuclei landscape.</span>
 
 <span class="sd">        Note</span>
@@ -413,7 +413,7 @@
 <span class="sd">        app: str</span>
 <span class="sd">            Name of the API. Call `applications` to obtain a list with all applications.</span>
 <span class="sd">        endpoint: str</span>
-<span class="sd">            Name of the API&#39;s endpoint. call `get_endpoints` to obtain a list with all applications for a given API.</span>
+<span class="sd">            Name of the API's endpoint. call `get_endpoints` to obtain a list with all applications for a given API.</span>
 <span class="sd">        methode: str</span>
 <span class="sd">            default is auto</span>
 <span class="sd">            HTTP methode used to call endpoint. When auto methode is selected the HTTP methode is</span>
@@ -453,10 +453,10 @@
 <span class="sd">            Wrong type for an argument</span>
 <span class="sd">        ValueError:</span>
 <span class="sd">            Wrong value for an argument</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected positional argument `endpoint` to be of type &lt;class &#39;str&#39;&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected positional argument `endpoint` to be of type &lt;class 'str'&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="c1"># Check if endpoint is valid (only if API specification is available, otherwise is skipped)</span>
@@ -467,29 +467,29 @@
 
         <span class="k">if</span> <span class="n">endpoints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">endpoint</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">endpoints</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Endpoint name not valid, please select on of the following valid endpoints </span><span class="si">{</span><span class="n">endpoints</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Endpoint name not valid, please select on of the following valid endpoints </span><span class="si">{</span><span class="n">endpoints</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">methode</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected keyword-argument `methode` to be of type &lt;class &#39;str&#39;&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">methode</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected keyword-argument `methode` to be of type &lt;class 'str'&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">methode</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">methode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;post&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">methode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"auto"</span><span class="p">,</span> <span class="s2">"get"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Expected value of keyword-argument `methode` to be one of [&quot;auto&quot;, &quot;get&quot;, &quot;post&quot;] , but got: </span><span class="si">{</span><span class="n">methode</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="sa">f</span><span class="s1">'Expected value of keyword-argument `methode` to be one of ["auto", "get", "post"] , but got: </span><span class="si">{</span><span class="n">methode</span><span class="si">}</span><span class="s1">'</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">schema</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected keyword-argument `schema` to be of type &lt;class &#39;dict&#39;&gt; or &lt;class &#39;str&#39;&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected keyword-argument `schema` to be of type &lt;class 'dict'&gt; or &lt;class 'str'&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_response</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected keyword-argument `return_response` to be of type &lt;class &#39;bool&#39;&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">return_response</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected keyword-argument `return_response` to be of type &lt;class 'bool'&gt;, but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">return_response</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">methode</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">methode</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
             <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_endpoint_type</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">methode</span>
@@ -497,10 +497,10 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">schema</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;post&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"get"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">&quot;Not a valid HTTP request methode. Only GET or POST requests are supported. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Use the session attribute to get full control of your request. Provided methode: </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"Not a valid HTTP request methode. Only GET or POST requests are supported. "</span>
+                <span class="sa">f</span><span class="s2">"Use the session attribute to get full control of your request. Provided methode: </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="n">execution_count</span> <span class="o">=</span> <span class="mi">0</span>
@@ -510,13 +510,13 @@
         <span class="k">while</span> <span class="n">execution_count</span> <span class="o">&lt;</span> <span class="n">MAX_RETRIES</span><span class="p">:</span>
             <span class="n">execution_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
-            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;get&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"get"</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
                     <span class="n">params</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
                     <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
                 <span class="p">)</span>
-            <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;post&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"post"</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
                     <span class="n">json</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">serialize_jsonifyable_object</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
@@ -543,20 +543,20 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s2">&quot;An error was thrown during your request. Please take a look at the response object for &quot;</span>
-                <span class="s2">&quot;more information. You can get the response object by setting the `return_response` attribute&quot;</span>
-                <span class="s2">&quot;to True. </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Request URL: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Message:     </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">[:</span><span class="mi">100</span><span class="p">]</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                <span class="s2">"An error was thrown during your request. Please take a look at the response object for "</span>
+                <span class="s2">"more information. You can get the response object by setting the `return_response` attribute"</span>
+                <span class="s2">"to True. </span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"Request URL: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"Message:     </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">[:</span><span class="mi">100</span><span class="p">]</span><span class="si">!r}</span><span class="s2">"</span>
             <span class="p">)</span>
 
-        <span class="n">content_type</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s2">&quot;image/png;base64&quot;</span><span class="p">:</span>
+        <span class="n">content_type</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">"Content-Type"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s2">"image/png;base64"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"json"</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;text/&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"text/"</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span></div>
 </div>

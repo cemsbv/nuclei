@@ -6,15 +6,15 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting started &mdash; NUCLEI 3.1.0 documentation</title>
+  <title>Getting started &mdash; NUCLEI 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/css/index.css?v=a925da5d" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="../_static/documentation_options.js?v=4f6ddb47"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -102,9 +102,9 @@ website.</p>
 <section id="user-token">
 <h2>User Token<a class="headerlink" href="#user-token" title="Link to this heading"></a></h2>
 <p>To connect to <cite>Nuclei</cite> you’ll first need a user token. You can obtain
-this token by signing in to the <a class="reference external" href="https://nuclei.cemsbv.io/#">nuclei</a>
+this token by signing in to the <a class="reference external" href="https://nuclei.cemsbv.io/">nuclei</a>
 website and navigate to the
-<a class="reference external" href="https://nuclei.cemsbv.io/#/personal-access-tokens">API Access Tokens</a>
+<a class="reference external" href="https://nuclei.cemsbv.io/admin/access-token">API Access Tokens</a>
 section. Here you can create new tokens and copy the <cite>User Token</cite>.</p>
 <p>It is recommended to store this token as the environmental variable
 NUCLEI_TOKEN in your <cite>Python</cite> environment. Else you will be prompted
@@ -115,18 +115,13 @@ for this token when necessary.</p>
 <p>If you’re not so comfortable with creating your own API calls, you can easily access
 the <cite>nuclei</cite> endpoints by creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code> object and using
 the <code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code> to handle the calls for you.</p>
-<p>For instance, calling the <cite>healthcheck</cite> endpoint of the <cite>VibraCore</cite> application
-can be done as such:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">nuclei.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">NucleiClient</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="gp">In [2]: </span><span class="n">client</span> <span class="o">=</span> <span class="n">NucleiClient</span><span class="p">()</span>
+<span class="gp">In [2]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">nuclei.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">NucleiClient</span>
 
-<span class="gp">In [3]: </span><span class="n">client</span><span class="o">.</span><span class="n">call_endpoint</span><span class="p">(</span>
-<span class="gp">   ...: </span>    <span class="n">app</span><span class="o">=</span><span class="s2">&quot;VibraCore&quot;</span><span class="p">,</span>
-<span class="gp">   ...: </span>    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;/healthcheck&quot;</span><span class="p">,</span>
-<span class="gp">   ...: </span><span class="p">)</span>
-<span class="gp">   ...: </span>
-<span class="gh">Out[3]: </span><span class="go">&#39;server alive&#39;</span>
+<span class="gp">In [3]: </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"NUCLEI_TOKEN"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"7Z2gwXqqaciApI3jg8hxKLu"</span>
+
+<span class="gp">In [4]: </span><span class="n">client</span> <span class="o">=</span> <span class="n">NucleiClient</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><code class="xref py py-meth docutils literal notranslate"><span class="pre">call_endpoint()</span></code> automatically returns the unpacked response object. You
@@ -136,27 +131,20 @@ can get the raw response by setting the <cite>return_response</cite> argument to
 with the <a class="reference internal" href="reference.html#nuclei.client.utils.serialize_jsonifyable_object" title="nuclei.client.utils.serialize_jsonifyable_object"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_jsonifyable_object()</span></code></a> function (see below) so in most cases
 you won’t have to worry about passing the correct types.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">NucleiClient</span></code> can provide you with a list of <cite>Nuclei</cite> applications:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">applications</span><span class="p">)</span>
-<span class="go">[&#39;PileCore&#39;, &#39;VibraCore&#39;, &#39;CPT Core&#39;, &#39;ShallowCore&#39;]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">applications</span><span class="p">)</span>
+<span class="go">['PileCore', 'VibraCore', 'CPT Core', 'ShallowCore']</span>
 </pre></div>
 </div>
 <p>And can also fetch the available versions for an application for you:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="n">versions</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_versions</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s2">&quot;PileCore&quot;</span><span class="p">))</span>
-<span class="go">[&#39;v2&#39;, &#39;v3&#39;, &#39;v4&#39;, &#39;latest&#39;]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">versions</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_versions</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s2">"PileCore"</span><span class="p">))</span>
+<span class="go">['v2', 'v3', 'v4', 'latest']</span>
 </pre></div>
 </div>
 <p>And can also fetch the available endpoints for an application for you:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s2">&quot;PileCore&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">))</span>
-<span class="go">[&#39;/healthcheck&#39;, &#39;/healthcheck-worker&#39;, &#39;/compression/single-cpt/plot-bearing-capacity&#39;, &#39;/compression/single-cpt/results&#39;, &#39;/compression/single-cpt/report&#39;, &#39;/grouper/generate_grouper_report&#39;, &#39;/get-task-result&#39;, &#39;/get-task-status&#39;, &#39;/compression/multiple-cpts/results&#39;, &#39;/compression/multiple-cpts/plot-bearing-capacity&#39;, &#39;/compression/multiple-cpts/report&#39;, &#39;/pile_properties/shape&#39;, &#39;/pile_properties/type&#39;, &#39;/friction-ranges/lower-bound&#39;, &#39;/grouper/group_cpts&#39;, &#39;/grouper/optimize_groups&#39;, &#39;/grouper/group_metrics&#39;, &#39;/tension/nen/single-cpt/results&#39;, &#39;/tension/nen/single-cpt/report&#39;, &#39;/tension/cur/single-cpt/results&#39;, &#39;/tension/cur/single-cpt/report&#39;, &#39;/tension/nen/multiple-cpt/results&#39;, &#39;/tension/cur/multiple-cpt/results&#39;, &#39;/tension/nen/multiple-cpt/report&#39;, &#39;/tension/cur/multiple-cpt/report&#39;]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="n">endpoints</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_endpoints</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s2">"PileCore"</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">"latest"</span><span class="p">))</span>
+<span class="go">['/grouper/generate-grouper-report', '/get-task-result', '/get-task-status', '/bearing/multiple-cpts/results', '/bearing/multiple-cpts/report', '/pile-properties/shape', '/pile-properties/type', '/friction-ranges/lower-bound', '/grouper/group-cpts', '/grouper/group-metrics', '/uplift/nen/multiple-cpts/results', '/uplift/cur/multiple-cpts/results', '/uplift/nen/multiple-cpts/report', '/uplift/cur/multiple-cpts/report']</span>
 </pre></div>
 </div>
-<p>You can also check the applications to which you have full access:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="n">permissions</span> <span class="o">=</span> <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">user_permissions</span><span class="p">)</span>
-<span class="go">[&#39;read:cptcore+classify&#39;, &#39;read:cptcore+parse&#39;, &#39;read:latex+report&#39;, &#39;read:pilecore+calculate&#39;, &#39;read:pilecore+report&#39;, &#39;read:shallowcore+calculate&#39;, &#39;read:shallowcore+report&#39;, &#39;read:vibracore+calculate&#39;, &#39;read:vibracore+report&#39;]</span>
-</pre></div>
-</div>
-<p>If an application is not listed here, your usage of the app is limited. Check the
-documentation of the specific apps to see the limitations.</p>
 </section>
 <section id="advanced-usage">
 <h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Link to this heading"></a></h2>
@@ -165,7 +153,7 @@ with the <cite>requests</cite> package, you can do so by calling <a class="refer
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [8]: </span><span class="kn">import</span><span class="w"> </span><span class="nn">nuclei</span>
 
 <span class="gp">In [9]: </span><span class="n">nuclei</span><span class="o">.</span><span class="n">create_session</span><span class="p">()</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;requests.sessions.Session at 0x7f28065d6fd0&gt;</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;requests.sessions.Session at 0x7f2200024c10&gt;</span>
 </pre></div>
 </div>
 <p>This will return a <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code> object with a response hook that
