@@ -9,42 +9,61 @@ from requests.models import PreparedRequest
 
 from nuclei.api import main as api
 
-from .conftest import mock_expired_jwt, mock_invalid_jwt, mock_valid_jwt
+from .conftest import (
+    MOCK_ACCESS_TOKEN,
+    mock_expired_jwt,
+    mock_invalid_jwt,
+    mock_valid_jwt,
+)
 
 
-def test_authenticate_stdin_valid(monkeypatch):
-    """Tries to authenticate with a valid token through stdin,
+def test_get_valid_user_token_stdin_valid(monkeypatch):
+    """Tries to get a valid user token through stdin,
     without the NUCLEI_TOKEN environmental variable set."""
 
     monkeypatch.setattr(os, "environ", {})
-    monkeypatch.setattr("sys.stdin", io.StringIO(mock_valid_jwt(key="user_secret")))
+    monkeypatch.setattr("sys.stdin", io.StringIO(MOCK_ACCESS_TOKEN))
 
-    api.authenticate()
-
-
-def test_authenticate_envvar_valid(monkeypatch):
-    """Tries to authenticate with a valid NUCLEI_TOKEN environmental variable."""
-    monkeypatch.setattr(
-        os, "environ", {"NUCLEI_TOKEN": mock_valid_jwt(key="user_secret")}
-    )
-
-    api.authenticate()
+    api.get_valid_user_token()
 
 
-def test_validate_user_token_expired():
-    """_validate_user_token is deprecated but, when called directly, should
-    still raise a jwt.ExpiredSignatureError for an expired token."""
+def test_get_valid_user_token_envvar_valid(monkeypatch):
+    """Tries to get a valid user token from the NUCLEI_TOKEN environmental variable."""
+    monkeypatch.setattr(os, "environ", {"NUCLEI_TOKEN": MOCK_ACCESS_TOKEN})
 
-    with pytest.warns(DeprecationWarning), pytest.raises(jwt.ExpiredSignatureError):
-        api._validate_user_token(mock_expired_jwt(key="user_secret"))
+    api.get_valid_user_token()
 
 
-def test_validate_user_token_invalid():
-    """_validate_user_token is deprecated but, when called directly, should
-    still raise a jwt.InvalidTokenError for an invalid token."""
+@pytest.mark.parametrize(
+    "token, expected_error",
+    [
+        # valid tokens
+        (mock_valid_jwt(key="user_secret"), None),
+        (MOCK_ACCESS_TOKEN, None),
+        ("aZ09-_aZ09-_aZ09-_aZ0", None),
+        # invalid legacy JWTs
+        (mock_expired_jwt(key="user_secret"), jwt.ExpiredSignatureError),
+        (mock_invalid_jwt(key="user_secret"), jwt.InvalidTokenError),
+        ("not.a.jwt", jwt.InvalidTokenError),
+        # invalid Access Tokens
+        ("", ValueError),
+        ("A" * 20, ValueError),
+        ("A" * 22, ValueError),
+        ("A" * 20 + "!", ValueError),
+        ("A" * 20 + " ", ValueError),
+        ("A" * 21 + "\n", ValueError),
+        ("A" * 10 + "." + "A" * 10, ValueError),
+    ],
+)
+def test_validate_token(token, expected_error):
+    """validate_token should accept valid legacy JWTs and Access Tokens and raise
+    the matching error for every invalid token."""
 
-    with pytest.warns(DeprecationWarning), pytest.raises(jwt.InvalidTokenError):
-        api._validate_user_token(mock_invalid_jwt(key="user_secret"))
+    if expected_error is None:
+        api.validate_token(token)
+    else:
+        with pytest.raises(expected_error):
+            api.validate_token(token)
 
 
 def test_create_session(monkeypatch):
