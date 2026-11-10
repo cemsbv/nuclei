@@ -11,6 +11,8 @@ from nuclei.client.main import ROUTING as routing
 
 unique_key = str(uuid.uuid4())
 
+MOCK_ACCESS_TOKEN = "MOCK_ACCESS_TOKEN_123"
+
 
 def mock_valid_jwt(key: str = "default_secret") -> str:
     """valid JWT token."""
