@@ -25,8 +25,6 @@ jobs:
 
       - name: Build docs
         run: uv run sphinx-build -b html docs public
-        env:
-          NUCLEI_TOKEN: ${{ secrets.NUCLEI_TOKEN }}
 
       - name: Publish docs
         uses: peaceiris/actions-gh-pages@v4
