@@ -31,8 +31,8 @@ User Token
 To connect to `Nuclei` you'll first need a user token. You can obtain
 this token by signing in to the `nuclei <https://nuclei.cemsbv.io/>`_
 website and navigate to the 
-`API Access Tokens <https://nuclei.cemsbv.io/admin/access-token>`_
-section. Here you can create new tokens and copy the `User Token`.
+`Access token <https://nuclei.cemsbv.io/admin/access-token>`_
+section. Here you can create and copy new tokens.
 
 It is recommended to store this token as the environmental variable 
 NUCLEI_TOKEN in your `Python` environment. Else you will be prompted 
@@ -49,7 +49,7 @@ the :meth:`~.call_endpoint` to handle the calls for you.
     import os
     from nuclei.client import NucleiClient
 
-    os.environ["NUCLEI_TOKEN"] = "7Z2gwXqqaciApI3jg8hxKLu"
+    os.environ["NUCLEI_TOKEN"] = "MOCK_ACCESS_TOKEN_123"
     client = NucleiClient()
 
 :meth:`~.call_endpoint` automatically returns the unpacked response object. You
