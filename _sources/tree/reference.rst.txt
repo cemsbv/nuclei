@@ -8,6 +8,16 @@ API
 
 .. autofunction:: nuclei.api.main.create_session
 
+.. autofunction:: nuclei.api.main.authenticate
+
+.. autofunction:: nuclei.api.main.get_valid_user_token
+
+.. autofunction:: nuclei.api.main.validate_token
+
+.. autofunction:: nuclei.api.main.validate_nuclei_access_token
+
+.. autofunction:: nuclei.api.main.validate_jwt_token
+
 Client
 -------
 

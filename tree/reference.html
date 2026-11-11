@@ -49,6 +49,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#nuclei.api.main.create_session"><code class="docutils literal notranslate"><span class="pre">create_session()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.api.main.authenticate"><code class="docutils literal notranslate"><span class="pre">authenticate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.api.main.get_valid_user_token"><code class="docutils literal notranslate"><span class="pre">get_valid_user_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.api.main.validate_token"><code class="docutils literal notranslate"><span class="pre">validate_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.api.main.validate_nuclei_access_token"><code class="docutils literal notranslate"><span class="pre">validate_nuclei_access_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclei.api.main.validate_jwt_token"><code class="docutils literal notranslate"><span class="pre">validate_jwt_token()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#client">Client</a></li>
@@ -94,11 +99,121 @@
 <dt class="sig sig-object py" id="nuclei.api.main.create_session">
 <span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">create_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#create_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.create_session" title="Link to this definition"></a></dt>
 <dd><p>Initialising session object to call the NUCLEI endpoints.
-Provide the user token from <a class="reference external" href="https://nuclei.cemsbv.io/#/personal-access-tokens">https://nuclei.cemsbv.io/#/personal-access-tokens</a> to
-upon request or set as environment variable.</p>
+Provide the Nuclei Access Token from <a class="reference external" href="https://nuclei.cemsbv.io/admin/access-token">https://nuclei.cemsbv.io/admin/access-token</a>
+upon request or set it as environment variable “NUCLEI_TOKEN”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Session</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.api.main.authenticate">
+<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#authenticate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.authenticate" title="Link to this definition"></a></dt>
+<dd><p>Returns a validated Nuclei Access Token.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.3.0: </span>Use <cite>get_valid_user_token</cite> instead.</p>
+</div>
+<p>Prompt the user for a Nuclei Access Token if it is not stored as an
+environmental variable “NUCLEI_TOKEN”. A prompted token will be stored as
+env-var after validation.</p>
+<p>Will throw an exception when the token is invalid, see <cite>validate_token</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.api.main.get_valid_user_token">
+<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">get_valid_user_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#get_valid_user_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.get_valid_user_token" title="Link to this definition"></a></dt>
+<dd><p>Obtains the Nuclei Access Token from the env-var “NUCLEI_TOKEN” or prompts the
+user for it, validates it and returns it.
+A prompted token is stored as env-var “NUCLEI_TOKEN” after validation, as a
+side-effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The validated Nuclei Access Token (or Legacy JWT).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – When a Nuclei Access Token does not match the required format.</p></li>
+<li><p><strong>jwt.ExpiredSignatureError</strong> – When a Legacy JWT has expired.</p></li>
+<li><p><strong>jwt.InvalidTokenError</strong> – When a Legacy JWT cannot be decoded.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.api.main.validate_token">
+<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">validate_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#validate_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.validate_token" title="Link to this definition"></a></dt>
+<dd><p>Validate a Nuclei Access Token or Legacy JWT.</p>
+<p>A Legacy JWT (three dot-separated segments) is validated with
+<cite>validate_jwt_token</cite>; any other token with <cite>validate_nuclei_access_token</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – The Nuclei Access Token or Legacy JWT.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – When a Nuclei Access Token does not match the required format.</p></li>
+<li><p><strong>jwt.ExpiredSignatureError</strong> – When a Legacy JWT has expired.</p></li>
+<li><p><strong>jwt.InvalidTokenError</strong> – When a Legacy JWT cannot be decoded.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.api.main.validate_nuclei_access_token">
+<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">validate_nuclei_access_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#validate_nuclei_access_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.validate_nuclei_access_token" title="Link to this definition"></a></dt>
+<dd><p>Validate the format of a Nuclei Access Token.</p>
+<p>The token must be exactly 21 characters long and consist only of the
+characters “A-Za-z0-9-_”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – The Nuclei Access Token.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – When the token does not match the required format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nuclei.api.main.validate_jwt_token">
+<span class="sig-prename descclassname"><span class="pre">nuclei.api.main.</span></span><span class="sig-name descname"><span class="pre">validate_jwt_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nuclei/api/main.html#validate_jwt_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nuclei.api.main.validate_jwt_token" title="Link to this definition"></a></dt>
+<dd><p>Validate a Legacy JWT by trying to decode it.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.3.0: </span>Legacy JWTs are replaced by Nuclei Access Tokens, see
+<cite>validate_nuclei_access_token</cite>.</p>
+</div>
+<p>Only the format and expiry are checked; the signature is deliberately not
+verified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – The Legacy JWT.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>jwt.ExpiredSignatureError</strong> – When the JWT has expired.</p></li>
+<li><p><strong>jwt.InvalidTokenError</strong> – When the JWT cannot be decoded.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>

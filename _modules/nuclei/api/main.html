@@ -74,10 +74,25 @@
   <h1>Source code for nuclei.api.main</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
+
+<span class="n">_NEW_TOKEN_MSG</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Please create a new Nuclei Access Token at "</span>
+    <span class="s2">"https://nuclei.cemsbv.io/admin/access-token."</span>
+<span class="p">)</span>
+<span class="n">_LEGACY_NEW_TOKEN_MSG</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"The provided token is a Legacy JWT, which is deprecated. "</span>
+    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_NEW_TOKEN_MSG</span><span class="si">}</span><span class="s2"> "</span>
+    <span class="s2">"If you still need a Legacy Token for some reason, please contact the CEMS "</span>
+    <span class="s2">"helpdesk (info@cemsbv.nl)."</span>
+<span class="p">)</span>
+<span class="n">_REASON_INVALID_ACCESS_TOKEN_MSG</span> <span class="o">=</span> <span class="s2">"Your provided Nuclei Access Token is invalid."</span>
+<span class="n">_REASON_INVALID_JWT_MSG</span> <span class="o">=</span> <span class="s2">"Your provided Legacy JWT is invalid."</span>
+<span class="n">_REASON_EXPIRED_JWT_MSG</span> <span class="o">=</span> <span class="s2">"Your Legacy JWT has expired."</span>
 
 
 <div class="viewcode-block" id="create_session">
@@ -85,8 +100,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">create_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Initialising session object to call the NUCLEI endpoints.</span>
-<span class="sd">    Provide the user token from https://nuclei.cemsbv.io/#/personal-access-tokens to</span>
-<span class="sd">    upon request or set as environment variable.</span>
+<span class="sd">    Provide the Nuclei Access Token from https://nuclei.cemsbv.io/admin/access-token</span>
+<span class="sd">    upon request or set it as environment variable "NUCLEI_TOKEN".</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -97,59 +112,138 @@
     <span class="n">_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
     <span class="c1"># set bearer token</span>
-    <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">authenticate</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
+    <span class="n">_session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">get_valid_user_token</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">_session</span></div>
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_valid_user_token">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.get_valid_user_token">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_valid_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Returns a validated JWT token from backend.</span>
+<span class="sd">    Obtains the Nuclei Access Token from the env-var "NUCLEI_TOKEN" or prompts the</span>
+<span class="sd">    user for it, validates it and returns it.</span>
+<span class="sd">    A prompted token is stored as env-var "NUCLEI_TOKEN" after validation, as a</span>
+<span class="sd">    side-effect.</span>
 
-<span class="sd">    Prompt the user for a user-token if it is not stored as an environmental variable</span>
-<span class="sd">    "NUCLEI_TOKEN". A prompted user token will be stored as env-var after validation.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The validated Nuclei Access Token (or Legacy JWT).</span>
 
-<span class="sd">    Will throw an exception when authentication fails.</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        When a Nuclei Access Token does not match the required format.</span>
+<span class="sd">    jwt.ExpiredSignatureError</span>
+<span class="sd">        When a Legacy JWT has expired.</span>
+<span class="sd">    jwt.InvalidTokenError</span>
+<span class="sd">        When a Legacy JWT cannot be decoded.</span>
 <span class="sd">    """</span>
 
-    <span class="n">user_token</span> <span class="o">=</span> <span class="n">_get_valid_user_token</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">user_token</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_get_valid_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Obtains the user-token from the env-vars or stdin and returns it.</span>
-<span class="sd">    If the token is valid, it is stored as env-var "NUCLEI_TOKEN" as a side-effect.</span>
-<span class="sd">    """</span>
-
-    <span class="c1"># check if User Token is in environment variables</span>
+    <span class="c1"># check if Nuclei Access Token is in environment variables</span>
     <span class="k">if</span> <span class="s2">"NUCLEI_TOKEN"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"user token found in environment"</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Nuclei Access Token found in environment"</span><span class="p">)</span>
         <span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"NUCLEI_TOKEN"</span><span class="p">]</span>
+        <span class="n">validate_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 
-    <span class="c1"># ask user for user token</span>
+    <span class="c1"># ask user for Nuclei Access Token</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">token</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
-            <span class="s2">"Authentication is needed! Please provide your NUCLEI User Token. "</span>
-            <span class="s2">"You can obtain your NUCLEI User Token on https://nuclei.cemsbv.io/admin/access-token."</span>
+            <span class="s2">"Authentication is needed! Please provide your Nuclei Access Token. "</span>
+            <span class="s2">"You can obtain your Nuclei Access Token on "</span>
+            <span class="s2">"https://nuclei.cemsbv.io/admin/access-token."</span>
         <span class="p">)</span>
+        <span class="n">validate_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 
         <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"NUCLEI_TOKEN"</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"user token set in environment"</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Nuclei Access Token set in environment"</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">token</span>
+    <span class="k">return</span> <span class="n">token</span></div>
 
 
-<span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"With the use of the new NUCLEI token, we don't use a JWT format anymore."</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">_validate_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Validate a JWT User-token by trying to decode it.</span>
+
+<div class="viewcode-block" id="validate_token">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.validate_token">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Validate a Nuclei Access Token or Legacy JWT.</span>
+
+<span class="sd">    A Legacy JWT (three dot-separated segments) is validated with</span>
+<span class="sd">    `validate_jwt_token`; any other token with `validate_nuclei_access_token`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    token: str</span>
-<span class="sd">        The Nuclei User JWT.</span>
+<span class="sd">        The Nuclei Access Token or Legacy JWT.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        When a Nuclei Access Token does not match the required format.</span>
+<span class="sd">    jwt.ExpiredSignatureError</span>
+<span class="sd">        When a Legacy JWT has expired.</span>
+<span class="sd">    jwt.InvalidTokenError</span>
+<span class="sd">        When a Legacy JWT cannot be decoded.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">validate_jwt_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">validate_nuclei_access_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="validate_nuclei_access_token">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.validate_nuclei_access_token">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_nuclei_access_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Validate the format of a Nuclei Access Token.</span>
+
+<span class="sd">    The token must be exactly 21 characters long and consist only of the</span>
+<span class="sd">    characters "A-Za-z0-9-_".</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    token: str</span>
+<span class="sd">        The Nuclei Access Token.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        When the token does not match the required format.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[A-Za-z0-9_-]</span><span class="si">{21}</span><span class="s2">"</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_REASON_INVALID_ACCESS_TOKEN_MSG</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_NEW_TOKEN_MSG</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="validate_jwt_token">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.validate_jwt_token">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="s2">"Legacy JWTs have been deprecated in favor of Nuclei Access Tokens and will "</span>
+    <span class="s2">"no longer be accepted in a future release."</span><span class="p">,</span>
+    <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_jwt_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Validate a Legacy JWT by trying to decode it.</span>
+
+<span class="sd">    .. deprecated:: 3.3.0</span>
+<span class="sd">        Legacy JWTs are replaced by Nuclei Access Tokens, see</span>
+<span class="sd">        `validate_nuclei_access_token`.</span>
+
+<span class="sd">    Only the format and expiry are checked; the signature is deliberately not</span>
+<span class="sd">    verified.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    token: str</span>
+<span class="sd">        The Legacy JWT.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    jwt.ExpiredSignatureError</span>
+<span class="sd">        When the JWT has expired.</span>
+<span class="sd">    jwt.InvalidTokenError</span>
+<span class="sd">        When the JWT cannot be decoded.</span>
 <span class="sd">    """</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -158,18 +252,40 @@
             <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">"HS256"</span><span class="p">],</span>
             <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">"verify_signature"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"verify_exp"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">(</span>
-            <span class="s2">"Your NUCLEI User Token is expired. Please create a new token on "</span>
-            <span class="s2">"https://nuclei.cemsbv.io/#/personal-access-tokens."</span>
-        <span class="p">)</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_REASON_EXPIRED_JWT_MSG</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_LEGACY_NEW_TOKEN_MSG</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span><span class="p">(</span>
-            <span class="s2">"Your NUCLEI User Token is invalid. Please copy your user token from "</span>
-            <span class="s2">"https://nuclei.cemsbv.io/#/personal-access-tokens. "</span>
-            <span class="sa">f</span><span class="s2">"The following error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
-        <span class="p">)</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_REASON_INVALID_JWT_MSG</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_LEGACY_NEW_TOKEN_MSG</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+
+<div class="viewcode-block" id="authenticate">
+<a class="viewcode-back" href="../../../tree/reference.html#nuclei.api.main.authenticate">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="s2">"`authenticate` has been deprecated in favor of `get_valid_user_token` and "</span>
+    <span class="s2">"will be removed in a future release."</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Returns a validated Nuclei Access Token.</span>
+
+<span class="sd">    .. deprecated:: 3.3.0</span>
+<span class="sd">        Use `get_valid_user_token` instead.</span>
+
+<span class="sd">    Prompt the user for a Nuclei Access Token if it is not stored as an</span>
+<span class="sd">    environmental variable "NUCLEI_TOKEN". A prompted token will be stored as</span>
+<span class="sd">    env-var after validation.</span>
+
+<span class="sd">    Will throw an exception when the token is invalid, see `validate_token`.</span>
+<span class="sd">    """</span>
+
+    <span class="k">return</span> <span class="n">get_valid_user_token</span><span class="p">()</span></div>
+
 </pre></div>
 
            </div>
