@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.0] - 2026-11-11
+
+### Documentation
+- *Getting-started*: Use mock access token
+
+### Features
+- *Api*: Validate Nuclei Access Token format
+
+### Miscellaneous Tasks
+- *Docs*: Build docs without NUCLEI_TOKEN secret
+- *Uv*: Run uv lock
+- Update .gitignore
+
 ## [3.2.1] - 2026-09-12
 
 ### Bug Fixes
@@ -66,8 +79,8 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 - *Deps*:
-    - Pin dependencies and update linting dependencies
     - Use correct dependencies for documentation
+    - Pin dependencies and update linting dependencies
 
 ### Refactor
 - *Python*:  [**BREAKING**]Bump minimum supported Python version to 3.11
